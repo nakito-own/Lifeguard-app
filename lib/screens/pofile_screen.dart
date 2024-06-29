@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_drawer.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -7,6 +8,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Profile'),
       ),
+      drawer: AppDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
