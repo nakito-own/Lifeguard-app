@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(snapshot.data![index]['title'], style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                    subtitle: Text(snapshot.data![index]['body'], style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color)),
+                    title: Text(snapshot.data![index]['title'], style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color)),
+                    subtitle: Text(snapshot.data![index]['body'], style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color)),
                     onTap: () {
                       Navigator.pushNamed(
                         context,

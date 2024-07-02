@@ -22,8 +22,8 @@ class LightTheme {
         unselectedItemColor: Colors.grey,
       ),
       textTheme: TextTheme(
-        bodyText1: TextStyle(color: Colors.black),
-        bodyText2: TextStyle(color: Colors.black87),
+        bodyLarge: TextStyle(color: Colors.black),
+        bodyMedium: TextStyle(color: Colors.black87),
       ),
     );
   }
