@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_drawer.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override
@@ -8,6 +9,7 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Details'),
       ),
+      drawer: AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
