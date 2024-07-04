@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/widgets/custom_drawer_button.dart';
-import '../styles/themes/app_dark_theme.dart';
 
 class AppDrawer extends StatelessWidget {
 
