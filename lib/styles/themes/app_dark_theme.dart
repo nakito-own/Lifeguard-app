@@ -1,39 +1,24 @@
 import 'package:flutter/material.dart';
 
-class DarkTheme {
-  static ThemeData get theme {
-    return ThemeData(
-      brightness: Brightness.dark,
-      primarySwatch: Colors.blue,
-      scaffoldBackgroundColor: Colors.transparent, // Важно для градиента
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        titleTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-      ),
-    );
-  }
-
-  static BoxDecoration get scaffoldGradientBackground {
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Colors.blueGrey.shade900,
-          Colors.black87,
-        ],
-      ),
-    );
-  }
+class AppDarkTheme {
+  static final ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black87,
+    appBarTheme: AppBarTheme(
+      color: Colors.black,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(color: Colors.white),
+      bodyMedium: TextStyle(color: Colors.white),
+      headlineLarge: TextStyle(color: Colors.white),
+      headlineMedium: TextStyle(color: Colors.white),
+    ),
+    iconTheme: IconThemeData(color: Colors.white),
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.white,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
 }

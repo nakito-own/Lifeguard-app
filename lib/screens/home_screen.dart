@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../styles/themes/app_dark_theme.dart';
 import '../widgets/app_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,11 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
       body: Container(
-        decoration: Theme.of(context).brightness == Brightness.dark
-            ? DarkTheme.scaffoldGradientBackground
-            : null,
         child: FutureBuilder<List<dynamic>>(
           future: _data,
           builder: (context, snapshot) {
@@ -61,8 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(snapshot.data![index]['title'], style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color)),
-                    subtitle: Text(snapshot.data![index]['body'], style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color)),
+                    title: Text(
+                      snapshot.data![index]['title'],
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
+                    ),
+                    subtitle: Text(
+                      snapshot.data![index]['body'],
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                    ),
                     onTap: () {
                       Navigator.pushNamed(
                         context,
