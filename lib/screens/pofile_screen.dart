@@ -20,10 +20,10 @@ class ProfileScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+              backgroundImage: NetworkImage('https://sun9-51.userapi.com/impg/Ig98IXgnt40sxJJhi7TdmgOZ5vFckg-h_QF3bw/ZUa76befUXY.jpg?size=487x467&quality=96&sign=cada24b4d5d4cf001a0a2bd1febc0b07&type=album'),
             ),
             SizedBox(height: 16),
-            Text('User Name', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text('Kirill Kileevych', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
             Text('user@example.com'),
           ],

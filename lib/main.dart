@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lifeguard/screens/events_screen.dart';
+import 'package:lifeguard/screens/inventory_screen.dart';
+import 'package:lifeguard/screens/manuals_screen.dart';
+import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/pofile_screen.dart';
 import 'screens/home_screen.dart';
@@ -52,6 +56,10 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => HomeScreen(toggleTheme: _toggleTheme),
         '/details': (context) => DetailsScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
+        '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
+        '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),
+        '/manuals': (context) => ManualsScreen(toggleTheme: _toggleTheme),
+        '/inventory': (context) => InventoryScreen(toggleTheme: _toggleTheme)
       },
     );
   }
