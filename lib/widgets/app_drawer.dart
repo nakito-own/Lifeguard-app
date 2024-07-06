@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/widgets/custom_drawer_button.dart';
-import '../styles/themes/app_dark_theme.dart';
 
 class AppDrawer extends StatelessWidget {
 
@@ -34,13 +33,13 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pushNamed(context, '/profile');}
           ),
           CustomDrawerButton(
-              text: "Home",
+              text: "Home [DEBUG]",
               icon: Icons.home,
               onPressed: (){
                 Navigator.pushNamed(context, '/home');}
           ),
           CustomDrawerButton(
-              text: "Details",
+              text: "Details [DEBUG]",
               icon: Icons.details,
               onPressed: (){
                 Navigator.pushNamed(context, '/details', arguments: {
@@ -48,6 +47,30 @@ class AppDrawer extends StatelessWidget {
                   'body': 'Example Body',
                 });}
           ),
+          CustomDrawerButton(
+              icon: Icons.calendar_month,
+              text: "Events",
+              onPressed: (){
+                Navigator.pushNamed(context, '/events');
+              }),
+          CustomDrawerButton(
+            icon: Icons.flag_rounded,
+              text: 'Shifts',
+              onPressed: (){
+                Navigator.pushNamed(context, '/shifts');
+              }),
+          CustomDrawerButton(
+            icon: Icons.book_rounded,
+              text: "Manuals",
+              onPressed: (){
+                Navigator.pushNamed(context, '/manuals');
+          }),
+          CustomDrawerButton(
+              icon: Icons.inventory,
+              text: "Inventory",
+              onPressed: (){
+                Navigator.pushNamed(context, '/inventory');
+              }),
           CustomDrawerButton(
               text: "Switch theme",
               icon: (Icons.dark_mode),

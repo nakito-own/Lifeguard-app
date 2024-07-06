@@ -15,7 +15,7 @@ class CustomDrawerButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Colors.grey[800] : Colors.grey[500];
+    final buttonColor = isDarkTheme ? Colors.grey[800] : Colors.blue;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),

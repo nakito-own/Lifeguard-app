@@ -6,7 +6,7 @@ class AppLightTheme {
     primaryColor: Colors.black,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      color: Colors.grey[400],
+      color: Colors.blue,
       iconTheme: IconThemeData(color: Colors.white),
     ),
     textTheme: TextTheme(

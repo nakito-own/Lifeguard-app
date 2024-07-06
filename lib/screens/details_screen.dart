@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 
 class DetailsScreen extends StatelessWidget {
+
+  final VoidCallback toggleTheme;
+
+  DetailsScreen({required this.toggleTheme});
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
@@ -9,7 +14,7 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Details'),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(toggleTheme: toggleTheme),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
