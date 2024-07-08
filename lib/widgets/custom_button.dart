@@ -14,11 +14,11 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Colors.orange[800] : Colors.blue;
+    final buttonColor = isDarkTheme ? Colors.orange[900] : Colors.blue;
     final shadowColor = isDarkTheme ? Colors.black : Colors.black;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.08),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage('https://sun9-51.userapi.com/impg/Ig98IXgnt40sxJJhi7TdmgOZ5vFckg-h_QF3bw/ZUa76befUXY.jpg?size=487x467&quality=96&sign=cada24b4d5d4cf001a0a2bd1febc0b07&type=album'),
+              backgroundImage: NetworkImage('https://sun9-50.userapi.com/impg/bTJey_bCc3FwC2gb7pZsOw-0i-dYUONmV6kSow/d5gQSDyGbao.jpg?size=810x1080&quality=95&sign=d229f54c186cd28adcf5377d8cc730d2&type=album'),
             ),
             SizedBox(height: 16),
             Text('Kirill Kileevych', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
