@@ -1,59 +1,43 @@
 import 'package:flutter/material.dart';
 
-
-
-class CustomButtonPush extends StatelessWidget {
-  final String text;
+class CustomButton extends StatelessWidget {
+  final String buttonText;
   final VoidCallback onPressed;
 
-  void printOne() {
-    print('1');
-  }
-
-  CustomButtonPush({
-    required this.text,
+  const CustomButton({
+    Key? key,
+    required this.buttonText,
     required this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Color(0xffe0882c) : Colors.blue;
+    final buttonColor = isDarkTheme ? Colors.orange[800] : Colors.blue;
+    final shadowColor = isDarkTheme ? Colors.black : Colors.black;
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 6),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
-     /* child: Column(
-        mainAxisSize: MainAxisSize.min,*/
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(buttonColor),
-              foregroundColor: WidgetStateProperty.all(Colors.white),
-              overlayColor: WidgetStateProperty.all<Color>(Color(0xff201a1a)),
-              shadowColor: WidgetStateProperty.all<Color>(Color(0xff808080)),
-              //shadowColor: MaterialStateProperty.all(Colors.black38),
-              elevation: WidgetStateProperty.all(8),
-              //padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-              minimumSize: WidgetStateProperty.all(Size(MediaQuery.of(context).size.width * 0.9, 45)),
-              shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-
-            ),
-              onPressed: printOne,
-              child: Text(text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400 )),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          minimumSize: Size(0, 45),
+          backgroundColor: buttonColor,
+          shadowColor: shadowColor,
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
           ),
-
-      );
-
+        ),
+        child: Center(
+          child: Text(
+            buttonText,
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
+      ),
+    );
   }
 }
-
-/*
-backgroundColor: MaterialStateProperty.all<Color>(Color(0xffe0882c)),
-foregroundColor: MaterialStateProperty.all(Colors.white),
-overlayColor: MaterialStateProperty.all<Color>(Color(0xff201a1a)),
-shadowColor: MaterialStateProperty.all<Color>(Color(0xff808080)),*/
