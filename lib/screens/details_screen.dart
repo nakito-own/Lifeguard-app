@@ -29,13 +29,13 @@ class DetailsScreen extends StatelessWidget {
             CustomButtonPush(
               text: 'Добавить мероприятие', onPressed: () {},
             ),
-            CustomTextfield(
+            CustomTextField(
             text: 'Логин',  onPressed: () {},
             ),
             SizedBox(
               height: 10,
             ),
-            CustomTextfield(
+            CustomTextField(
             text: 'Пароль',  onPressed: () {},
             ),
             SizedBox(
