@@ -22,7 +22,7 @@ class CustomButtonPush extends StatelessWidget {
     final buttonColor = isDarkTheme ? Color(0xffe0882c) : Colors.blue;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 6),
+      margin: EdgeInsets.symmetric(horizontal: 10),
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
      /* child: Column(
         mainAxisSize: MainAxisSize.min,*/

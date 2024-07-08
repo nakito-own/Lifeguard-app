@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 
-
-
 class ProfileInfoWidget extends StatelessWidget {
   const ProfileInfoWidget({Key? key,
     required this.text1,
@@ -10,20 +8,19 @@ class ProfileInfoWidget extends StatelessWidget {
   final String text1;
   final String text2;
 
-
-
   @override
   Widget build(BuildContext context) {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
     final buttonColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
 
-
-    return Container(
-      height: 150,
-      width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+    return Center(
+      child: Container(
+      alignment: Alignment.centerLeft,
+      height: 158,
+      width: MediaQuery.of(context).size.width * 0.92,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
        /* color: Color(0xff2d2a2a),*/
@@ -66,6 +63,7 @@ class ProfileInfoWidget extends StatelessWidget {
           ),
         ),
       ],
+    ),
     ),
     );
   }
