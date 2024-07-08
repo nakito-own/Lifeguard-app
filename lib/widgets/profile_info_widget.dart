@@ -18,7 +18,7 @@ class ProfileInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.21,
+      height: 150,
       width: MediaQuery.of(context).size.width * 0.9,
       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       decoration: BoxDecoration(

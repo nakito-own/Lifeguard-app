@@ -26,7 +26,7 @@ class DetailsScreen extends StatelessWidget {
             Text(arguments['title'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
             Text(arguments['body']),
-            /*CustomButtonPush(
+            CustomButtonPush(
               text: 'Добавить мероприятие', onPressed: () {},
             ),
             CustomTextfield(
@@ -40,7 +40,7 @@ class DetailsScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 10,
-            ),*/
+            ),
             ProfileInfoWidget(text1: '123 132312',
             text2: 'Генерал',
             ),
