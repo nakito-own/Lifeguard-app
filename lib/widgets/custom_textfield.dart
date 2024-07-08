@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 
 
-class CustomTextfield extends StatelessWidget {
-  const CustomTextfield({Key? key, required this.text, required this.onPressed}) : super(key: key);
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({Key? key, required this.text, required this.onPressed}) : super(key: key);
   final String text;
   final VoidCallback onPressed;
 
@@ -14,7 +13,7 @@ class CustomTextfield extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.65,
-        height: MediaQuery.of(context).size.height * 0.05,
+        height: 42,
         child: TextField(
 
           decoration: InputDecoration(
