@@ -26,9 +26,6 @@ class DetailsScreen extends StatelessWidget {
             Text(arguments['title'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
             Text(arguments['body']),
-            CustomButtonPush(
-              text: 'Добавить мероприятие', onPressed: () {},
-            ),
             CustomTextField(
             text: 'Логин',  onPressed: () {},
             ),
