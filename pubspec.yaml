@@ -17,6 +17,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   shared_preferences: ^2.0.15
+  url_launcher: ^6.1.11
 
 flutter:
   uses-material-design: true
+

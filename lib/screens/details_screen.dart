@@ -3,6 +3,7 @@ import 'package:lifeguard/widgets/custom_button.dart';
 import 'package:lifeguard/widgets/custom_textfield.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/profile_info_widget.dart';
+import '../widgets/my_info.dart';
 
 class DetailsScreen extends StatelessWidget {
 
@@ -26,6 +27,9 @@ class DetailsScreen extends StatelessWidget {
             Text(arguments['title'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
             Text(arguments['body']),
+            CustomButton(
+              buttonText: 'Добавить мероприятие', onPressed: () {},
+            ),
             CustomTextField(
             text: 'Логин',  onPressed: () {},
             ),
@@ -38,9 +42,11 @@ class DetailsScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            ProfileInfoWidget(text1: '123 132312',
-            text2: 'Генерал',
+            ProfileInfoWidget(GroupNumber: '123 132312',
+            Position: 'Генерал',
             ),
+            MyInfo(phone: '8-800-555-35-35', VK_Link: 'https://vk.com/gooseandra',
+                TG_Link: 'https://t.me/panovv', Mail_Link: 'https://e.mail.ru/inbox/')
           ],
         ),
       ),

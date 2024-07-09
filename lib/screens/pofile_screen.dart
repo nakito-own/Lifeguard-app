@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/profile_header_widget.dart';
+import '../widgets/profile_info_widget.dart';
+import '../widgets/my_info.dart';
+import '../widgets/small_text.dart';
+import '../widgets/transparent_button.dart';
+
 
 class ProfileScreen extends StatelessWidget {
 
@@ -11,21 +17,36 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Профиль'),
       ),
       drawer: AppDrawer(toggleTheme: toggleTheme),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage('https://sun9-50.userapi.com/impg/bTJey_bCc3FwC2gb7pZsOw-0i-dYUONmV6kSow/d5gQSDyGbao.jpg?size=810x1080&quality=95&sign=d229f54c186cd28adcf5377d8cc730d2&type=album'),
+            SizedBox(
+              height: 20,
             ),
-            SizedBox(height: 16),
-            Text('Kirill Kileevych', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
-            Text('user@example.com'),
+            CircleAvatar(
+            radius: 45,
+            backgroundImage: NetworkImage('https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200')
+        ),
+            ProfileHeaderWidget(FIO: 'Андриянов Яромир Ильич',
+                Post1: 'Инструктор',
+                Post2: 'Спасатель'),
+            SizedBox(
+              height: 10,
+            ),
+            SmallText(some_text: 'Основная информация'),
+            ProfileInfoWidget(GroupNumber: '123123123',
+                Position: 'Гейнерал'),
+            SizedBox(
+              height: 10,
+            ),
+            SmallText(some_text: 'Личные данные'),
+            MyInfo(phone: '8-800-555-35-35', VK_Link: 'https://vk.com/gooseandra',
+                TG_Link: 'https://t.me/panovv', Mail_Link: 'https://mail.ru/'),
+            TransparentButton(text: 'Редактировать личные данные')
           ],
         ),
       ),
