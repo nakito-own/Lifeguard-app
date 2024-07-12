@@ -18,12 +18,12 @@ class CustomDrawerButton extends StatelessWidget {
     final buttonColor = isDarkTheme ? Colors.grey[800] : Colors.blue;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor, // цвет кнопки
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           textStyle: TextStyle(fontSize: 18, color: Colors.white),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),

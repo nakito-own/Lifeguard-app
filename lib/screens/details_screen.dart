@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/widgets/custom_button.dart';
-import 'package:lifeguard/widgets/custom_textfield.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/my_info.dart';
@@ -29,15 +28,10 @@ class DetailsScreen extends StatelessWidget {
             Text(arguments['body']),
             CustomButton(
               buttonText: 'Добавить мероприятие', onPressed: () {},
-            ),
-            CustomTextField(
-            text: 'Логин',  onPressed: () {},
+              MiniButton: false,
             ),
             SizedBox(
               height: 10,
-            ),
-            CustomTextField(
-            text: 'Пароль',  onPressed: () {},
             ),
             SizedBox(
               height: 10,

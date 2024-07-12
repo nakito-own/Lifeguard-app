@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
+import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,8 +52,9 @@ class _MyAppState extends State<MyApp> {
       theme: AppLightTheme.lightTheme,
       darkTheme: AppDarkTheme.darkTheme,
       themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-      home: HomeScreen(toggleTheme: _toggleTheme),
+      home: LoginScreen(toggleTheme: _toggleTheme),
       routes: {
+        '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
         '/home': (context) => HomeScreen(toggleTheme: _toggleTheme),
         '/details': (context) => DetailsScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),

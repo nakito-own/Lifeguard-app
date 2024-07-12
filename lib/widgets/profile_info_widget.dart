@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
-
 class ProfileInfoWidget extends StatelessWidget {
   const ProfileInfoWidget({Key? key,
     required this.GroupNumber,

@@ -11,26 +11,23 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
       ),
       drawer: AppDrawer(toggleTheme: toggleTheme),
       body: Padding(
-          padding: EdgeInsets.only(top: 40, bottom:10, left:10, right:10),
+          padding: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomButton(
                   buttonText: 'Добавить мероприятие',
+                  MiniButton: false,
                   onPressed: (){
                     Navigator.pushNamed(context, '/home');
                   }),
               SizedBox(height: 20),
-              CustomTextField(
-                  text: 'Login',
-                  onPressed: (){})
             ],
           )
       )

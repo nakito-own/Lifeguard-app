@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import 'package:lifeguard/widgets/small_text.dart';
+import "package:url_launcher/url_launcher.dart";
 
 class MyInfo extends StatelessWidget {
   const MyInfo({Key? key,
@@ -9,6 +9,7 @@ class MyInfo extends StatelessWidget {
     required this.VK_Link,
     required this.TG_Link,
     required this.Mail_Link}) : super(key: key);
+
   final String phone;
   final String VK_Link;
   final String TG_Link;
