@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginProvider {
+class LoginService {
   final String apiUrl = 'http://95.163.221.72:8000/login';
 
   Future<bool> login(String email, String password) async {

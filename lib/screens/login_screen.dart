@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/providers/login_provider.dart';
-import 'package:lifeguard/widgets/custom_button.dart';
-import 'package:lifeguard/widgets/custom_textfield.dart';
-import 'package:lifeguard/providers/login_provider.dart';
+import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
+import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
+import 'package:lifeguard/api-services/login_service.dart';
+import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -16,13 +16,25 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  final LoginProvider _loginProvider = LoginProvider();
+  final LoginService _loginProvider = LoginService();
 
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ErrorAlertDialog(
+          errorMessage: errorMessage,
+          toggleTheme: widget.toggleTheme,
+        );
+      },
+    );
   }
 
   @override
@@ -58,8 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (success) {
                   Navigator.pushNamed(context, '/profile');
                 } else {
-                  // Здесь можно добавить обработку ошибки
-                  print('Login failed');
+                  _showErrorDialog('Неверный логин или пароль \n Обратитесь к администору');
                 }
               },
             )

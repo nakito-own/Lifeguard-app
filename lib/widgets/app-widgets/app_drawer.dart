@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/widgets/custom_drawer_button.dart';
+import 'package:lifeguard/widgets/app-widgets/custom_drawer_button.dart';
 
 class AppDrawer extends StatelessWidget {
 
@@ -31,21 +31,6 @@ class AppDrawer extends StatelessWidget {
               icon: Icons.account_circle,
               onPressed: (){
                 Navigator.pushNamed(context, '/profile');}
-          ),
-          CustomDrawerButton(
-              text: "Home [DEBUG]",
-              icon: Icons.home,
-              onPressed: (){
-                Navigator.pushNamed(context, '/home');}
-          ),
-          CustomDrawerButton(
-              text: "Details [DEBUG]",
-              icon: Icons.details,
-              onPressed: (){
-                Navigator.pushNamed(context, '/details', arguments: {
-                  'title': 'Example Title',
-                  'body': 'Example Body',
-                });}
           ),
           CustomDrawerButton(
               icon: Icons.calendar_month,

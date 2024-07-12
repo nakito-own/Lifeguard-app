@@ -6,8 +6,6 @@ import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/pofile_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/details_screen.dart';
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
 
@@ -55,8 +53,6 @@ class _MyAppState extends State<MyApp> {
       home: LoginScreen(toggleTheme: _toggleTheme),
       routes: {
         '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
-        '/home': (context) => HomeScreen(toggleTheme: _toggleTheme),
-        '/details': (context) => DetailsScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
         '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
         '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),

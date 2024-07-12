@@ -13,10 +13,6 @@ class ProfileHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
