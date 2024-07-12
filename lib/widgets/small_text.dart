@@ -14,7 +14,7 @@ class SmallText extends StatelessWidget {
 
 
     return Container(
-      margin: EdgeInsets.fromLTRB(19, 0, 0, 0),
+      margin: EdgeInsets.fromLTRB(21, 0, 0, 0),
       alignment: Alignment.bottomLeft,
       child: Text(
         some_text,

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 class TransparentButton extends StatelessWidget {
 
   const TransparentButton({ Key? key,
-    required this.text }) : super(key: key);
+    required this.text,
+    required this.onPressed}) : super(key: key);
   final String text;
+  final VoidCallback onPressed;
 
-  void editing() {
-    print('Скоро что-то будет');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class TransparentButton extends StatelessWidget {
           minimumSize: WidgetStateProperty.all(Size(MediaQuery.of(context).size.width * 1, MediaQuery.of(context).size.height * 0.05)),
 
         ),
-        onPressed: editing,
+        onPressed: onPressed,
         child: Text(text, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: buttonColor, )),
       ),
 

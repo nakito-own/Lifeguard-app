@@ -27,26 +27,31 @@ class DetailsScreen extends StatelessWidget {
             Text(arguments['title'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
             Text(arguments['body']),
-            CustomButton(
+         /*   CustomButton(
               buttonText: 'Добавить мероприятие', onPressed: () {},
-            ),
-            CustomTextField(
-            text: 'Логин',  onPressed: () {},
-            ),
+            ),*/
             SizedBox(
+              height: 60,
+            ),
+          /*  CustomTextField(
+              text1: '',
+            text: 'Логин',  //onPressed: () {},
+            ),*/
+           /* SizedBox(
               height: 10,
             ),
-            CustomTextField(
+            *//*CustomTextField(
             text: 'Пароль',  onPressed: () {},
-            ),
+            ),*//*
             SizedBox(
               height: 10,
             ),
-            ProfileInfoWidget(GroupNumber: '123 132312',
+            ProfileInfoWidget(Role: 'Отрядик: ',
+              GroupNumber: '123 132312',
             Position: 'Генерал',
             ),
             MyInfo(phone: '8-800-555-35-35', VK_Link: 'https://vk.com/gooseandra',
-                TG_Link: 'https://t.me/panovv', Mail_Link: 'https://e.mail.ru/inbox/')
+                TG_Link: 'https://t.me/panovv', Mail_Link: 'https://e.mail.ru/inbox/')*/
           ],
         ),
       ),

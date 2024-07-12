@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 
-
-
 class ProfileInfoWidget extends StatelessWidget {
   const ProfileInfoWidget({Key? key,
     required this.GroupNumber,
-    required this.Position,}) : super(key: key);
+    required this.Position,
+    required this.Role,
+    required this.Another}) : super(key: key);
+  final String Role;
   final String GroupNumber;
   final String Position;
+  final String Another;
 
 
 
@@ -23,8 +25,8 @@ class ProfileInfoWidget extends StatelessWidget {
     return Container(
       height: 165,
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.fromLTRB(4,5,4,20),
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+      margin: EdgeInsets.fromLTRB(4,5,4,10),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
        /* color: Color(0xff2d2a2a),*/
@@ -39,7 +41,7 @@ class ProfileInfoWidget extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
       children:  [
         Text (
-          'Закреплённые группы:',
+          Role,
           style: TextStyle(
             fontSize: 18,
           ),
@@ -54,7 +56,7 @@ class ProfileInfoWidget extends StatelessWidget {
           height: 10,
         ),
         Text (
-          'Класс спасателя:',
+          Another,
           style: TextStyle(
             fontSize: 18,
           ),

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class ButtonExit extends StatelessWidget {
 
   const ButtonExit({ Key? key,
-    required this.text }) : super(key: key);
+    required this.text,
+    required this.onPressed}) : super(key: key);
   final String text;
+  final VoidCallback onPressed;
 
   void Exit() {
     print('Exit');
@@ -22,7 +24,7 @@ class ButtonExit extends StatelessWidget {
               backgroundColor: WidgetStateProperty.all(Colors.transparent),
               minimumSize: WidgetStateProperty.all(Size(MediaQuery.of(context).size.width * 0.3, MediaQuery.of(context).size.height * 0.05)),
             ),
-            onPressed: Exit,
+            onPressed: onPressed,
 
             child: Text(text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, color: Color(0xffe91e1e), )),
           ),
