@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
                TransparentButton(text: 'Забыли пароль?', onPressed: () {
-                    print('Реально забыл');
+                    print('Реально забыал');
                   }),
 
 
