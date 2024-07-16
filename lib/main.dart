@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
+import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/profile_redaction_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/pofile_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/details_screen.dart';
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
 
@@ -52,11 +51,10 @@ class _MyAppState extends State<MyApp> {
       theme: AppLightTheme.lightTheme,
       darkTheme: AppDarkTheme.darkTheme,
       themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-      home: HomeScreen(toggleTheme: _toggleTheme),
+      home: LoginScreen(toggleTheme: _toggleTheme),
       routes: {
-        '/redaction': (context) => ProfileRedactionScreen(toggleTheme: _toggleTheme),
-        '/home': (context) => HomeScreen(toggleTheme: _toggleTheme),
-        '/details': (context) => DetailsScreen(toggleTheme: _toggleTheme),
+        '/redaction': (context) =>ProfileRedactionScreen(toggleTheme: _toggleTheme),
+        '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
         '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
         '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),

@@ -1,14 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import "package:url_launcher/url_launcher.dart";
 
 class MyInfo extends StatelessWidget {
   const MyInfo({Key? key,
     required this.phone,
     required this.VK_Link,
     required this.TG_Link,
-    required this.Mail_Link}) : super(key: key);
+    required this.Mail_Link,
+    //required this.toggleTheme
+    }) : super(key: key);
+
+  //final VoidCallback toggleTheme;
   final String phone;
   final String VK_Link;
   final String TG_Link;
@@ -40,6 +43,7 @@ class MyInfo extends StatelessWidget {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
     final buttonColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
     final border_Color = isDarkTheme ? Color(0xff383434) : Color(0xffc8cccc);
+    final text_Color = isDarkTheme ? Colors.white : Colors.black;
 
     return Container(
       height: 175,
@@ -62,17 +66,17 @@ class MyInfo extends StatelessWidget {
           RichText(
           text: TextSpan(
             children: [
-              const  TextSpan(
+              TextSpan(
                 text: 'Телефон:  ',
-                style: TextStyle(fontSize: 19, height: 1.5),
+                style: TextStyle(fontSize: 19, height: 1.5, color: text_Color),
               ),
               TextSpan(
                 text:phone,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, color: text_Color),
               ),
               TextSpan(
                 text: '\n VK:  ',
-                style: TextStyle(fontSize: 19, height: 2),
+                style: TextStyle(fontSize: 19, height: 2, color: text_Color),
               ),
               TextSpan(
                 text: VK_Link,
@@ -84,7 +88,7 @@ class MyInfo extends StatelessWidget {
               ),
               TextSpan(
                 text: '\n TG:  ',
-                style: TextStyle(fontSize: 19, height: 2),
+                style: TextStyle(fontSize: 19, height: 2,color: text_Color),
               ),
               TextSpan(
                 text: TG_Link,
@@ -96,7 +100,7 @@ class MyInfo extends StatelessWidget {
               ),
               TextSpan(
                 text: '\n Почта:  ',
-                style: TextStyle(fontSize: 19, height: 2),
+                style: TextStyle(fontSize: 19, height: 2, color: text_Color),
               ),
               TextSpan(
                   text: Mail_Link,

@@ -14,6 +14,7 @@ class SmallText extends StatelessWidget {
 
 
     return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.fromLTRB(21, 0, 0, 0),
       alignment: Alignment.bottomLeft,
       child: Text(

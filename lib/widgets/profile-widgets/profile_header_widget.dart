@@ -3,17 +3,21 @@ import 'package:flutter/material.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
   const ProfileHeaderWidget({Key? key,
-    required this.FIO,
+    required this.FirstName,
+    required this.SecondName,
+    required this.Patronymic,
     required this.Post1,
     required this.Post2}) : super(key: key);
-  final String FIO;
+  final String FirstName;
+  final String SecondName;
+  final String Patronymic;
   final String Post1;
   final String Post2;
-
 
   @override
   Widget build(BuildContext context) {
 
+    String EmptyText = ' ';
 
     return Center(
       child: Column(
@@ -23,7 +27,7 @@ class ProfileHeaderWidget extends StatelessWidget {
             height: 10,
           ),
           Text (
-            FIO,
+            SecondName + EmptyText + FirstName + EmptyText + Patronymic,
             style: TextStyle(
               fontSize: 18,
             ),
