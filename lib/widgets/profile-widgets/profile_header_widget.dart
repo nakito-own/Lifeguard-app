@@ -54,39 +54,6 @@ class ProfileHeaderWidget extends StatelessWidget {
           )
         ],
       ),
-
-
-      /*child: Container(
-        width: 140,
-        height: 360,
-        alignment: Alignment.topCenter,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage (
-            image: AssetImage ('lib/widgets/icons/Jarik.png'),
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-            )
-        ),
-
-            child: Column (
-              crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox (
-                height: 150,
-              ),
-              Text (
-                text1,
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ],
-            ),
-
-
-        ),*/
     );
-
   }
 }

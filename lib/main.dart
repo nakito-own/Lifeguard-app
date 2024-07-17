@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lifeguard/screens/calls_screen.dart';
 import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
 import 'package:lifeguard/screens/login_screen.dart';
@@ -59,7 +60,8 @@ class _MyAppState extends State<MyApp> {
         '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
         '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),
         '/manuals': (context) => ManualsScreen(toggleTheme: _toggleTheme),
-        '/inventory': (context) => InventoryScreen(toggleTheme: _toggleTheme)
+        '/inventory': (context) => InventoryScreen(toggleTheme: _toggleTheme),
+        '/calls': (context) => CallsScreen(toggleTheme: _toggleTheme)
       },
     );
   }

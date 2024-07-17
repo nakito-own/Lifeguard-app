@@ -10,6 +10,7 @@ class TokenManager {
 
   TokenManager._internal();
 
+  // Методы для работы с токеном
   Future<void> saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('jwt', token);
@@ -32,5 +33,21 @@ class TokenManager {
       print('Error decoding token: $e');
       return null;
     }
+  }
+
+  // Методы для работы с userId
+  Future<void> saveUserId(int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', userId);
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
+  }
+
+  Future<void> removeUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
   }
 }
