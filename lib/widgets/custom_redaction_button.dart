@@ -17,13 +17,14 @@ class CustomRedactionButton extends StatelessWidget {
     final buttonColor = isDarkTheme ? Colors.grey[800] : Colors.blue;
     final shadowColor = isDarkTheme ? Colors.black : Colors.black;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.12),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.12, vertical: 0),
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.11),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 40),
-          minimumSize: Size(10, 35),
+          minimumSize: Size(1, 40),
           backgroundColor: buttonColor,
           shadowColor: shadowColor,
           elevation: 5,

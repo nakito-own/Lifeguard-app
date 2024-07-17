@@ -68,26 +68,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: '',
                   controller: _usernameController,
                 );
-            } else if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+            } else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
                 return CustomTextField(
                   isPass: false,
-                  widthSize: MediaQuery.of(context).size.width * 0.25,
+                  widthSize: MediaQuery.of(context).size.width * 0.45,
                   labelText: 'Email',
                   text: '',
                   controller: _usernameController,
-                );}
+                );
+              } else if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+              return CustomTextField(
+              isPass: false,
+              widthSize: MediaQuery.of(context).size.width * 0.25,
+              labelText: 'Email',
+              text: '',
+              controller: _usernameController,
+              );}
               return Container();},
             ),
             SizedBox(height: 15),
             ResponsiveBuilder(builder: (context, sizingInformation) {
               if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-                return CustomTextField(
+                  return CustomTextField(
                   labelText: 'Пароль',
                   widthSize: MediaQuery.of(context).size.width * 0.65,
                   isPass: true,
                   text: '',
                   controller: _passwordController,
-                );
+                  );
+                  }  else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+                  return CustomTextField(
+                  labelText: 'Пароль',
+                  widthSize: MediaQuery.of(context).size.width * 0.45,
+                  isPass: true,
+                  text: '',
+                  controller: _passwordController,
+                  );
+
               } else if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
                 return CustomTextField(
                   labelText: 'Пароль',
