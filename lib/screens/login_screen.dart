@@ -51,11 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center ,
           crossAxisAlignment: CrossAxisAlignment.center,
           children:  [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage('https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200'),
+            Icon(
+              Icons.account_circle,
+              size: 100,
             ),
-            SizedBox( height: 50,),
+            SizedBox( height: 40,),
             Text ('Авторизация', style: TextStyle (fontSize: 18),),
             SizedBox( height: 30,),
             ResponsiveBuilder(builder:
@@ -126,17 +126,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (success) {
                   Navigator.pushNamed(context, '/profile');
                 } else {
-                  _showErrorDialog('Неверный логин или пароль \n Обратитесь к администору');
+                  _showErrorDialog('Неверный логин или пароль');
                 }
               },
             ),
-
-
                TransparentButton(text: 'Забыли пароль?', onPressed: () {
+                 _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra');
                     print('Реально забыал');
                   }),
-
-
             ]
             )
         ),

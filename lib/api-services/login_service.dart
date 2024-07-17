@@ -28,11 +28,13 @@ class LoginService {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        String token = response.body; // Ответ в виде строки, а не JSON
+        Map<String, dynamic> responseBody = json.decode(response.body);
+        String token = responseBody['JWT'];
+        int userId = responseBody['userId'];
 
-        // Сохраняем токен в SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('jwt', token);
+        await prefs.setInt('userId', userId);
 
         return true;
       } else {
