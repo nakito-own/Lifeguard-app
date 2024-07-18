@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lifeguard/widgets/events-widgets/calendar_widget.dart';
 import '../widgets/app-widgets/app_drawer.dart';
-import '../widgets/app-widgets/custom_textfield.dart';
 
 class EventsScreen extends StatelessWidget {
 
@@ -23,6 +23,7 @@ class EventsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
+              CalendarWidget(toggleTheme: toggleTheme)
               ]
           )
       )

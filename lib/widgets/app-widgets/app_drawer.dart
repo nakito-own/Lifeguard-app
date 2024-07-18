@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
                 );
               } else if (!snapshot.hasData || snapshot.data == null) {
                 return DrawerHeader(
-                  child: Center(child: Text('No user data found')),
+                  child: Center(child: Text('Информация о пользователе не найдена')),
                 );
               } else {
                 final userData = snapshot.data!;

@@ -7,6 +7,7 @@ import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/profile_redaction_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Импортируем пакет локализации
 import 'screens/pofile_screen.dart';
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
@@ -23,21 +24,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool _isDarkTheme = false;
 
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _loadTheme();
   }
 
-  void _loadTheme() async{
+  void _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _isDarkTheme = prefs.getBool('isDarkTheme')?? false;
+      _isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
     });
   }
 
-  void _toggleTheme() async{
+  void _toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _isDarkTheme = !_isDarkTheme;
@@ -52,9 +52,21 @@ class _MyAppState extends State<MyApp> {
       theme: AppLightTheme.lightTheme,
       darkTheme: AppDarkTheme.darkTheme,
       themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        // Delegates for TableCalendar
+        DefaultWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('ru', 'RU'), // Russian
+      ],
+      locale: const Locale('ru', 'RU'), // Установите локаль по умолчанию
       home: LoginScreen(toggleTheme: _toggleTheme),
       routes: {
-        '/redaction': (context) =>ProfileRedactionScreen(toggleTheme: _toggleTheme),
+        '/redaction': (context) => ProfileRedactionScreen(toggleTheme: _toggleTheme),
         '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
         '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
