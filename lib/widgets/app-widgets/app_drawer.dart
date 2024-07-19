@@ -3,11 +3,15 @@ import 'package:lifeguard/widgets/app-widgets/custom_drawer_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_exit_button.dart';
 
 
+
+
 class AppDrawer extends StatelessWidget {
 
   final VoidCallback toggleTheme;
 
-  AppDrawer({required this.toggleTheme});
+
+  AppDrawer({required this.toggleTheme
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +33,16 @@ class AppDrawer extends StatelessWidget {
                 backgroundImage: NetworkImage('https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200'),
               ),
                 SizedBox(width: 15,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Андриянов Яромир Ильич',
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                      fontSize: 14,
-                    ),),
-                    Text('Инструктор',
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                    ),),
-                  ],
+                Container(
+                  child:
+                    Flexible(
+                        child:
+                    AppDrawerHeader(FirstName: 'Яромир',
+                        SecondName: 'Андриянов',
+                        Patronymic: 'Ильич',
+                        Post1: 'Спасатель',
+                        toggleTheme: toggleTheme)
+                    ),
                 ),
               ],
             ),
@@ -94,4 +92,41 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
+}
+
+class AppDrawerHeader extends StatelessWidget {
+  const AppDrawerHeader({Key? key,
+    required this.FirstName,
+    required this.SecondName,
+    required this.Patronymic,
+    required this.Post1,
+    required this.toggleTheme}) : super(key: key);
+  final VoidCallback toggleTheme;
+  final String FirstName;
+  final String SecondName;
+  final String Patronymic;
+  final String Post1;
+
+@override
+Widget build(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+  Text(SecondName + ' ' + FirstName + ' ' + Patronymic,
+    overflow: TextOverflow.clip,
+    maxLines: 5,
+    style: TextStyle(
+      fontSize: 14,
+    ),),
+
+  Text(Post1,
+  overflow: TextOverflow.clip,
+  style: TextStyle(
+  fontSize: 14,
+  color: Colors.green,
+  ),),
+  ]
+  );
+}
 }

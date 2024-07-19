@@ -19,7 +19,7 @@ class TransparentButton extends StatelessWidget {
         child: TextButton(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(Colors.transparent),
-          minimumSize: WidgetStateProperty.all(Size(MediaQuery.of(context).size.width * 1, MediaQuery.of(context).size.height * 0.05)),
+          minimumSize: WidgetStateProperty.all(Size(MediaQuery.of(context).size.width * 0.35, MediaQuery.of(context).size.height * 0.05)),
 
         ),
         onPressed: onPressed,

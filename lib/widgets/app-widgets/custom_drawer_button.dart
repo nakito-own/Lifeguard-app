@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawerButton extends StatelessWidget {
   final String text;
@@ -24,7 +25,7 @@ class CustomDrawerButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor, // цвет кнопки
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          textStyle: TextStyle(fontSize: 18, color: Colors.white),
+          textStyle: GoogleFonts.nunito(fontSize: 18, color: Colors.white),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),

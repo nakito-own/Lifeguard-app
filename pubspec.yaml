@@ -15,6 +15,7 @@ dependencies:
   shared_preferences: ^2.0.15
   jwt_decoder: ^2.0.1
   responsive_builder: ^0.7.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -23,4 +24,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+fonts:
+  - family: Nunito
+    fonts:
+      - asset: build/flutter_assets/fonts/Nunito-Regular.ttf
+      - asset: build/flutter_assets/fonts/Nunito-Bold.ttf
+        weight: 700
 

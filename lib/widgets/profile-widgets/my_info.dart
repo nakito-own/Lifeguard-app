@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import "package:url_launcher/url_launcher.dart";
 
 class MyInfo extends StatelessWidget {
@@ -68,19 +69,19 @@ class MyInfo extends StatelessWidget {
             children: [
               TextSpan(
                 text: 'Телефон:  ',
-                style: TextStyle(fontSize: 19, height: 1.5, color: text_Color),
+                style: GoogleFonts.nunito(fontSize: 19, height: 1.5, color: text_Color),
               ),
               TextSpan(
                 text:phone,
-                style: TextStyle(fontSize: 18, color: text_Color),
+                style: GoogleFonts.nunito(fontSize: 18, color: text_Color),
               ),
               TextSpan(
                 text: '\n VK:  ',
-                style: TextStyle(fontSize: 19, height: 2, color: text_Color),
+                style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
               ),
               TextSpan(
                 text: VK_Link,
-                style: const TextStyle(color: Colors.blue, fontSize: 18,
+                style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -88,11 +89,11 @@ class MyInfo extends StatelessWidget {
               ),
               TextSpan(
                 text: '\n TG:  ',
-                style: TextStyle(fontSize: 19, height: 2,color: text_Color),
+                style: GoogleFonts.nunito(fontSize: 19, height: 2,color: text_Color),
               ),
               TextSpan(
                 text: TG_Link,
-                style: const TextStyle(color: Colors.blue, fontSize: 18,
+                style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -100,11 +101,11 @@ class MyInfo extends StatelessWidget {
               ),
               TextSpan(
                 text: '\n Почта:  ',
-                style: TextStyle(fontSize: 19, height: 2, color: text_Color),
+                style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
               ),
               TextSpan(
                   text: Mail_Link,
-                  style: const TextStyle(color: Colors.blue, fontSize: 18,
+                  style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
                     decoration: TextDecoration.underline,
                   ),
                   recognizer: TapGestureRecognizer()
