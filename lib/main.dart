@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lifeguard/screens/calls_screen.dart';
 import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
 import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
-import 'package:lifeguard/screens/profile_redaction_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; // Импортируем пакет локализации
@@ -49,8 +49,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lifeguard Skeleton',
-      theme: AppLightTheme.lightTheme,
-      darkTheme: AppDarkTheme.darkTheme,
+      theme:AppLightTheme.lightTheme.copyWith(
+        textTheme: GoogleFonts.nunitoTextTheme(),),
+      darkTheme: AppDarkTheme.darkTheme.copyWith(
+        textTheme: GoogleFonts.nunitoTextTheme().apply(
+          bodyColor: Colors.white,),),
+
       themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -65,8 +69,8 @@ class _MyAppState extends State<MyApp> {
       ],
       locale: const Locale('ru', 'RU'), // Установите локаль по умолчанию
       home: LoginScreen(toggleTheme: _toggleTheme),
+
       routes: {
-        '/redaction': (context) => ProfileRedactionScreen(toggleTheme: _toggleTheme),
         '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
         '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),

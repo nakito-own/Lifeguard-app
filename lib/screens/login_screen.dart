@@ -55,8 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Icons.account_circle,
               size: 100,
             ),
-            SizedBox( height: 40,),
-            Text ('Авторизация', style: TextStyle (fontSize: 18),),
+            SizedBox( height: 50,),
+            Text ('Авторизация',
+              style: TextStyle (fontSize: 18),
+            ),
             SizedBox( height: 30,),
             ResponsiveBuilder(builder:
             (context, sizingInformation) {
