@@ -19,7 +19,7 @@ class ProfileInfoWidget extends StatelessWidget {
     final border_Color = isDarkTheme ? Color(0xff383434) : Color(0xffc8cccc);
 
     return Container(
-      height: 165,
+      height: 155,
       width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.fromLTRB(4,5,4,20),
       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 18),
