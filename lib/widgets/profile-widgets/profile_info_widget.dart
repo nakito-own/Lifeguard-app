@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
-  const ProfileInfoWidget({Key? key,
-    required this.GroupNumber,
-    required this.Position, required this.Role, required this.Another}) : super(key: key);
-  final String GroupNumber;
-  final String Position;
-  final String Role;
-  final String Another;
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +10,14 @@ class ProfileInfoWidget extends StatelessWidget {
     final border_Color = isDarkTheme ? Color(0xff383434) : Color(0xffc8cccc);
 
     return Container(
-      height: 155,
       width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.fromLTRB(4,4,4,20),
       padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-       /* color: Color(0xff2d2a2a),*/
         color: buttonColor,
         border: Border.all(
           color: border_Color,
-          /*  color: Color(0xff383434), */
             width: 2
         ),
       ),
@@ -35,31 +25,9 @@ class ProfileInfoWidget extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
       children:  [
         Text (
-          Role,
+          'In Dev',
           style: TextStyle(
             fontSize: 18,
-          ),
-        ),
-        Text(
-        GroupNumber,
-        style: TextStyle(
-          fontSize: 18,
-        ),
-      ),
-        SizedBox(
-          height: 10,
-        ),
-        Text (
-          Another,
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
-        Text (
-          Position,
-          style: TextStyle(
-            fontSize: 18,
-            color: Color(0xff4fac2e),
           ),
         ),
       ],

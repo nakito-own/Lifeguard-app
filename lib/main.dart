@@ -7,12 +7,15 @@ import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'; // Импортируем пакет локализации
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/pofile_screen.dart';
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
+import 'package:lifeguard/utils/permissions_manager.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await PermissionsManager().initialize();
   runApp(MyApp());
 }
 
@@ -48,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lifeguard Skeleton',
+      title: 'Lifeguard App',
       theme:AppLightTheme.lightTheme.copyWith(
         textTheme: GoogleFonts.nunitoTextTheme(),),
       darkTheme: AppDarkTheme.darkTheme.copyWith(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lifeguard/utils/permissions_manager.dart';
 
 class LoginService {
   final String apiUrl = 'http://95.163.221.72:8000/login';
@@ -11,7 +12,6 @@ class LoginService {
       'password': password,
     };
 
-
     String jsonBody = json.encode(data);
     print('JSON Body: $jsonBody'); // Отладочный вывод JSON тела запроса
 
@@ -21,7 +21,7 @@ class LoginService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(data),
+        body: jsonBody,
       );
 
       print('Response status: ${response.statusCode}');
@@ -31,10 +31,21 @@ class LoginService {
         Map<String, dynamic> responseBody = json.decode(response.body);
         String token = responseBody['JWT'];
         int userId = responseBody['userId'];
+        List<dynamic> permissions = responseBody['permissions'];
 
+        // Преобразование разрешений в List<Map<String, dynamic>>
+        List<Map<String, dynamic>> permissionsList = List<Map<String, dynamic>>.from(permissions);
+
+        // Сохранение данных в SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('jwt', token);
         await prefs.setInt('userId', userId);
+
+        List<String> permissionsNames = permissionsList.map((perm) => perm['permissionName'].toString()).toList();
+        await prefs.setStringList('permissions', permissionsNames);
+
+        // Обновление PermissionsManager
+        await PermissionsManager().saveUserData(token, permissionsList, userId);
 
         return true;
       } else {
@@ -50,5 +61,20 @@ class LoginService {
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('jwt');
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
+  }
+
+  Future<List<String>?> getPermissions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('permissions');
+  }
+
+  Future<String?> getRank() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('rank');
   }
 }

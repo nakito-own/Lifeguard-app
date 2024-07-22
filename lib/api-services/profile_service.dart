@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lifeguard/utils/token_manager.dart';
+import 'package:lifeguard/utils/permissions_manager.dart';
 
 class UserService {
   Future<Map<String, dynamic>?> getUserData() async {
 
-    TokenManager tokenManager = TokenManager();
+    PermissionsManager tokenManager = PermissionsManager();
     String? token = await tokenManager.getToken();
     int? userId = await tokenManager.getUserId();
 
