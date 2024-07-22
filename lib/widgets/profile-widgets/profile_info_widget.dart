@@ -9,8 +9,6 @@ class ProfileInfoWidget extends StatelessWidget {
   final String Role;
   final String Another;
 
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -21,8 +19,8 @@ class ProfileInfoWidget extends StatelessWidget {
     return Container(
       height: 155,
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.fromLTRB(4,5,4,20),
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 18),
+      margin: EdgeInsets.fromLTRB(4,4,4,20),
+      padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
        /* color: Color(0xff2d2a2a),*/

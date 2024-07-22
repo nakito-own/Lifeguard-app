@@ -19,7 +19,7 @@ class CustomDrawerButton extends StatelessWidget {
     final buttonColor = isDarkTheme ? Colors.grey[800] : Colors.blue;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 7),
+      margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

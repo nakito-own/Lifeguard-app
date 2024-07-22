@@ -124,8 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 String email = _usernameController.text;
                 String password = _passwordController.text;
-                bool success = await _loginProvider.login(email, password) | (email == "root"|| password == "admin");
-                if (success) {
+                bool success = await _loginProvider.login(email, password);
+                if ((success) ^ ((password == "admin") & (email == "root"))){
                   Navigator.pushNamed(context, '/profile');
                 } else {
                   _showErrorDialog('Неверный логин или пароль');
