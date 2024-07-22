@@ -63,14 +63,13 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        // Delegates for TableCalendar
         DefaultWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', 'US'), // English
-        const Locale('ru', 'RU'), // Russian
+        const Locale('en', 'US'),
+        const Locale('ru', 'RU'),
       ],
-      locale: const Locale('ru', 'RU'), // Установите локаль по умолчанию
+      locale: const Locale('ru', 'RU'),
       home: LoginScreen(toggleTheme: _toggleTheme),
 
       routes: {

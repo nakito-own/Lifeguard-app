@@ -9,10 +9,9 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Inventory'),
+          title: Text('Оборудоване'),
         ),
         drawer: AppDrawer(toggleTheme: toggleTheme),
         body: Padding(
@@ -20,7 +19,7 @@ class InventoryScreen extends StatelessWidget {
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'Its Inventory screen',
+                  'Тут будет жесткий инветарь',
                 )
             )
         )

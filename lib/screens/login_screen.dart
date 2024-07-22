@@ -18,9 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController unUsable = TextEditingController();
   final LoginService _loginProvider = LoginService();
-
 
   @override
   void dispose() {
@@ -44,102 +42,90 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.fromLTRB(20,20,20,0),
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center ,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children:  [
-            Icon(
-              Icons.account_circle,
-              size: 100,
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.account_circle,
+                      size: 100,
+                    ),
+                    SizedBox(height: 50),
+                    Text(
+                      'Авторизация',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(height: 30),
+                    ResponsiveBuilder(
+                      builder: (context, sizingInformation) {
+                        double width;
+                        if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
+                          width = MediaQuery.of(context).size.width * 0.65;
+                        } else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+                          width = MediaQuery.of(context).size.width * 0.45;
+                        } else {
+                          width = MediaQuery.of(context).size.width * 0.25;
+                        }
+                        return Column(
+                          children: [
+                            CustomTextField(
+                              isPass: false,
+                              widthSize: width,
+                              labelText: 'Email',
+                              text: '',
+                              controller: _usernameController,
+                            ),
+                            SizedBox(height: 15),
+                            CustomTextField(
+                              labelText: 'Пароль',
+                              widthSize: width,
+                              isPass: true,
+                              text: '',
+                              controller: _passwordController,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 40),
+                    CustomButton(
+                      buttonText: 'Войти',
+                      MiniButton: true,
+                      onPressed: () async {
+                        String email = _usernameController.text;
+                        String password = _passwordController.text;
+                        bool success = await _loginProvider.login(email, password);
+                        if ((success) ^ ((password == "admin") & (email == "root"))) {
+                          Navigator.pushNamed(context, '/profile');
+                        } else {
+                          _showErrorDialog('Неверный логин или пароль');
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
-            SizedBox( height: 50,),
-            Text ('Авторизация',
-              style: TextStyle (fontSize: 18),
-            ),
-            SizedBox( height: 30,),
-            ResponsiveBuilder(builder:
-            (context, sizingInformation) {
-              if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-                return CustomTextField(
-                  isPass: false,
-                  widthSize: MediaQuery.of(context).size.width * 0.65,
-                  labelText: 'Email',
-                  text: '',
-                  controller: _usernameController,
-                );
-            } else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-                return CustomTextField(
-                  isPass: false,
-                  widthSize: MediaQuery.of(context).size.width * 0.45,
-                  labelText: 'Email',
-                  text: '',
-                  controller: _usernameController,
-                );
-              } else if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-              return CustomTextField(
-              isPass: false,
-              widthSize: MediaQuery.of(context).size.width * 0.25,
-              labelText: 'Email',
-              text: '',
-              controller: _usernameController,
-              );}
-              return Container();},
-            ),
-            SizedBox(height: 15),
-            ResponsiveBuilder(builder: (context, sizingInformation) {
-              if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-                  return CustomTextField(
-                  labelText: 'Пароль',
-                  widthSize: MediaQuery.of(context).size.width * 0.65,
-                  isPass: true,
-                  text: '',
-                  controller: _passwordController,
-                  );
-                  }  else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-                  return CustomTextField(
-                  labelText: 'Пароль',
-                  widthSize: MediaQuery.of(context).size.width * 0.45,
-                  isPass: true,
-                  text: '',
-                  controller: _passwordController,
-                  );
-
-              } else if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-                return CustomTextField(
-                  labelText: 'Пароль',
-                  widthSize: MediaQuery.of(context).size.width * 0.25,
-                  isPass: true,
-                  text: '',
-                  controller: _passwordController,
-                );}
-              return Container();},
-            ),
-            SizedBox(height: 40),
-            CustomButton(
-              buttonText: 'Войти',
-              MiniButton: true,
-              onPressed: () async {
-                String email = _usernameController.text;
-                String password = _passwordController.text;
-                bool success = await _loginProvider.login(email, password);
-                if ((success) ^ ((password == "admin") & (email == "root"))){
-                  Navigator.pushNamed(context, '/profile');
-                } else {
-                  _showErrorDialog('Неверный логин или пароль');
-                }
+          ),
+          Padding(
+            padding: EdgeInsets.all(30),
+            child: TransparentButton(
+              text: 'Забыли пароль?',
+              onPressed: () {
+                _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra');
+                print('Реально забыал');
               },
             ),
-               TransparentButton(text: 'Забыли пароль?', onPressed: () {
-                 _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra');
-                    print('Реально забыал');
-                  }),
-            ]
-            )
-        ),
-      );
-
+          ),
+        ],
+      ),
+    );
   }
 }

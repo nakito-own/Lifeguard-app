@@ -23,7 +23,7 @@ class CustomDrawerButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor, // цвет кнопки
+          backgroundColor: buttonColor,
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           textStyle: GoogleFonts.nunito(fontSize: 18, color: Colors.white),
           shape: const RoundedRectangleBorder(
@@ -35,7 +35,7 @@ class CustomDrawerButton extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon, color: Colors.white),
-              SizedBox(width: 10), // отступ между иконкой и текстом
+              SizedBox(width: 10),
             ],
             Text(text, style: TextStyle(color: Colors.white),),
           ],

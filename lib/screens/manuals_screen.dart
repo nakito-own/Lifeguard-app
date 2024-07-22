@@ -9,7 +9,6 @@ class ManualsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
         appBar: AppBar(
           title: Text('Manuals'),

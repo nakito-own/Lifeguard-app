@@ -12,7 +12,6 @@ class MyInfo extends StatelessWidget {
     //required this.toggleTheme
     }) : super(key: key);
 
-  //final VoidCallback toggleTheme;
   final String phone;
   final String VK_Link;
   final String TG_Link;
@@ -37,7 +36,6 @@ class MyInfo extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -53,11 +51,9 @@ class MyInfo extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        /* color: Color(0xff2d2a2a),*/
         color: buttonColor,
         border: Border.all(
             color: border_Color,
-              /*color: Color(0xff383434),*/
             width: 2
         ),
       ),

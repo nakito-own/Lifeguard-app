@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
     Key? key,
@@ -37,12 +34,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     _GetText();
   }
 
-/*  @override
-  void dispose() {
-    _textEditingController.dispose();
-    super.dispose();
-  }*/
-
   _GetText() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -54,8 +45,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('savedText', text);
   }
-
-
 
   @override
   Widget build(BuildContext context) {

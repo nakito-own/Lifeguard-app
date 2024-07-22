@@ -13,7 +13,7 @@ class LoginService {
     };
 
     String jsonBody = json.encode(data);
-    print('JSON Body: $jsonBody'); // Отладочный вывод JSON тела запроса
+    print('JSON Body: $jsonBody'); // Отладочный джейсон
 
     try {
       var response = await http.post(
@@ -33,10 +33,8 @@ class LoginService {
         int userId = responseBody['userId'];
         List<dynamic> permissions = responseBody['permissions'];
 
-        // Преобразование разрешений в List<Map<String, dynamic>>
         List<Map<String, dynamic>> permissionsList = List<Map<String, dynamic>>.from(permissions);
 
-        // Сохранение данных в SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('jwt', token);
         await prefs.setInt('userId', userId);
@@ -44,7 +42,6 @@ class LoginService {
         List<String> permissionsNames = permissionsList.map((perm) => perm['permissionName'].toString()).toList();
         await prefs.setStringList('permissions', permissionsNames);
 
-        // Обновление PermissionsManager
         await PermissionsManager().saveUserData(token, permissionsList, userId);
 
         return true;

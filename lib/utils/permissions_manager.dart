@@ -14,15 +14,12 @@ class PermissionsManager {
   String? _jwt;
   int? _userId;
 
-  // Инициализация данных при запуске приложения
   Future<void> initialize() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _jwt = prefs.getString('jwt');
     _permissions = prefs.getStringList('permissions');
     _userId = prefs.getInt('userId');
   }
-
-  // Методы для работы с токеном, разрешениями и userId
   Future<void> saveUserData(String token, List<Map<String, dynamic>> permissions, int userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> permissionsList = permissions.map((perm) => perm['permissionName'].toString()).toList();
@@ -80,10 +77,9 @@ class PermissionsManager {
     }
   }
 
-  // Синхронная булевая функция для проверки разрешения
   bool hasPermission(String permission) {
     if (_permissions == null) {
-      throw Exception('Permissions not loaded');
+      throw Exception('Доступы не загружены');
     }
     return _permissions!.contains(permission);
   }

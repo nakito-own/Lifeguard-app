@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ProfileHeaderWidget extends StatelessWidget {
   const ProfileHeaderWidget({Key? key,
     required this.FirstName,

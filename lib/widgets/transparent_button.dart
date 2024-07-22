@@ -8,7 +8,6 @@ class TransparentButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-
   @override
   Widget build(BuildContext context) {
 

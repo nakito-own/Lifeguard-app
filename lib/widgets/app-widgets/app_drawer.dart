@@ -13,8 +13,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: <Widget>[
           FutureBuilder<Map<String, dynamic>?>(
             future: UserService().getUserData(),
@@ -64,66 +63,75 @@ class AppDrawer extends StatelessWidget {
               }
             },
           ),
-          CustomDrawerButton(
-            text: "Профиль",
-            icon: Icons.account_circle,
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-              },
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                CustomDrawerButton(
+                  text: "Профиль",
+                  icon: Icons.account_circle,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                ),
+                if (permissionsManager.hasPermission('events list'))
+                  CustomDrawerButton(
+                    icon: Icons.calendar_month,
+                    text: "Мероприятия",
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/events');
+                    },
+                  ),
+                if (permissionsManager.hasPermission('crew list'))
+                  CustomDrawerButton(
+                    icon: Icons.flag_rounded,
+                    text: 'Смены',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/shifts');
+                    },
+                  ),
+                if (permissionsManager.hasPermission('call list'))
+                  CustomDrawerButton(
+                    icon: Icons.phone_callback,
+                    text: 'Вызовы',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/calls');
+                    },
+                  ),
+                if (permissionsManager.hasPermission('manuals list'))
+                  CustomDrawerButton(
+                    icon: Icons.book_rounded,
+                    text: "Методички",
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/manuals');
+                    },
+                  ),
+                if (permissionsManager.hasPermission('inventory list'))
+                  CustomDrawerButton(
+                    icon: Icons.inventory,
+                    text: "Оборудование",
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/inventory');
+                    },
+                  ),
+                CustomDrawerButton(
+                  text: "Сменить тему",
+                  icon: Icons.dark_mode,
+                  onPressed: () {
+                    toggleTheme();
+                  },
+                ),
+              ],
             ),
-          if (permissionsManager.hasPermission('events list'))
-            CustomDrawerButton(
-              icon: Icons.calendar_month,
-              text: "Мероприятия",
-              onPressed: () {
-                Navigator.pushNamed(context, '/events');
-              },
-            ),
-          if (permissionsManager.hasPermission('crew list'))
-            CustomDrawerButton(
-              icon: Icons.flag_rounded,
-              text: 'Смены',
-              onPressed: () {
-                Navigator.pushNamed(context, '/shifts');
-              },
-            ),
-          if (permissionsManager.hasPermission('call list'))
-            CustomDrawerButton(
-              icon: Icons.phone_callback,
-              text: 'Вызовы',
-              onPressed: () {
-                Navigator.pushNamed(context, '/calls');
-              },
-            ),
-          if (permissionsManager.hasPermission('manuals list'))
-            CustomDrawerButton(
-              icon: Icons.book_rounded,
-              text: "Методички",
-              onPressed: () {
-                Navigator.pushNamed(context, '/manuals');
-              },
-            ),
-          if (permissionsManager.hasPermission('inventory list'))
-            CustomDrawerButton(
-              icon: Icons.inventory,
-              text: "Инвентарь",
-              onPressed: () {
-                Navigator.pushNamed(context, '/inventory');
-              },
-            ),
-          CustomDrawerButton(
-            text: "Сменить тему",
-            icon: Icons.dark_mode,
-            onPressed: () {
-              toggleTheme();
-            },
           ),
-          SizedBox(height: 150),
-          ButtonExit(
-            text: 'Выйти',
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: ButtonExit(
+              text: 'Выйти',
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
           ),
         ],
       ),

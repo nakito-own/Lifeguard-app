@@ -10,7 +10,6 @@ class UserService {
     int? userId = await tokenManager.getUserId();
 
     if (token == null || userId == null) {
-      //Обработка типа когда что то не то пошло
       print('Token or UserId not found');
       return null;
     }

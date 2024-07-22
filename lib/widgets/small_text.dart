@@ -5,13 +5,10 @@ class SmallText extends StatelessWidget {
     required this.some_text,}) : super(key: key);
   final String some_text;
 
-
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDarkTheme ? Colors.grey : Colors.black;
-
-
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
