@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                         return Column(
                           children: [
-                            CustomTextField(
+                             CustomTextField(
                               icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
                               isPass: false,
                               widthSize: width,
@@ -117,8 +117,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: 40),
-                    CustomButton(
+                    SizedBox(height: 20),
+                Visibility(
+                  visible: _isTransparentButtonVisible(),
+                  child: CustomButton(
                       buttonText: 'Войти',
                       MiniButton: true,
                       onPressed: () async {
@@ -131,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           _showErrorDialog('Неверный логин или пароль');
                         }
                       },
-                    ),
+                    ), ),
                   ],
                 ),
               ),
