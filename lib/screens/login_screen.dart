@@ -39,12 +39,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  bool _isTransparentButtonVisible()
+  {
+    final size = MediaQuery.of(context).size;
+    return size.height > 500;
+  }
+
+  bool isObscured = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Column(
         children: [
-          Expanded(
+        Expanded(
             child: Center(
               child: Container(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -76,19 +85,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         return Column(
                           children: [
                             CustomTextField(
+                              icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
                               isPass: false,
                               widthSize: width,
                               labelText: 'Email',
                               text: '',
                               controller: _usernameController,
+                                isObscured: isObscured,
+                              togglePass: () {
+                                setState(() {
+                                  isObscured = isObscured;
+                                });
+                              }
                             ),
                             SizedBox(height: 15),
                             CustomTextField(
+                              icon: Icon(Icons.remove_red_eye),
                               labelText: 'Пароль',
                               widthSize: width,
                               isPass: true,
                               text: '',
                               controller: _passwordController,
+                              isObscured: isObscured,
+                              togglePass: (){
+                                setState(() {
+                                  isObscured = !isObscured;
+                                });
+                              }
                             ),
                           ],
                         );
@@ -114,9 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(30),
-            child: TransparentButton(
+          Visibility(
+            visible: _isTransparentButtonVisible(),
+             child: TransparentButton(
               text: 'Забыли пароль?',
               onPressed: () {
                 _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra');
@@ -124,6 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
+          SizedBox( height: 10)
         ],
       ),
     );

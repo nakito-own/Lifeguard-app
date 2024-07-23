@@ -48,12 +48,12 @@ class AppDrawer extends StatelessWidget {
                           Text(
                             '${userData['surname']} ${userData['name']} ${userData['patronymic']}',
                             overflow: TextOverflow.clip,
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 16),
                           ),
                           Text(
                             'superuser',
                             overflow: TextOverflow.clip,
-                            style: TextStyle(fontSize: 14, color: Colors.green),
+                            style: TextStyle(fontSize: 16, color: Colors.green),
                           ),
                         ],
                       ),

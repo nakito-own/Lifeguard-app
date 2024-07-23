@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/api-services/profile_service.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import '../widgets/app-widgets/app_drawer.dart';
+import '../widgets/app-widgets/custom_button.dart';
+import '../widgets/app-widgets/custom_textfield.dart';
+import '../widgets/app-widgets/error_widget.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
-import '../widgets/profile-widgets/profile_info_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
 import '../widgets/small_text.dart';
 import 'package:lifeguard/widgets/transparent_button.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -16,17 +20,62 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin  {
   late Future<Map<String, dynamic>?> _userDataFuture;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool _isEditingVisible = false;
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController vk = TextEditingController();
+  final TextEditingController tg = TextEditingController();
+  final TextEditingController mail = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _userDataFuture = UserService().getUserData();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
   }
+
+  void _toggleEditingWidget() {
+    setState(() {
+      _isEditingVisible = !_isEditingVisible;
+      if (_isEditingVisible) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
+
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ErrorAlertDialog(
+          errorMessage: errorMessage,
+          toggleTheme: widget.toggleTheme,
+        );
+      },
+    );
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool isObscured = true;
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Профиль'),
@@ -47,6 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   SizedBox(height: 45),
                   CircleAvatar(
                       radius: 50,
@@ -56,12 +106,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     FirstName: userData['name'],
                     SecondName: userData['surname'],
                     Patronymic: userData['patronymic'],
-                    Post1: 'superuser',
+                    Post1: 'Инструктор',
                     Post2: 'Спасатель',
                   ),
                   SizedBox(height: 30),
                   SmallText(some_text: 'Основная информация'),
-                  ProfileInfoWidget(),
                   SizedBox(height: 10),
                   SmallText(some_text: 'Личные данные'),
                   MyInfo(
@@ -71,11 +120,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Mail_Link: userData['email'],
                   ),
                   SizedBox(height: 10),
+                  ResponsiveBuilder(
+                     builder: (context, sizingInformation) {
+                       double width;
+                       if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
+                         width = MediaQuery.of(context).size.width * 0.85;
+                       } else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+                         width = MediaQuery.of(context).size.width * 0.65;
+                       } else {
+                         width = MediaQuery.of(context).size.width * 0.5;
+                       }
+                       return SlideTransition(
+                           position: Tween<Offset>(
+                             begin: Offset(0, 1),
+                             end: Offset(0, 0),
+                           ).animate(_controller),
+                           child: _isEditingVisible ? Container(
+                            child: Column(
+                               mainAxisSize: MainAxisSize.min,
+                               children: [
+                                 SizedBox(height: 20,),
+                                 CustomTextField(
+                                     text: '+7 999 999 99 99',
+                                     labelText: 'Телефон',
+                                     widthSize: width,
+                                     icon: Icon(Icons.ac_unit),
+                                     controller: phone,
+                                     isObscured: isObscured,
+                                     togglePass: () {
+                                       setState(() {
+                                         isObscured = isObscured;
+                                       });
+                                     }), SizedBox(height: 20,),
+                                 CustomTextField(
+                                     text: 'https://vk.com/',
+                                     labelText: 'VK',
+                                     widthSize: width,
+                                     icon: Icon(Icons.ac_unit),
+                                     controller: vk,
+                                     isObscured: isObscured,
+                                     togglePass: () {
+                                       setState(() {
+                                         isObscured = isObscured;
+                                       });
+                                     }), SizedBox(height: 20,),
+                                 CustomTextField(
+                                     text: 'https://t.me/',
+                                     labelText: 'TG',
+                                     widthSize: width,
+                                     icon: Icon(Icons.ac_unit),
+                                     controller: tg,
+                                     isObscured: isObscured,
+                                     togglePass: () {
+                                       setState(() {
+                                         isObscured = isObscured;
+                                       });
+                                     }), SizedBox(height: 20,),
+                                 CustomTextField(
+                                     text: 'https://mail.ru/',
+                                     labelText: 'Почта',
+                                     widthSize: width,
+                                     icon: Icon(Icons.ac_unit),
+                                     controller: mail,
+                                     isObscured: isObscured,
+                                     togglePass: () {
+                                       setState(() {
+                                         isObscured = isObscured;
+                                       });
+                                     }),
+                                 SizedBox(height: 25),
+                                 CustomButton(
+                                   buttonText: 'Сохранить',
+                                   MiniButton: true,
+                                   onPressed: () {
+                                     print('${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
+                                     _showErrorDialog('Данные отправлены');
+                                     _toggleEditingWidget();
+                                     phone.clear();
+                                     vk.clear();
+                                     tg.clear();
+                                     mail.clear();
+                                   },
+                                 ),
+                                 SizedBox(height: 10),
+                               ],
+                           ),
+                           ) : SizedBox.shrink()
+                       );
+                     }
+                     ),
+                  SizedBox(height: 10),
                   TransparentButton(
                     text: 'Редактировать личные данные',
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/redaction');
-                    },
+                    onPressed: _toggleEditingWidget,
                   ),
                   SizedBox(height: 10),
                 ],
@@ -87,3 +224,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
+

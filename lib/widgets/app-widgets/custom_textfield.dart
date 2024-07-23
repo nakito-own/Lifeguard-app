@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({
+   const CustomTextField({
     Key? key,
     required this.text,
-    required this.isPass,
+    this.isPass = false,
     required this.controller,
     required this.labelText,
-    required this.widthSize
+    required this.widthSize,
+     required this.icon,
+     required this.togglePass,
+     required this.isObscured
   }) : super(key: key);
 
   final double widthSize;
@@ -16,7 +19,9 @@ class CustomTextField extends StatefulWidget {
   final String text;
   final bool isPass;
   final TextEditingController controller;
-
+  final icon ;
+  final VoidCallback togglePass;
+  final bool isObscured;
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -46,16 +51,27 @@ class _CustomTextFieldState extends State<CustomTextField> {
     await prefs.setString('savedText', text);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return Center(
       child: SizedBox(
         width: widget.widthSize,
         height: 42,
         child: TextField(
           controller: widget.controller,
-          obscureText: widget.isPass,
+          obscureText: widget.isPass ? widget.isObscured : false,
           decoration: InputDecoration(
+          suffixIcon: widget.isPass ?
+          IconButton (
+              icon: Icon(widget.isObscured ?Icons.visibility : Icons.visibility_off ),
+              onPressed: widget.togglePass,
+          ) : null,
+
           labelText: widget.labelText,
             hintText: widget.text,
             hintStyle: TextStyle(
