@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/api-services/profile_service.dart';
+import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/app-widgets/custom_button.dart';
@@ -112,6 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   SizedBox(height: 30),
                   SmallText(some_text: 'Основная информация'),
                   SizedBox(height: 10),
+                  ProfileInfoWidget(),
                   SmallText(some_text: 'Личные данные'),
                   MyInfo(
                     phone: userData['phone'],
