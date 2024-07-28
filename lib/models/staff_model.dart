@@ -25,16 +25,16 @@ class Staff {
 
   factory Staff.fromJson(Map<String, dynamic> json) {
     return Staff(
-      apply: json['apply'],
-      email: json['email'],
-      id: json['id'],
-      name: json['name'],
-      nick: json['nick'],
-      patronymic: json['patronymic'],
-      phone: json['phone'],
-      surname: json['surname'],
-      tg: json['tg'],
-      vk: json['vk'],
+      apply: json['apply'] ?? '',
+      email: json['email'] ?? '',
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      nick: json['nick'] ?? '',
+      patronymic: json['patronymic'] ?? '',
+      phone: json['phone'] ?? '',
+      surname: json['surname'] ?? '',
+      tg: json['tg'] ?? '',
+      vk: json['vk'] ?? '',
     );
   }
 }

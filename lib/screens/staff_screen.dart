@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/widgets/app-widgets/app_drawer.dart';
-import 'package:lifeguard/widgets/staff-widgets/staff_widget.dart';
+import 'package:lifeguard/widgets/staff-widgets/staff_card.dart';
 import 'package:lifeguard/api-services/staff_service.dart';
 
 class StaffListScreen extends StatefulWidget {

@@ -23,7 +23,7 @@ class StaffService {
       List<dynamic> jsonResponse = json.decode(responseBody);
       return jsonResponse.map((staff) => Staff.fromJson(staff as Map<String, dynamic>)).toList();
     } else {
-      throw Exception('Failed to load staff');
+      throw Exception('Ошибка при загрузке пользователя');
     }
   }
 }
