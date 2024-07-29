@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/api-services/profile_service.dart';
 import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/app-widgets/custom_button.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _userDataFuture = UserService().getUserData();
+    _userDataFuture = User().getUserData();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -76,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Профиль'),
@@ -106,8 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     FirstName: userData['name'],
                     SecondName: userData['surname'],
                     Patronymic: userData['patronymic'],
-                    Post1: 'Инструктор',
-                    Post2: 'Спасатель',
+                    Post1: userData['rank'],
                   ),
                   SizedBox(height: 30),
                   SmallText(some_text: 'Основная информация', Width: MediaQuery.of(context).size.width * 0.9),

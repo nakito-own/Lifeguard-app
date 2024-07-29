@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lifeguard/utils/permissions_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   Future<Map<String, dynamic>?> getUserData() async {
-
-    PermissionsManager tokenManager = PermissionsManager();
-    String? token = await tokenManager.getToken();
-    int? userId = await tokenManager.getUserId();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('jwt');
+    int? userId = prefs.getInt('userId');
 
     if (token == null || userId == null) {
       print('Token or UserId not found');
@@ -22,9 +21,11 @@ class UserService {
 
     try {
       final response = await http.get(url, headers: headers);
-
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        final String responseBody = utf8.decode(response.bodyBytes);
+        final Map<String, dynamic> userData = json.decode(responseBody);
+        print('Received user data: $userData');
+        return userData;
       } else {
         print('Failed to load user data: ${response.statusCode}');
         return null;

@@ -29,7 +29,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         margin: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
         padding: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
         constraints: BoxConstraints(
-          maxWidth: 600,
+          maxWidth: 800,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,

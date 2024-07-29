@@ -11,7 +11,7 @@ class ShiftScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Shifts'),
+          title: Text('Смены'),
         ),
         drawer: AppDrawer(toggleTheme: toggleTheme),
         body: Padding(
@@ -19,7 +19,7 @@ class ShiftScreen extends StatelessWidget {
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'Its Shifts screen',
+                  'Смены ебать',
                 )
             )
         )

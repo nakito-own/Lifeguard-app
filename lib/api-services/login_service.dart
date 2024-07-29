@@ -13,7 +13,7 @@ class LoginService {
     };
 
     String jsonBody = json.encode(data);
-    print('JSON Body: $jsonBody'); // Отладочный джейсон
+    print('JSON Body: $jsonBody');
 
     try {
       var response = await http.post(
@@ -53,25 +53,5 @@ class LoginService {
       print('Error: $e');
       return false;
     }
-  }
-
-  Future<String?> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('jwt');
-  }
-
-  Future<int?> getUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('userId');
-  }
-
-  Future<List<String>?> getPermissions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('permissions');
-  }
-
-  Future<String?> getRank() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('rank');
   }
 }

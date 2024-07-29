@@ -5,15 +5,16 @@ import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
 import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
+import 'package:lifeguard/screens/pofile_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
+import 'package:lifeguard/screens/staff_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/pofile_screen.dart';
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PermissionsManager().initialize();
   runApp(MyApp());
@@ -48,17 +49,18 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lifeguard App',
-      theme:AppLightTheme.lightTheme.copyWith(
-        textTheme: GoogleFonts.nunitoTextTheme(),),
+      theme: AppLightTheme.lightTheme.copyWith(
+        textTheme: GoogleFonts.nunitoTextTheme(),
+      ),
       darkTheme: AppDarkTheme.darkTheme.copyWith(
         textTheme: GoogleFonts.nunitoTextTheme().apply(
-          bodyColor: Colors.white,),),
-
+          bodyColor: Colors.white,
+        ),
+      ),
       themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -72,7 +74,6 @@ class _MyAppState extends State<MyApp> {
       ],
       locale: const Locale('ru', 'RU'),
       home: LoginScreen(toggleTheme: _toggleTheme),
-
       routes: {
         '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
         '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
@@ -80,7 +81,8 @@ class _MyAppState extends State<MyApp> {
         '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),
         '/manuals': (context) => ManualsScreen(toggleTheme: _toggleTheme),
         '/inventory': (context) => InventoryScreen(toggleTheme: _toggleTheme),
-        '/calls': (context) => CallsScreen(toggleTheme: _toggleTheme)
+        '/calls': (context) => CallsScreen(toggleTheme: _toggleTheme),
+        '/staff': (context) => StaffListScreen(toggleTheme: _toggleTheme),
       },
     );
   }

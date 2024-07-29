@@ -5,13 +5,11 @@ class ProfileHeaderWidget extends StatelessWidget {
     required this.FirstName,
     required this.SecondName,
     required this.Patronymic,
-    required this.Post1,
-    required this.Post2}) : super(key: key);
+    required this.Post1}) : super(key: key);
   final String FirstName;
   final String SecondName;
   final String Patronymic;
   final String Post1;
-  final String Post2;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +42,6 @@ class ProfileHeaderWidget extends StatelessWidget {
           SizedBox(
             height: 2,
           ),
-          Text(
-            Post2,
-            style: TextStyle(
-              fontSize: 16,
-              color: Color(0xff4eab2c),
-            ),
-          )
         ],
       ),
     );
