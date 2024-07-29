@@ -9,9 +9,9 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     required this.widthSize,
-     required this.icon,
-     required this.togglePass,
-     required this.isObscured
+    required this.icon,
+    required this.togglePass,
+    required this.isObscured,
   }) : super(key: key);
 
   final double widthSize;

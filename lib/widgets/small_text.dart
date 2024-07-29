@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class SmallText extends StatelessWidget {
   const SmallText({Key? key,
-    required this.some_text,}) : super(key: key);
+    required this.some_text,
+    required this.Width
+    ,}) : super(key: key);
   final String some_text;
+  final double Width;
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +14,15 @@ class SmallText extends StatelessWidget {
     final textColor = isDarkTheme ? Colors.grey : Colors.black;
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.fromLTRB(21, 0, 0, 0),
-      alignment: Alignment.bottomLeft,
+      width: Width,
       child: Text(
         some_text,
         style: TextStyle(
           fontSize: 15,
           color: textColor,
         ),
+        maxLines: 1,
       ),
     );
   }

@@ -97,7 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   SizedBox(height: 45),
                   CircleAvatar(
                       radius: 50,
@@ -111,10 +110,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     Post2: 'Спасатель',
                   ),
                   SizedBox(height: 30),
-                  SmallText(some_text: 'Основная информация'),
+                  SmallText(some_text: 'Основная информация', Width: MediaQuery.of(context).size.width * 0.9),
                   SizedBox(height: 10),
                   ProfileInfoWidget(),
-                  SmallText(some_text: 'Личные данные'),
+                  SmallText(some_text: 'Личные данные', Width: MediaQuery.of(context).size.width * 0.9,),
                   MyInfo(
                     phone: userData['phone'],
                     VK_Link: userData['vk'],
@@ -149,10 +148,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      icon: Icon(Icons.ac_unit),
                                      controller: phone,
                                      isObscured: isObscured,
+
                                      togglePass: () {
-                                       setState(() {
-                                         isObscured = isObscured;
-                                       });
+                                       setState(() { isObscured = isObscured; });
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://vk.com/',
@@ -162,9 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      controller: vk,
                                      isObscured: isObscured,
                                      togglePass: () {
-                                       setState(() {
-                                         isObscured = isObscured;
-                                       });
+                                       setState(() { isObscured = isObscured; });
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://t.me/',
@@ -174,9 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      controller: tg,
                                      isObscured: isObscured,
                                      togglePass: () {
-                                       setState(() {
-                                         isObscured = isObscured;
-                                       });
+                                       setState(() { isObscured = isObscured; });
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://mail.ru/',
@@ -186,9 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      controller: mail,
                                      isObscured: isObscured,
                                      togglePass: () {
-                                       setState(() {
-                                         isObscured = isObscured;
-                                       });
+                                       setState(() { isObscured = isObscured; });
                                      }),
                                  SizedBox(height: 25),
                                  CustomButton(
