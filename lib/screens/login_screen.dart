@@ -88,8 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
                               isPass: false,
                               widthSize: width,
+                                 heightSize: 42,
                               labelText: 'Email',
                               text: '',
+                                 lines: 1,
                               controller: _usernameController,
                                 isObscured: isObscured,
                               togglePass: () {
@@ -103,8 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               icon: Icon(Icons.remove_red_eye),
                               labelText: 'Пароль',
                               widthSize: width,
+                                heightSize: 42,
                               isPass: true,
                               text: '',
+                                lines: 1,
                               controller: _passwordController,
                               isObscured: isObscured,
                               togglePass: (){

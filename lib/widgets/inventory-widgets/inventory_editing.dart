@@ -5,18 +5,18 @@ import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
 class InventoryEditing extends StatefulWidget {
   InventoryEditing({Key? key,
     required this.ItemName,
-    required this.Quantitycontroller,
+    required this.GroupNamecontroller,
     required this.ItemNamecontroller,
+    required this.Descriptioncontroller,
     required this. currentQuantity,
     required this.onPressed,
-    required this.labelText,
   }) : super(key: key);
     final String ItemName;
-    final TextEditingController Quantitycontroller;
+    final TextEditingController GroupNamecontroller;
     final TextEditingController ItemNamecontroller;
-    final String labelText;
-  final String currentQuantity;
-  final Function(String) onPressed;
+    final TextEditingController Descriptioncontroller;
+    final String currentQuantity;
+    final Function(String) onPressed;
 
   @override
   _InventoryEditingState createState() => _InventoryEditingState();
@@ -46,18 +46,20 @@ class _InventoryEditingState extends State<InventoryEditing> {
     final container_Color = isDarkTheme ? Colors.orange[500] : Color(0xffc6c7c7);
 
 
-    return AlertDialog(
+    return SingleChildScrollView(
+      child:
+      AlertDialog(
        titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-       insetPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+       insetPadding: EdgeInsets.fromLTRB(40,100,40,70),
        contentPadding: EdgeInsets.fromLTRB(35, 0, 35, 0),
-       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(30))),
        title:
       Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           color: container_Color,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(0), bottom: Radius.circular(100)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(100)),
         ),
         height: MediaQuery.of(context).size.height * 0.1,
         child: Column(
@@ -70,13 +72,31 @@ class _InventoryEditingState extends State<InventoryEditing> {
       ),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: 30,),
               CustomTextField(
                   text: '',
-                  controller: widget.Quantitycontroller,
-                  labelText: widget.labelText,
+                  lines: 1,
+                  controller: widget.GroupNamecontroller,
+                  labelText: 'Группа предмета',
                   widthSize: 300,
+                  heightSize: 42,
+                  icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
+                  togglePass: () {
+                    setState(() {
+                      isObscured =isObscured;
+                    });
+                  },
+                  isObscured: isObscured,),
+              SizedBox(height: 20,),
+              CustomTextField(
+                  text: '',
+                  lines: 1,
+                  controller: widget.ItemNamecontroller,
+                  labelText: 'Название предмета',
+                  widthSize: 300,
+                  heightSize: 42,
                   icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
                   togglePass: () {
                     setState(() {
@@ -87,9 +107,11 @@ class _InventoryEditingState extends State<InventoryEditing> {
               SizedBox(height: 20,),
               CustomTextField(
                   text: '',
-                  controller: widget.ItemNamecontroller,
-                  labelText: widget.labelText,
+                  lines: 4,
+                  controller: widget.Descriptioncontroller,
+                  labelText: 'Описание',
                   widthSize: 300,
+                  heightSize: 100,
                   icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
                   togglePass: () {
                     setState(() {
@@ -97,7 +119,7 @@ class _InventoryEditingState extends State<InventoryEditing> {
                     });
                   },
                   isObscured: isObscured),
-              SizedBox(height: 40,),
+              SizedBox(height: 30,),
               CustomButton(
                   buttonText: 'Сохранить',
                   onPressed: () {
@@ -105,15 +127,17 @@ class _InventoryEditingState extends State<InventoryEditing> {
                     Navigator.of(context).pop();
                   },
                   MiniButton: false),
-              SizedBox(height: 15,),
+              SizedBox(height: 10,),
               CustomButton(
                   buttonText: 'Отмена',
                   onPressed: () => Navigator.of(context).pop(),
-                  MiniButton: false)
+                  MiniButton: false),
+              SizedBox(height: 70,),
           ]
         ),
 
 
+    ),
     );
   }
 }

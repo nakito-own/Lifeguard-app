@@ -33,6 +33,9 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
   final ShowStaffService _service = ShowStaffService();
   final PermissionsManager permissionsManager = PermissionsManager();
 
+  List<Widget> allStaffWidgets = [];
+  List<Widget> filteredStaffWidgets = [];
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +46,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
     );
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
   }
+
 
   void _toggleEditingWidget() {
     setState(() {
@@ -96,10 +100,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                     Post1: '', //Подождать пока ручку переделают
                   ),
                   SizedBox(height: 30),
-                  SmallText(some_text: 'Основная информация'),
+                  SmallText(some_text: 'Основная информация', Width: 100,),
                   SizedBox(height: 10),
                   ProfileInfoWidget(),
-                  SmallText(some_text: 'Личные данные'),
+                  SmallText(some_text: 'Личные данные', Width: 100,),
                   MyInfo(
                     phone: staff.phone,
                     VK_Link: staff.vk,
@@ -131,8 +135,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                               SizedBox(height: 20),
                               CustomTextField(
                                   text: '+7 999 999 99 99',
+                                  lines: 1,
                                   labelText: 'Телефон',
                                   widthSize: width,
+                                  heightSize: 42,
                                   icon: Icon(Icons.ac_unit),
                                   controller: phone,
                                   isObscured: isObscured,
@@ -144,8 +150,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                               SizedBox(height: 20),
                               CustomTextField(
                                   text: 'https://vk.com/',
+                                  lines: 1,
                                   labelText: 'VK',
                                   widthSize: width,
+                                  heightSize: 42,
                                   icon: Icon(Icons.ac_unit),
                                   controller: vk,
                                   isObscured: isObscured,
@@ -157,8 +165,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                               SizedBox(height: 20),
                               CustomTextField(
                                   text: 'https://t.me/',
+                                  lines: 1,
                                   labelText: 'TG',
                                   widthSize: width,
+                                  heightSize: 42,
                                   icon: Icon(Icons.ac_unit),
                                   controller: tg,
                                   isObscured: isObscured,
@@ -170,8 +180,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                               SizedBox(height: 20),
                               CustomTextField(
                                   text: 'https://mail.ru/',
+                                  lines: 1,
                                   labelText: 'Почта',
                                   widthSize: width,
+                                  heightSize: 42,
                                   icon: Icon(Icons.ac_unit),
                                   controller: mail,
                                   isObscured: isObscured,

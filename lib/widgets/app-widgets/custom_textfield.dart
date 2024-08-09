@@ -9,12 +9,15 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     required this.widthSize,
+    required this.heightSize,
     required this.icon,
     required this.togglePass,
     required this.isObscured,
+    required this.lines,
   }) : super(key: key);
 
   final double widthSize;
+  final double heightSize;
   final String labelText;
   final String text;
   final bool isPass;
@@ -22,6 +25,7 @@ class CustomTextField extends StatefulWidget {
   final icon ;
   final VoidCallback togglePass;
   final bool isObscured;
+  final int lines;
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -61,8 +65,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Center(
       child: SizedBox(
         width: widget.widthSize,
-        height: 42,
+        height: widget.heightSize,
         child: TextField(
+          maxLines: widget.lines,
           controller: widget.controller,
           obscureText: widget.isPass ? widget.isObscured : false,
           decoration: InputDecoration(
@@ -71,7 +76,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               icon: Icon(widget.isObscured ?Icons.visibility : Icons.visibility_off ),
               onPressed: widget.togglePass,
           ) : null,
-
           labelText: widget.labelText,
             hintText: widget.text,
             hintStyle: TextStyle(

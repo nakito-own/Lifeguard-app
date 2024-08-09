@@ -37,4 +37,5 @@ class Staff {
       vk: json['vk'] ?? '',
     );
   }
+
 }

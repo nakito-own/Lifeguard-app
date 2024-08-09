@@ -5,24 +5,30 @@ import 'package:lifeguard/widgets/small_text.dart';
 class InventoryList extends StatefulWidget {
   InventoryList({Key? key,
   required this.ItemName,
+  required this.Description,
   required this.GroupName,
   required this.MainWidth,
   required this.items,
   required this.entries,
   required this.isEditing,
   required this.onDelete,
-  required this.quantity,
-  required this.onEditQuantity,
+  required this.MainQuantity,
+    required this.ItemQuantity,
+  required this.onEditItem,
+    required this.onLookDescription,
   }) : super(key: key);
   final List<String> ItemName;
+  final List<String> Description;
   final String GroupName;
   final double MainWidth;
   final List<String> entries;
   final List<String> items;
-  final List<String> quantity;
+  final List<String> MainQuantity;
+  final List<String> ItemQuantity;
   final bool isEditing;
   final Function(int) onDelete;
-  final Function(int) onEditQuantity;
+  final Function(int) onEditItem;
+  final Function(int) onLookDescription;
 
   @override
   _InventoryListState createState() => _InventoryListState();
@@ -86,13 +92,12 @@ class InventoryList extends StatefulWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
             children: [
             AnimatedContainer(
-              curve: Curves.easeInOut,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
             duration: Duration(milliseconds: 500),
-              height: _isExpanded ? widget.entries.length * 90.0 : 0.0,
+              height: _isExpanded ? widget.entries.length * 1000 : 0.0,
                   child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.fromLTRB(0,0,10,0),
               itemCount: widget.entries.length,
               itemBuilder: (context, index) => ExpansionTile(
                    trailing:widget.isEditing
@@ -100,28 +105,47 @@ class InventoryList extends StatefulWidget {
                      mainAxisSize: MainAxisSize.min,
                      crossAxisAlignment: CrossAxisAlignment.end,
                      children: [
-                       IconButton(
-                         color: Colors.green,
-                         alignment: Alignment.bottomLeft,
-                         icon: Icon(Icons.edit),
-                         onPressed: () => widget.onEditQuantity(index),
-                       ),
-                       IconButton(
-                         color: Colors.red,
-                         alignment: Alignment.centerLeft,
-                         icon: Icon(Icons.delete),
-                         onPressed: () => widget.onDelete(index),
-                       ),
+                        IconButton(
+                           color: Colors.green,
+                           alignment: Alignment.bottomLeft,
+                           icon: Icon(Icons.edit),
+                           onPressed: () => widget.onEditItem(index),
+                         ),
+                         IconButton(
+                           color: Colors.red,
+                           alignment: Alignment.centerLeft,
+                           icon: Icon(Icons.delete_forever),
+                           onPressed: () => widget.onDelete(index),
+                         ),
                      ],
                    )
-                       : Text (' ${widget.quantity[index]}', style: TextStyle(fontSize: 16, ),),
+                       : Text (' ${widget.MainQuantity[index]}', style: TextStyle(fontSize: 16, ),),
                    title:
                  Text( widget.ItemName [index] ,),
                  children: [
-                 Text(
-                     '${widget.items[index]}' ,
-                     style: TextStyle(color: text_Color, fontSize: 16, )
-                 ),
+                   ExpansionTile(
+                     trailing:
+                        Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(onPressed: () => widget.onLookDescription(index), icon: Icon(Icons.sd_card)),
+                          Text(' ${widget.ItemQuantity[index]}', style: TextStyle(fontSize: 16, ),) ,
+                          ]
+                        ),
+                     title:
+                     Text(
+                       '${widget.items[index]}',
+                       textAlign: TextAlign.center,
+                         style: TextStyle(color: text_Color, fontSize: 16,),
+                     ),
+                     /*children:[
+                       Text(
+                         '${widget.Description[index]}',
+                         style: TextStyle(color: text_Color, fontSize: 16, )
+                     ),
+                    ],*/
+                   ),
                   ],
                   ),
                 ),
@@ -131,7 +155,10 @@ class InventoryList extends StatefulWidget {
             ),
        ),
       ),
-          Container(
+
+          /// Это код для закруглённой только снизу полоски
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             height: MediaQuery.of(context).size.height * 0.0696,
             width: widget.MainWidth,
             padding: EdgeInsets.fromLTRB(20, 0, 10, 0),

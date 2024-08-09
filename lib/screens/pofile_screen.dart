@@ -141,8 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                  SizedBox(height: 20,),
                                  CustomTextField(
                                      text: '+7 999 999 99 99',
+                                     lines: 1,
                                      labelText: 'Телефон',
                                      widthSize: width,
+                                     heightSize: 42,
                                      icon: Icon(Icons.ac_unit),
                                      controller: phone,
                                      isObscured: isObscured,
@@ -152,8 +154,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://vk.com/',
+                                     lines: 1,
                                      labelText: 'VK',
                                      widthSize: width,
+                                     heightSize: 42,
                                      icon: Icon(Icons.ac_unit),
                                      controller: vk,
                                      isObscured: isObscured,
@@ -162,8 +166,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://t.me/',
+                                     lines: 1,
                                      labelText: 'TG',
                                      widthSize: width,
+                                     heightSize: 42,
                                      icon: Icon(Icons.ac_unit),
                                      controller: tg,
                                      isObscured: isObscured,
@@ -172,8 +178,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      }), SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://mail.ru/',
+                                     lines: 1,
                                      labelText: 'Почта',
                                      widthSize: width,
+                                     heightSize: 42,
                                      icon: Icon(Icons.ac_unit),
                                      controller: mail,
                                      isObscured: isObscured,
