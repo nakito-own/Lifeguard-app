@@ -15,6 +15,7 @@ import 'styles/themes/app_light_theme.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await PermissionsManager().initialize();
   runApp(MyApp());

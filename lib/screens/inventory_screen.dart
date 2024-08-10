@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lifeguard/models/Item_model.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_description.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_editing.dart';
+import '../api-services/show_staff_service.dart';
+import '../utils/permissions_manager.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/inventory-widgets/inventory_list.dart';
+
 
 class InventoryScreen extends StatefulWidget {
 
@@ -17,16 +21,21 @@ class InventoryScreen extends StatefulWidget {
 
 class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProviderStateMixin {
   bool isEditing = false;
+  late Future<Item> futureItem;
   List<String> MainQuantity = ['10', '20', '30'];
   List<String> ItemQuantity = ['1', '2', '3'];
   List<String> itemNames = ['Предмет 1', 'Предмет 2', 'Предмет 3'];
-  List<String> items = ['Противогаз ' , 'Огнетушитель', 'Палка'];
+  List<String> items = ['Противогаз ' , 'Огнетушитель', 'Палка','Палка','Палка','Палка','Палка','Палка','Палка'];
   List<String> description = ['Это такой-то противогаз', 'Это такой-то огнетушитель', 'Это такая-то палка'];
   List<String> entries = ['Entry1', 'Entry2', 'Entry3'];
   List<String> groupName = ['Огонь', 'Вода', 'Воздух'];
   late AnimationController _controller;
   late Animation<double> _animation;
+  final ShowStaffService _service = ShowStaffService();
+  final PermissionsManager permissionsManager = PermissionsManager();
 
+  String selectedInventory = 'Inventory 1';
+  final TextEditingController _itemController = TextEditingController();
 
   @override
   void initState() {
@@ -51,6 +60,8 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
       isEditing = !isEditing;
     });
   }
+
+
 
   void deleteItem(int index) {
     setState(() {
@@ -87,8 +98,6 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
   }
 
   void lookDescription (int index) {
-
-
     showDialog(context: context,
       builder: (BuildContext context)
       {
@@ -109,9 +118,18 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
         title: Text('Оборудование'),
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10, left: 0, right: 10),
-          child: SingleChildScrollView (
+      body: FutureBuilder<Item>(
+        future: futureItem,
+        builder: (context, snapshot) {
+           if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+          return Center(child: Text('Инвентарь не загружен'));
+          } else {
+          final item = snapshot.data!;
+          return SingleChildScrollView (
             child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center ,
@@ -125,10 +143,10 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 ItemName: itemNames,
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
                 entries: entries,
-                items: items,
+                items: item.Name,
                 MainQuantity: MainQuantity,
                 ItemQuantity: ItemQuantity,
-                Description: description,
+                Description: item.Description,
               ),
               InventoryList(
                 isEditing: isEditing,
@@ -139,10 +157,10 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 ItemName: itemNames,
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
                 entries: entries,
-                items: items,
+                items: item.Name,
                 MainQuantity: MainQuantity,
                 ItemQuantity: ItemQuantity,
-                Description: description,
+                Description: item.Description,
               ),
               InventoryList(
                 isEditing: isEditing,
@@ -153,10 +171,10 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 ItemName: itemNames,
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
                 entries:  entries,
-                items: items,
+                items: item.Name,
                 MainQuantity: MainQuantity,
                 ItemQuantity: ItemQuantity,
-                Description: description,
+                Description: item.Description,
               ),
               SizedBox(height: 20,),
               CustomButton(
@@ -165,8 +183,12 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                   onPressed: toggleEditing),
             ],
           )
-      ),
-      ),
+      );
+
+
+    }
+    }
+    ),
     );
   }
   }

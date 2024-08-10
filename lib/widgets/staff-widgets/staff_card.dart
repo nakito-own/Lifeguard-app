@@ -18,7 +18,7 @@ class StaffCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => StaffProfileScreen(staffId: staff.id),
+            builder: (context) => StaffProfileScreen(staffId: staff.id, staff: staff,),
           ),
         );
       },

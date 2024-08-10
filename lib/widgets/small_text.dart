@@ -18,6 +18,7 @@ class SmallText extends StatelessWidget {
       width: Width,
       child: Text(
         some_text,
+        textAlign: TextAlign.left,
         style: TextStyle(
           fontSize: 15,
           color: textColor,

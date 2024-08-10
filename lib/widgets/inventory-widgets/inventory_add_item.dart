@@ -11,12 +11,12 @@ class InventoryEditing extends StatefulWidget {
     required this. currentQuantity,
     required this.onPressed,
   }) : super(key: key);
-    final String ItemName;
-    final TextEditingController GroupNamecontroller;
-    final TextEditingController ItemNamecontroller;
-    final TextEditingController Descriptioncontroller;
-    final String currentQuantity;
-    final Function(String) onPressed;
+  final String ItemName;
+  final TextEditingController GroupNamecontroller;
+  final TextEditingController ItemNamecontroller;
+  final TextEditingController Descriptioncontroller;
+  final String currentQuantity;
+  final Function(String) onPressed;
 
   @override
   _InventoryEditingState createState() => _InventoryEditingState();
@@ -25,6 +25,7 @@ class InventoryEditing extends StatefulWidget {
 class _InventoryEditingState extends State<InventoryEditing> {
   bool isObscured = true;
   late TextEditingController _controller;
+  String selectedInventory = 'Inventory 1';
 
   @override
   void initState() {
@@ -49,46 +50,61 @@ class _InventoryEditingState extends State<InventoryEditing> {
     return SingleChildScrollView(
       child:
       AlertDialog(
-       titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-       insetPadding: EdgeInsets.fromLTRB(40,100,40,70),
-       contentPadding: EdgeInsets.fromLTRB(35, 0, 35, 0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(30))),
-       title:
-      Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: container_Color,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(100)),
+        titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        insetPadding: EdgeInsets.fromLTRB(40,100,40,70),
+        contentPadding: EdgeInsets.fromLTRB(35, 0, 35, 0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(30))),
+        title:
+        Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+            color: container_Color,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(100)),
+          ),
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Добавление', style: TextStyle(fontSize: 20, color: text_Color, fontWeight: FontWeight.w600),),
+              ]
+          ),
         ),
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-           Text('Редактирование', style: TextStyle(fontSize: 20, color: text_Color, fontWeight: FontWeight.w600),),
-          ]
-        ),
-      ),
         content: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 30,),
               CustomTextField(
-                  text: '',
-                  lines: 1,
-                  controller: widget.GroupNamecontroller,
-                  labelText: 'Группа предмета',
-                  widthSize: 300,
-                  heightSize: 42,
-                  icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
-                  togglePass: () {
-                    setState(() {
-                      isObscured =isObscured;
-                    });
-                  },
-                  isObscured: isObscured,),
+                text: '',
+                lines: 1,
+                controller: widget.GroupNamecontroller,
+                labelText: 'Группа предмета',
+                widthSize: 300,
+                heightSize: 42,
+                icon: Icon(Icons.hourglass_empty, color: Colors.transparent,),
+                togglePass: () {
+                  setState(() {
+                    isObscured =isObscured;
+                  });
+                },
+                isObscured: isObscured,),
+              DropdownButton<String>(
+                value: selectedInventory,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedInventory = newValue!;
+                  });
+                },
+                items: <String>['Inventory 1', 'Inventory 2']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
               SizedBox(height: 20,),
               CustomTextField(
                   text: '',
@@ -133,11 +149,11 @@ class _InventoryEditingState extends State<InventoryEditing> {
                   onPressed: () => Navigator.of(context).pop(),
                   MiniButton: false),
               SizedBox(height: 70,),
-          ]
+            ]
         ),
 
 
-    ),
+      ),
     );
   }
 }

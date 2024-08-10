@@ -18,11 +18,11 @@ class InventoryList extends StatefulWidget {
     required this.onLookDescription,
   }) : super(key: key);
   final List<String> ItemName;
-  final List<String> Description;
+  final String Description;
   final String GroupName;
   final double MainWidth;
   final List<String> entries;
-  final List<String> items;
+  final String items;
   final List<String> MainQuantity;
   final List<String> ItemQuantity;
   final bool isEditing;
