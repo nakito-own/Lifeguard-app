@@ -93,7 +93,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                     FirstName: staff.name,
                     SecondName: staff.surname,
                     Patronymic: staff.patronymic,
-                    Post1: '', //Подождать пока ручку переделают
+                    //Post1: '', //Подождать пока ручку переделают
                   ),
                   SizedBox(height: 30),
                   SmallText(some_text: 'Основная информация'),

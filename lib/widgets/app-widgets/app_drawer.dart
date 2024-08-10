@@ -52,7 +52,7 @@ class AppDrawer extends StatelessWidget {
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
-                              '${userData['rank']}',
+                              'Role',
                               overflow: TextOverflow.clip,
                               style: TextStyle(fontSize: 16, color: Colors.green),
                             ),

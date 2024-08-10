@@ -11,7 +11,6 @@ import '../widgets/profile-widgets/my_info.dart';
 import '../widgets/small_text.dart';
 import 'package:lifeguard/widgets/transparent_button.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
 
@@ -106,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     FirstName: userData['name'],
                     SecondName: userData['surname'],
                     Patronymic: userData['patronymic'],
-                    Post1: userData['rank'],
+                    //Post1: userData['rank'],
                   ),
                   SizedBox(height: 30),
                   SmallText(some_text: 'Основная информация'),
