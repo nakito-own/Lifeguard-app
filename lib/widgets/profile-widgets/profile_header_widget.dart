@@ -4,12 +4,10 @@ class ProfileHeaderWidget extends StatelessWidget {
   const ProfileHeaderWidget({Key? key,
     required this.FirstName,
     required this.SecondName,
-    required this.Patronymic,
-    required this.Post1}) : super(key: key);
+    required this.Patronymic}) : super(key: key);
   final String FirstName;
   final String SecondName;
   final String Patronymic;
-  final String Post1;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,7 @@ class ProfileHeaderWidget extends StatelessWidget {
             height: 2,
           ),
           Text (
-            Post1,
+            "Role",
             style:  TextStyle(
               fontSize: 16,
               color: Color(0xff4eab2c),
