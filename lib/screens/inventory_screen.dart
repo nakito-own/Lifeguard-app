@@ -97,6 +97,7 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
           final items = snapshot.data!;
 
           Map<String, List<Item>> groupedItems = {};
+
           for (var item in items) {
             if (groupedItems.containsKey(item.InventoryType)) {
               groupedItems[item.InventoryType]!.add(item);
@@ -124,7 +125,7 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
                 WareHouse: groupItems.map((item) => item.WareHouse).toList(),
                 items: groupItems.map((item) => item.Name).toList(),
-                MainQuantity: MainQuantity,
+                MainQuantity: groupItems.map((item) => item.Number.toString()).toList(),
                 ItemQuantity: groupItems.map((item) => item.Number.toString()).toList(),
                 Description: groupItems.map((item) => item.Description).toList(),
                 ShortName: groupItems.map((item) => item.ShortName).toList(),
