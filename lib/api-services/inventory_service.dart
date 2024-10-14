@@ -10,6 +10,11 @@ class InventoryService {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
 
+    if (token == null) {
+      throw Exception('Token is null');
+    }
+
+
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: {
@@ -19,11 +24,15 @@ class InventoryService {
     );
 
     if (response.statusCode == 200) {
+
+      print('Response body: ${response.body}');
+
       final String responseBody = utf8.decode(response.bodyBytes);
       List<dynamic> jsonResponse = json.decode(responseBody);
-      return jsonResponse.map((item) => Item.fromJson(item as Map<String, dynamic>)).toList();
+      return jsonResponse.map((item) => Item.fromJson(item)).toList();
     } else {
       throw Exception('Ошибка при загрузке пользователя');
     }
   }
 }
+

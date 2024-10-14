@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lifeguard/api-services/inventory_service.dart';
 import 'package:lifeguard/models/Item_model.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_description.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_editing.dart';
-import '../api-services/show_staff_service.dart';
 import '../utils/permissions_manager.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/inventory-widgets/inventory_list.dart';
@@ -21,25 +21,22 @@ class InventoryScreen extends StatefulWidget {
 
 class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProviderStateMixin {
   bool isEditing = false;
-  late Future<Item> futureItem;
-  List<String> MainQuantity = ['10', '20', '30'];
-  List<String> ItemQuantity = ['1', '2', '3'];
-  List<String> itemNames = ['Предмет 1', 'Предмет 2', 'Предмет 3'];
-  List<String> items = ['Противогаз ' , 'Огнетушитель', 'Палка','Палка','Палка','Палка','Палка','Палка','Палка'];
-  List<String> description = ['Это такой-то противогаз', 'Это такой-то огнетушитель', 'Это такая-то палка'];
-  List<String> entries = ['Entry1', 'Entry2', 'Entry3'];
-  List<String> groupName = ['Огонь', 'Вода', 'Воздух'];
+  late Future<List<Item>> futureItem;
+  final InventoryService inventoryService = InventoryService() ;
+
+  List<String> MainQuantity = ['122', '20', '30'];
+  List<Item> items = [];
+  List<Item> Name = [];
   late AnimationController _controller;
   late Animation<double> _animation;
-  final ShowStaffService _service = ShowStaffService();
   final PermissionsManager permissionsManager = PermissionsManager();
 
   String selectedInventory = 'Inventory 1';
-  final TextEditingController _itemController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    futureItem = inventoryService.fetchItem();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -47,13 +44,12 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
   }
 
-
   @override
   void dispose() {
+
     _controller.dispose();
     super.dispose();
   }
-
 
   void toggleEditing() {
     setState(() {
@@ -61,64 +57,34 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     });
   }
 
-
-
   void deleteItem(int index) {
     setState(() {
-      itemNames.removeAt(index);
-      items.removeAt(index);
-      entries.removeAt(index);
     });
   }
 
-  void editItem(int index) {
-    final TextEditingController _GroupNamecontroller = TextEditingController(text: groupName[index]);
-    final TextEditingController _Itemscontroller = TextEditingController(text: items[index]);
-    final TextEditingController _Descriptioncontroller = TextEditingController(text: description[index]);
-
-    showDialog(context: context,
-        builder: (BuildContext context)
-    {
-        return InventoryEditing(
-          ItemName: itemNames[index],
-          currentQuantity: groupName[index],
-          GroupNamecontroller: _GroupNamecontroller,
-          ItemNamecontroller: _Itemscontroller,
-          Descriptioncontroller: _Descriptioncontroller,
-            onPressed: (onPressed) {
-            setState(() {
-              groupName[index] = _GroupNamecontroller.text;
-              items[index] = _Itemscontroller.text;
-              description[index] = _Descriptioncontroller.text;
-            });
-        },
-        );
-    },
-    );
-  }
-
-  void lookDescription (int index) {
-    showDialog(context: context,
-      builder: (BuildContext context)
-      {
+  void lookDescription (Item item) {
+    showDialog(
+      context: context,
+      builder: (context) {
         return InventoryDescription(
-            Description: description[index],
-            ItemName: items[index],
+            Description: item.Description,
+            ItemName: item.Name,
+            WareHouse: item.WareHouse,
+            item: item,
         );
-
       },
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Оборудование'),
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
-      body: FutureBuilder<Item>(
+      body: FutureBuilder<List<Item>>(
         future: futureItem,
         builder: (context, snapshot) {
            if (snapshot.connectionState == ConnectionState.waiting) {
@@ -128,61 +94,50 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
           } else if (!snapshot.hasData || snapshot.data == null) {
           return Center(child: Text('Инвентарь не загружен'));
           } else {
-          final item = snapshot.data!;
+          final items = snapshot.data!;
+
+          Map<String, List<Item>> groupedItems = {};
+          for (var item in items) {
+            if (groupedItems.containsKey(item.InventoryType)) {
+              groupedItems[item.InventoryType]!.add(item);
+            } else {
+              groupedItems[item.InventoryType] = [item];
+            }
+          }
+
           return SingleChildScrollView (
             child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center ,
-            children: [
-              InventoryList(
+            children: [  ...groupedItems.entries.map<Widget>((entry) {
+              String inventoryType = entry.key;
+              List<Item> groupItems = entry.value;
+
+              return InventoryList(
                 isEditing: isEditing,
                 onDelete: deleteItem,
-                onEditItem: editItem,
-                onLookDescription: lookDescription,
-                GroupName: 'Огонь',
-                ItemName: itemNames,
+                onLookDescription: () {
+                  lookDescription(groupItems.first); // Передаем первый элемент группы
+                },
+                GroupName: inventoryType,
+                ItemName: groupItems.map((item) => item.Name).toList(),
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
-                entries: entries,
-                items: item.Name,
+                WareHouse: groupItems.map((item) => item.WareHouse).toList(),
+                items: groupItems.map((item) => item.Name).toList(),
                 MainQuantity: MainQuantity,
-                ItemQuantity: ItemQuantity,
-                Description: item.Description,
-              ),
-              InventoryList(
-                isEditing: isEditing,
-                onDelete: deleteItem,
-                onEditItem: editItem,
-                onLookDescription: lookDescription,
-                GroupName: 'Вода',
-                ItemName: itemNames,
-                MainWidth: MediaQuery.of(context).size.width * 0.9,
-                entries: entries,
-                items: item.Name,
-                MainQuantity: MainQuantity,
-                ItemQuantity: ItemQuantity,
-                Description: item.Description,
-              ),
-              InventoryList(
-                isEditing: isEditing,
-                onDelete: deleteItem,
-                onEditItem: editItem,
-                onLookDescription: lookDescription,
-                GroupName: 'Воздух',
-                ItemName: itemNames,
-                MainWidth: MediaQuery.of(context).size.width * 0.9,
-                entries:  entries,
-                items: item.Name,
-                MainQuantity: MainQuantity,
-                ItemQuantity: ItemQuantity,
-                Description: item.Description,
-              ),
+                ItemQuantity: groupItems.map((item) => item.Number.toString()).toList(),
+                Description: groupItems.map((item) => item.Description).toList(),
+                ShortName: groupItems.map((item) => item.ShortName).toList(),
+              );
+            }).toList(),
               SizedBox(height: 20,),
               CustomButton(
                   buttonText: 'Редактировать данные',
                   MiniButton: false,
                   onPressed: toggleEditing),
-            ],
+              ]
           )
+
       );
 
 

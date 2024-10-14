@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/widgets/app-widgets/app_drawer.dart';
+import 'package:lifeguard/widgets/staff-widgets/add_button.dart';
 import 'package:lifeguard/widgets/staff-widgets/staff_card.dart';
 import 'package:lifeguard/api-services/staff_service.dart';
 import 'package:lifeguard/widgets/search_bar.dart';
+
+import '../widgets/app-widgets/custom_button.dart';
 
 class StaffListScreen extends StatefulWidget {
 
@@ -33,7 +36,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Сотрудники'),
+        title: Text('Сотрудники')
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
       body: Column(
@@ -76,12 +79,13 @@ class _StaffListScreenState extends State<StaffListScreen> {
                 },
               ),
               ),
+                AddButton(),
               ],
             );
           }
         },
       ),
-    )
+    ),
     ]
     ),
     );
