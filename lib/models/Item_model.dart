@@ -1,18 +1,17 @@
+//import 'dart:ffi';
 
 class Item {
   final String Name;
-  final int Number;
+  final String number;
   final String InventoryType;
   final String Description;
   final String WareHouse;
-  final String ShortName;
   Item({
     required this.Description,
     required this.Name,
     required this.InventoryType,
-    required this.Number,
+    required this.number,
     required this.WareHouse,
-    required this.ShortName
   });
 
 
@@ -20,11 +19,9 @@ class Item {
     return Item(
       Name: json['name'] ?? '',
       Description: json['description'] ?? '',
-      Number: json['number'] ?? 0,
+      number: json['number'] ?? '',
       InventoryType: json['inventoryType'] ?? '',
       WareHouse: json['warehouse'] ?? '',
-      ShortName: json['short_name'] ?? '',
     );
   }
-
 }

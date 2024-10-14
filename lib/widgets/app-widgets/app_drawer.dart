@@ -135,6 +135,14 @@ class AppDrawer extends StatelessWidget {
                             Navigator.pushNamed(context, '/staff');
                           },
                         ),
+                      if (permissions.contains('permissions list'))
+                        CustomDrawerButton(
+                          icon: Icons.manage_accounts,
+                          text: 'Роли',
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/roles');
+                          },
+                        ),
                       CustomDrawerButton(
                         text: "Сменить тему",
                         icon: Icons.dark_mode,
