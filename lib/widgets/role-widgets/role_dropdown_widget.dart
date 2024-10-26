@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import '../../api-services/role_service.dart';
 import '../../models/role_model.dart';
 
@@ -12,10 +13,25 @@ class RoleDropdownWidget extends StatefulWidget {
   _RoleDropdownWidgetState createState() => _RoleDropdownWidgetState();
 }
 
-class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
+class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTickerProviderStateMixin {
   bool isExpanded = false;
   Map<String, dynamic>? roleDetails;
   bool isLoadingDetails = false;
+  late AnimationController _animationController;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+  }
 
   Future<void> _fetchRoleDetails() async {
     setState(() {
@@ -44,6 +60,12 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
 
     if (isExpanded && roleDetails == null) {
       await _fetchRoleDetails();
+    }
+
+    if (isExpanded) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
     }
   }
 
@@ -83,7 +105,7 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
               ),
             ),
             subtitle: Text(
-              'Количество назначенных: ${widget.role.ownersCount}',
+              'Количество назначенных:',
               style: TextStyle(color: Colors.white),
             ),
             trailing: Container(
@@ -99,8 +121,11 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
             ),
             onTap: _navigateToRoleDetailsScreen,
           ),
-          if (isExpanded)
-            isLoadingDetails
+          SizeTransition(
+            sizeFactor: _expandAnimation,
+            axisAlignment: 0.0,
+            child: isExpanded
+                ? isLoadingDetails
                 ? Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(child: CircularProgressIndicator()),
@@ -112,17 +137,27 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var user in roleDetails!['users'])
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        '${user['surname']} ${user['name']}',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${user['surname']} ${user['name']}',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ),
                 ],
               ),
             )
+                : SizedBox()
                 : SizedBox(),
+          ),
           IconButton(
             icon: Icon(
               isExpanded ? Icons.expand_less : Icons.expand_more,
@@ -133,6 +168,12 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }
 
@@ -146,42 +187,45 @@ class RoleDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(roleName),
-        backgroundColor: Colors.grey[850],
+        title: Text('Детали роли'),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Разрешения роли:',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 16.0),
-            for (var permission in permissions)
-              Card(
-                color: Colors.grey[800],
-                margin: EdgeInsets.symmetric(vertical: 8.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(  // Добавлен SingleChildScrollView для скролла
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 1400),  // Максимальная ширина 1400 пикселей
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  roleName,  // Название роли сверху крупным текстом
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    permission['actionName'],
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
+                SizedBox(height: 20),
+                Text(
+                  'Разрешения:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                ...permissions.map((permission) {
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[850],
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ),
-                ),
-              ),
-          ],
+                    child: Text(
+                      permission['actionName'],
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }).toList(),
+                SizedBox(height: 20),
+              ],
+            ),
+          ),
         ),
       ),
     );

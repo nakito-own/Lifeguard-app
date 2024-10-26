@@ -79,7 +79,6 @@ class _StaffListScreenState extends State<StaffListScreen> {
                 },
               ),
               ),
-                AddButton(),
               ],
             );
           }
