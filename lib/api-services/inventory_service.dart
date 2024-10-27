@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lifeguard/models/Item_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api_keys.dart';
 
 class InventoryService {
-  final String apiUrl = 'http://95.163.221.72:8000/inventory';
+  final String apiUrl = 'http://${API_URL}:${API_PORT}/inventory';
 
   Future<List<Item>> fetchItem() async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,8 +32,7 @@ class InventoryService {
       List<dynamic> jsonResponse = json.decode(responseBody);
       return jsonResponse.map((item) => Item.fromJson(item)).toList();
     } else {
-      throw Exception('Ошибка при загрузке пользователя');
+      throw Exception('Error to load user data');
     }
   }
 }
-

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api_keys.dart';
 
 class UserService {
   Future<Map<String, dynamic>?> getUserData() async {
@@ -13,7 +14,7 @@ class UserService {
       return null;
     }
 
-    final url = Uri.parse('http://95.163.221.72:8000/users/$userId');
+    final url = Uri.parse('http://${API_URL}:${API_PORT}/users/$userId');
     final headers = {
       'Content-Type': 'application/json',
       'JWT': '$token',

@@ -1,4 +1,3 @@
-
 class Item {
   final String Name;
   final int Number;
@@ -15,7 +14,6 @@ class Item {
     required this.ShortName,
   });
 
-
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
       Name: json['name'] ?? '',
@@ -26,5 +24,4 @@ class Item {
       ShortName: json['short_name'] ?? '',
     );
   }
-
 }

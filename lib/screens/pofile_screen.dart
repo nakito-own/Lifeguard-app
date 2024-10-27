@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
@@ -8,8 +7,8 @@ import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/app-widgets/error_widget.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/small_text.dart';
-import 'package:lifeguard/widgets/transparent_button.dart';
+import '../widgets/app-widgets/small_text.dart';
+import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -107,9 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     //Post1: userData['rank'],
                   ),
                   SizedBox(height: 30),
-                  SmallText(some_text: 'Основная информация', Width: MediaQuery.of(context).size.width * 0.9),
                   SizedBox(height: 10),
-                  ProfileInfoWidget(),
                   SmallText(some_text: 'Личные данные', Width: MediaQuery.of(context).size.width * 0.9,),
                   MyInfo(
                     phone: userData['phone'],

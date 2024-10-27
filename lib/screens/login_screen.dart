@@ -3,7 +3,7 @@ import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
 import 'package:lifeguard/api-services/login_service.dart';
 import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
-import 'package:lifeguard/widgets/transparent_button.dart';
+import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class LoginScreen extends StatefulWidget {

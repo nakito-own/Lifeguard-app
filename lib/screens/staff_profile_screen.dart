@@ -8,8 +8,8 @@ import '../widgets/app-widgets/custom_button.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/small_text.dart';
-import 'package:lifeguard/widgets/transparent_button.dart';
+import '../widgets/app-widgets/small_text.dart';
+import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 
 class StaffProfileScreen extends StatefulWidget {
@@ -52,14 +52,6 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
 
   void _toggleEditingWidget() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileRedactionWidget(staffId: widget.staffId, staff: widget.staff,)));
-    /*setState(() {
-      _isEditingVisible = !_isEditingVisible;
-      if (_isEditingVisible) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });*/
   }
 
   @override
@@ -100,16 +92,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                     FirstName: staff.name,
                     SecondName: staff.surname,
                     Patronymic: staff.patronymic,
-                    //Post1: '', //Подождать пока ручку переделают
                   ),
                   SizedBox(height: 30),
                   Row( children: [
-                  SmallText(some_text: 'Основная информация', Width: 200,),
-                  ],),
-                  SizedBox(height: 10),
-                  ProfileInfoWidget(),
-                  Row( children: [
-                  SmallText(some_text: 'Личные данные', Width: 200,),
+                  SmallText(some_text: 'Личные данные', Width: 400,),
                   ],),
                   MyInfo(
                     phone: staff.phone,

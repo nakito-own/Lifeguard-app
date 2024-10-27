@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api_keys.dart';
 
 class StaffService {
-  final String apiUrl = 'http://95.163.221.72:8000/users';
 
   Future<List<Staff>> fetchStaff() async {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
 
     final response = await http.get(
-      Uri.parse(apiUrl),
+      Uri.parse('http://${API_URL}:${API_PORT}/users'),
       headers: {
         'Content-Type': 'application/json',
         'JWT': '$token',
@@ -23,7 +23,7 @@ class StaffService {
       List<dynamic> jsonResponse = json.decode(responseBody);
       return jsonResponse.map((staff) => Staff.fromJson(staff as Map<String, dynamic>)).toList();
     } else {
-      throw Exception('Ошибка при загрузке пользователя');
+      throw Exception('Failed to load user data');
     }
   }
 }

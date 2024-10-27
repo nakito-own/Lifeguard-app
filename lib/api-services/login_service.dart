@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
+import 'api_keys.dart';
 
 class LoginService {
-  final String apiUrl = 'http://95.163.221.72:8000/login';
+  final String apiUrl = 'http://${API_URL}:${API_PORT}/login';
 
   Future<bool> login(String email, String password) async {
     Map<String, String> data = {
