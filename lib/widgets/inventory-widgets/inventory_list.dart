@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/widgets/small_text.dart';
+import 'package:lifeguard/widgets/app-widgets/small_text.dart';
 
 class InventoryList extends StatefulWidget {
   InventoryList({Key? key,

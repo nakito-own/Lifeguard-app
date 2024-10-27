@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import '../../api-services/role_service.dart';
 import '../../models/role_model.dart';
+import '../../screens/role_details_screen.dart';
 
 class RoleDropdownWidget extends StatefulWidget {
   final RoleModel role;
@@ -87,8 +87,12 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
+    final textColor = isDarkTheme ? Colors.white : Colors.black;
+
     return Card(
-      color: Colors.grey[850],
+      color: cardColor,
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -101,22 +105,22 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTick
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: textColor,
               ),
             ),
             subtitle: Text(
               'Количество назначенных:',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: textColor),
             ),
             trailing: Container(
               padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: isDarkTheme ? Colors.grey[800] : Colors.grey[300],
                 borderRadius: BorderRadius.circular(4.0),
               ),
               child: Text(
                 '${widget.role.ownersCount}',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColor),
               ),
             ),
             onTap: _navigateToRoleDetailsScreen,
@@ -141,14 +145,14 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTick
                       margin: const EdgeInsets.symmetric(vertical: 4.0),
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[800],
+                        color: isDarkTheme ? Colors.grey[800] : Colors.grey[300],
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${user['surname']} ${user['name']}',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: textColor, fontSize: 16),
                         ),
                       ),
                     ),
@@ -161,7 +165,7 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTick
           IconButton(
             icon: Icon(
               isExpanded ? Icons.expand_less : Icons.expand_more,
-              color: Colors.white,
+              color: textColor,
             ),
             onPressed: _toggleExpanded,
           ),
@@ -174,60 +178,5 @@ class _RoleDropdownWidgetState extends State<RoleDropdownWidget> with SingleTick
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-}
-
-class RoleDetailsScreen extends StatelessWidget {
-  final String roleName;
-  final List<Map<String, dynamic>> permissions;
-
-  RoleDetailsScreen({required this.roleName, required this.permissions});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Детали роли'),
-      ),
-      body: SingleChildScrollView(  // Добавлен SingleChildScrollView для скролла
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1400),  // Максимальная ширина 1400 пикселей
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  roleName,  // Название роли сверху крупным текстом
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Разрешения:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                ...permissions.map((permission) {
-                  return Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                    margin: const EdgeInsets.symmetric(vertical: 4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[850],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Text(
-                      permission['actionName'],
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  );
-                }).toList(),
-                SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

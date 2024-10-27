@@ -8,20 +8,25 @@ class RoleDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final backgroundColor = theme.brightness == Brightness.dark
+        ? theme.colorScheme.surface.withOpacity(0.3)
+        : theme.colorScheme.primaryContainer;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Детали роли'), // Название роли убрано из AppBar
+        title: Text('Детали роли'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1400), // Максимальная ширина 1400 пикселей
+            constraints: BoxConstraints(maxWidth: 1400),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  roleName, // Название роли сверху крупным текстом
+                  roleName,
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
@@ -32,11 +37,11 @@ class RoleDetailsScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 ...permissions.map((permission) {
                   return Container(
-                    width: double.infinity, // Растягивает контейнер по всей доступной ширине
+                    width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey[300],
+                      color: backgroundColor,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Text(
@@ -46,12 +51,6 @@ class RoleDetailsScreen extends StatelessWidget {
                   );
                 }).toList(),
                 SizedBox(height: 20),
-                Text(
-                  'Пользователи с этой ролью:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                // Здесь можно добавить информацию о пользователях
               ],
             ),
           ),

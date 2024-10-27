@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/staff_model.dart';
+import '../../models/staff_model.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final List<Staff> items;

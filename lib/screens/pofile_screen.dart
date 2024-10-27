@@ -7,8 +7,8 @@ import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/app-widgets/error_widget.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/small_text.dart';
-import 'package:lifeguard/widgets/transparent_button.dart';
+import '../widgets/app-widgets/small_text.dart';
+import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback toggleTheme;

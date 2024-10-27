@@ -5,7 +5,7 @@ import 'package:lifeguard/widgets/app-widgets/app_drawer.dart';
 import 'package:lifeguard/widgets/staff-widgets/add_button.dart';
 import 'package:lifeguard/widgets/staff-widgets/staff_card.dart';
 import 'package:lifeguard/api-services/staff_service.dart';
-import 'package:lifeguard/widgets/search_bar.dart';
+import 'package:lifeguard/widgets/app-widgets/search_bar.dart';
 
 import '../widgets/app-widgets/custom_button.dart';
 

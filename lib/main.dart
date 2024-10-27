@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lifeguard App',
+      title: 'Lifeguard - МЧС',
       theme: AppLightTheme.lightTheme.copyWith(
         textTheme: GoogleFonts.nunitoTextTheme(),
       ),

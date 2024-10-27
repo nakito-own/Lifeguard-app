@@ -49,7 +49,7 @@ class MyInfo extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(4,5,4,20),
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(8),
         color: buttonColor,
       ),
       child: Column(
