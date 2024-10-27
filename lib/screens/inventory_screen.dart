@@ -117,7 +117,7 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
               return InventoryList(
                 isEditing: isEditing,
                 onDelete: deleteItem,
-                onLookDescription: lookDescription, // Передаем метод напрямую
+                onLookDescription: lookDescription,
                 GroupName: inventoryType,
                 ItemName: groupItems.map((item) => item.Name).toList(),
                 MainWidth: MediaQuery.of(context).size.width * 0.9,
@@ -127,7 +127,7 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 ItemQuantity: groupItems.map((item) => item.Number.toString()).toList(),
                 Description: groupItems.map((item) => item.Description).toList(),
                 ShortName: groupItems.map((item) => item.ShortName).toList(),
-                ItemList: groupItems, // Передаем список объектов Item
+                ItemList: groupItems,
               );
 
             }).toList(),
