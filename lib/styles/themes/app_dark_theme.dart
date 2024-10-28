@@ -6,7 +6,7 @@ class AppDarkTheme {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: Colors.grey[980],
-    scaffoldBackgroundColor:  Colors.grey[980],
+    scaffoldBackgroundColor:  Colors.grey[950],
     appBarTheme: AppBarTheme(
       color: Colors.black,
       iconTheme: IconThemeData(color: Colors.white),

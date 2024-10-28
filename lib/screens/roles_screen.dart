@@ -3,6 +3,7 @@ import '../api-services/role_service.dart';
 import '../models/role_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/role-widgets/role_dropdown_widget.dart';
+import 'package:lifeguard/utils/permissions_manager.dart';
 
 class RolesScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -15,13 +16,23 @@ class RolesScreen extends StatefulWidget {
 
 class _RolesScreenState extends State<RolesScreen> {
   RoleService roleService = RoleService();
+  final PermissionsManager permissionsManager = PermissionsManager();
   List<RoleModel> roles = [];
+  bool hasAddRolePermission = false;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _fetchRoles();
+    _checkPermission();
+  }
+
+  Future<void> _checkPermission() async {
+    bool permission = await permissionsManager.hasPermission('role new');
+    setState(() {
+      hasAddRolePermission = permission;
+    });
   }
 
   Future<void> _fetchRoles() async {
@@ -61,6 +72,15 @@ class _RolesScreenState extends State<RolesScreen> {
           },
         ),
       ),
+      floatingActionButton: hasAddRolePermission
+          ? FloatingActionButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        onPressed: () {
+        },
+        child: Text("+", style: TextStyle(fontSize: 24)),
+      )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
