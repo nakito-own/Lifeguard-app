@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:lifeguard/widgets/app-widgets/small_text.dart';
+import '../../models/Item_model.dart';
 
 class InventoryList extends StatefulWidget {
-  InventoryList({Key? key,
-  required this.ShortName,
-  required this.ItemName,
-  required this.Description,
-  required this.GroupName,
-  required this.MainWidth,
-  required this.items,
-  required this.WareHouse,
-  required this.isEditing,
-  required this.onDelete,
-  required this.MainQuantity,
-  required this.ItemQuantity,
-  required this.onLookDescription,
+  InventoryList({
+    Key? key,
+    required this.ShortName,
+    required this.ItemName,
+    required this.Description,
+    required this.GroupName,
+    required this.MainWidth,
+    required this.items,
+    required this.WareHouse,
+    required this.isEditing,
+    required this.onDelete,
+    required this.MainQuantity,
+    required this.ItemQuantity,
+    required this.onLookDescription,
+    required this.ItemList,
   }) : super(key: key);
+
   final List<String> ItemName;
   final List<String> Description;
+  final List<Item> ItemList;
   final String GroupName;
   final double MainWidth;
   final List<String> WareHouse;
@@ -27,164 +31,187 @@ class InventoryList extends StatefulWidget {
   final List<String> ItemQuantity;
   final bool isEditing;
   final Function(int) onDelete;
-  final VoidCallback onLookDescription;
-
+  final Function(Item) onLookDescription;
 
   @override
   _InventoryListState createState() => _InventoryListState();
+}
+
+class _InventoryListState extends State<InventoryList> with SingleTickerProviderStateMixin {
+  bool _isExpanded = false;
+  late AnimationController _animationController;
+
+  Map<String, List<Map<String, dynamic>>> _groupItems() {
+    final Map<String, List<Map<String, dynamic>>> groupedItems = {};
+
+    for (int i = 0; i < widget.ShortName.length; i++) {
+      final shortName = widget.ShortName[i];
+      if (!groupedItems.containsKey(shortName)) {
+        groupedItems[shortName] = [];
+      }
+      groupedItems[shortName]!.add({
+        'itemName': widget.ItemName[i],
+        'description': widget.Description[i],
+        'mainQuantity': widget.MainQuantity[i],
+        'itemQuantity': widget.ItemQuantity[i],
+        'item': widget.ItemList[i],
+      });
+    }
+
+    return groupedItems;
   }
 
-  class _InventoryListState extends State<InventoryList> with SingleTickerProviderStateMixin {
-  bool _isExpanded = false;
-  final TextEditingController controller = TextEditingController();
-
-
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+  }
 
   void _toggleList() {
     setState(() {
       _isExpanded = !_isExpanded;
     });
+    if (_isExpanded) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
-    final border_Color = isDarkTheme ? Color(0xff383434) : Color(0xffc8cccc);
-    final text_Color = isDarkTheme ? Colors.white : Colors.black;
-    final container_Color = isDarkTheme ? Color(0xff3a3636) : Color(0xffc6c7c7);
+    final cardColor = isDarkTheme ? Color.fromRGBO(56, 52, 52, 1) : Color(0xffd3d6d6);
+    final textColor = isDarkTheme ? Colors.white : Colors.black;
+    final backNumberColor = isDarkTheme ? Colors.white10 : Color.fromRGBO(176, 172, 172, 1);
+    final containerColor = isDarkTheme ? Color.fromRGBO(71, 67, 67, 1) : Color(0xffc6c7c7);
 
-    return Column(
-      children:  [
-        AnimatedContainer(
-          duration: Duration(milliseconds: 450),
-          height: _isExpanded ? 20 : 0,
-          margin: EdgeInsets.fromLTRB( MediaQuery.of(context).size.width * 0.04, 0, MediaQuery.of(context).size.width * 0.04, 10),
-          child: Row (
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              SmallText(some_text: _isExpanded ? '${widget.GroupName}' : '', Width: 190),
-              SmallText(some_text: _isExpanded ? 'Кол-во' : '', Width: 70),
-            ],
-          ),
-        ),
+    final groupedItems = _groupItems();
 
-        AnimatedContainer(
-        duration: Duration(milliseconds: 400),
-        width: widget.MainWidth,
-        height: _isExpanded ? MediaQuery.of(context).size.height * 0.55 : MediaQuery.of(context).size.height * 0.0652,
-        margin: EdgeInsets.fromLTRB(4,0,4,20),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: buttonColor,
-          border: Border.all(
-              color: border_Color,
-              width: 2
-          ),
-        ),
-          child: Column (
-            children: [
-             Expanded (
-            child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-            AnimatedContainer(
-              padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
-            duration: Duration(milliseconds: 500),
-              height: _isExpanded ? widget.WareHouse.length * 180 : 0.0,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(0,0,10,0),
-              itemCount: widget.WareHouse.length,
-              itemBuilder: (context, index) => ExpansionTile(
-                   trailing:widget.isEditing
-                       ? Row(
-                     mainAxisSize: MainAxisSize.min,
-                     crossAxisAlignment: CrossAxisAlignment.end,
-                     children: [
-                        IconButton(
-                           color: Colors.green,
-                           alignment: Alignment.bottomLeft,
-                           icon: Icon(Icons.edit),
-                           onPressed: () {},
-                         ),
-                         IconButton(
-                           color: Colors.red,
-                           alignment: Alignment.centerLeft,
-                           icon: Icon(Icons.delete_forever),
-                           onPressed: () => widget.onDelete(index),
-                         ),
-                     ],
-                   )
-                       : Text (' ${widget.MainQuantity[index]}', style: TextStyle(fontSize: 16, ),),
-                   title:
-                 Text( widget.ShortName[index] ,),
-                 children: [
-                   ExpansionTile(
-                     trailing:
-                        Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(onPressed: () => widget.onLookDescription(), icon: Icon(Icons.sd_card)),
-                          Text(' ${widget.ItemQuantity[index]}', style: TextStyle(fontSize: 16, ),) ,
-                          ]
-                        ),
-                     title:
-                     Text(
-                       '${widget.ItemName[index]}',
-                       textAlign: TextAlign.center,
-                         style: TextStyle(color: text_Color, fontSize: 16,),
-                     ),
-                     children:[
-
-                    ],
-                   ),
-                  ],
-                  ),
-                ),
+    return Card(
+      color: cardColor,
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(
+              widget.GroupName,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
+            ),
+            trailing: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                color: backNumberColor,
+                borderRadius: BorderRadius.circular(4.0),
               ),
-
-              ]
+              child: Text(
+                '${widget.WareHouse.length}',
+                style: TextStyle(color: textColor, fontSize: 14),
+              ),
             ),
-       ),
-      ),
+            onTap: _toggleList,
+          ),
+          SizeTransition(
+            sizeFactor: _animationController,
+            axisAlignment: 0.0,
+            child: _isExpanded
+                ? Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.45,
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: groupedItems.keys.length,
+                itemBuilder: (context, index) {
+                  final shortName = groupedItems.keys.elementAt(index);
+                  final items = groupedItems[shortName]!;
 
-          /// Это код для закруглённой только снизу полоски
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    shadowColor: Colors.transparent,
+                    color: containerColor,
+                    child: ExpansionTile(
+                      dense: true,
+                      collapsedIconColor: Colors.transparent,
+                      iconColor: Colors.transparent,
+                      title:
+                      Text(
+                        shortName,
+                        style: TextStyle(color: textColor, fontSize: 16),
+                      ),
+                      children: items.map((item) {
+                        return ListTile(
+                          title: Text(
+                            item['itemName']!,
+                            style: TextStyle(color: textColor),
+                          ),
+                          trailing: widget.isEditing
+                              ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                color: Colors.green,
+                                icon: Icon(Icons.edit),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                color: Colors.red,
+                                icon: Icon(Icons.delete_forever),
+                                onPressed: () => widget.onDelete(items.indexOf(item)),
+                              ),
+                            ],
+                          )
+                              : IconButton(
+                            padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                            icon: Icon(Icons.description_outlined),
+                            color: textColor,
+                            onPressed: () {
+                              widget.onLookDescription(item['item']);
+                            },
+                          ),
+                        );
+                      }).toList(),
+
+                    ),
+                  );
+                },
+              ),
+            )
+                : SizedBox(),
+          ),
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            height: MediaQuery.of(context).size.height * 0.06,
+            duration: Duration(milliseconds: 250),
+            height: 45,
             width: widget.MainWidth,
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: EdgeInsets.zero,
             decoration: BoxDecoration(
-              color: container_Color,
-              borderRadius: _isExpanded ? BorderRadius.vertical(top: Radius.zero, bottom: Radius.circular(5))
-                  : BorderRadius.circular(5),
+              color: cardColor,
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text( _isExpanded ? '' : '${widget.GroupName}' ),
-              IconButton(
-              iconSize: MediaQuery.of(context).size.height * 0.0396,
-              alignment: Alignment.topCenter,
-              icon: _isExpanded ? Icon(Icons.keyboard_arrow_up) : Icon(Icons.keyboard_arrow_down),
-              onPressed: () { _toggleList(); }
-             ),
-
-              ]
-        ),
-        ),
+            child: IconButton(
+              icon: Icon(
+                _isExpanded ? Icons.keyboard_arrow_up: Icons.keyboard_arrow_down,
+                size: 30,
+                color: textColor,
+              ),
+              onPressed: _toggleList,
+            ),
+          ),
         ],
-        ),
       ),
-    ]
     );
   }
-}
 
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+}

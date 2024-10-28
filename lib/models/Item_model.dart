@@ -11,7 +11,7 @@ class Item {
     required this.InventoryType,
     required this.Number,
     required this.WareHouse,
-    required this.ShortName
+    required this.ShortName,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
