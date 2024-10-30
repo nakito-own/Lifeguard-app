@@ -61,6 +61,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
                 filteredItems = staff;
                 return Column(
                   children: [
+                    SizedBox(height: 3),
                     CustomSearchBar(
                       items: staff,
                       onSearch: (results) {
@@ -74,7 +75,6 @@ class _StaffListScreenState extends State<StaffListScreen> {
                         });
                       }, isDarkTheme: Theme.of(context).brightness == Brightness.dark,
                     ),
-                    SizedBox(height: 10),
                     Expanded(
                       child: ListView.builder(
                         itemCount: selectedItem != null ? 1 : staff.length,

@@ -44,11 +44,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       builder: (context, constraints) {
         return Container(
           width: constraints.maxWidth < 1400 ? constraints.maxWidth : 1400,
-          padding: EdgeInsets.fromLTRB(5, 0, 15, 0),
-          margin: EdgeInsets.all(8),
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.all(12),
           height: 45,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(30)),
             color: containerColor,
           ),
           child: TextField(

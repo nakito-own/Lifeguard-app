@@ -15,7 +15,6 @@ class InventoryService {
       throw Exception('Token is null');
     }
 
-
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: {

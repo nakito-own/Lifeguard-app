@@ -65,19 +65,6 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget>
    Navigator.pop(context);
   }
 
-  /*void _toggleEditPerson() {
-    setState(() {
-      _isEditingVisible = !_isEditingVisible;
-      if (_isEditingVisible) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
-  }*/
-
-
-
   void _EditPerson() {
     setState(() {
       widget.staff = widget.staff.copyWith(

@@ -4,6 +4,8 @@ import 'package:lifeguard/widgets/app-widgets/custom_exit_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/models/user_model.dart';
 
+import '../../api-services/image_service.dart';
+
 class AppDrawer extends StatelessWidget {
   final VoidCallback toggleTheme;
   final PermissionsManager permissionsManager = PermissionsManager();
@@ -35,10 +37,19 @@ class AppDrawer extends StatelessWidget {
                 return DrawerHeader(
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            'https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200'),
+                      FutureBuilder<Image>(
+                        future: userData['image'] != null && userData['image'].isNotEmpty
+                            ? ImageService().fetchImage('user', userData['image'])
+                            : Future.error('No image available'),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircleAvatar(radius: 40, child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return CircleAvatar(radius: 40, child: Icon(Icons.account_circle, size: 70));
+                          } else {
+                            return CircleAvatar(radius: 40, backgroundImage: snapshot.data?.image);
+                          }
+                        },
                       ),
                       SizedBox(width: 15),
                       Flexible(
