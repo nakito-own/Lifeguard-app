@@ -169,7 +169,7 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
                             ],
                           )
                               : IconButton(
-                            padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+
                             icon: Icon(Icons.description_outlined),
                             color: textColor,
                             onPressed: () {

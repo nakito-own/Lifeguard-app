@@ -62,19 +62,23 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     });
   }
 
-  void lookDescription (Item item) {
-    showDialog(
+  void lookDescription(Item item) {
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      enableDrag: true,
       builder: (context) {
         return InventoryDescription(
-            Description: item.Description,
-            ItemName: item.Name,
-            WareHouse: item.WareHouse,
-            item: item,
+          Description: item.Description,
+          ItemName: item.Name,
+          WareHouse: item.WareHouse,
+          item: item,
         );
       },
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +101,6 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
           final items = snapshot.data!;
 
           Map<String, List<Item>> groupedItems = {};
-
           for (var item in items) {
             if (groupedItems.containsKey(item.InventoryType)) {
               groupedItems[item.InventoryType]!.add(item);

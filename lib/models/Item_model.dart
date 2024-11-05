@@ -5,6 +5,7 @@ class Item {
   final String Description;
   final String WareHouse;
   final String ShortName;
+  final int id;
   Item({
     required this.Description,
     required this.Name,
@@ -12,6 +13,7 @@ class Item {
     required this.Number,
     required this.WareHouse,
     required this.ShortName,
+    required this.id,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class Item {
       InventoryType: json['inventoryType'] ?? '',
       WareHouse: json['warehouse'] ?? '',
       ShortName: json['short_name'] ?? '',
+      id: json['id'] ?? 0,
     );
   }
 }
