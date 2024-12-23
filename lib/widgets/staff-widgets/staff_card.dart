@@ -11,11 +11,11 @@ class StaffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
+    final cardColor = isDarkTheme ? Colors.white10 : Colors.grey[200];
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6),
+        padding: EdgeInsets.symmetric(horizontal: 4),
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 1400),
           child: GestureDetector(

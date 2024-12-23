@@ -50,7 +50,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
               ),
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
                   color: Color(0xff7e7e7e),
                   width: 2,

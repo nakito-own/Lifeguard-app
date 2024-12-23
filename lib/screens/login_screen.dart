@@ -5,9 +5,9 @@ import 'package:lifeguard/api-services/login_service.dart';
 import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import '../styles/themes/theme_service.dart';
 
 class LoginScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
   LoginScreen({required this.toggleTheme});
 
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (BuildContext context) {
         return ErrorAlertDialog(
           errorMessage: errorMessage,
-          toggleTheme: widget.toggleTheme,
+          //toggleTheme: widget.toggleTheme,
         );
       },
     );
@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeService = Provider.of<ThemeService>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Column(

@@ -17,64 +17,71 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          FutureBuilder<Map<String, dynamic>?>(
-            future: User().getUserData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return DrawerHeader(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              } else if (snapshot.hasError) {
-                return DrawerHeader(
-                  child: Center(child: Text('Error: ${snapshot.error}')),
-                );
-              } else if (!snapshot.hasData || snapshot.data == null) {
-                return DrawerHeader(
-                  child: Center(child: Text('No user data found')),
-                );
-              } else {
-                final userData = snapshot.data!;
-                return DrawerHeader(
-                  child: Row(
-                    children: [
-                      FutureBuilder<Image>(
-                        future: userData['image'] != null && userData['image'].isNotEmpty
-                            ? ImageService().fetchImage('user', userData['image'])
-                            : Future.error('No image available'),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircleAvatar(radius: 40, child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return CircleAvatar(radius: 40, child: Icon(Icons.account_circle, size: 70));
-                          } else {
-                            return CircleAvatar(radius: 40, backgroundImage: snapshot.data?.image);
-                          }
-                        },
-                      ),
-                      SizedBox(width: 15),
-                      Flexible(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${userData['surname']} ${userData['name']} ${userData['patronymic']}',
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            Text(
-                              'Role',
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(fontSize: 16, color: Colors.green),
-                            ),
-                          ],
+          Padding(
+            padding: const EdgeInsets.only(top: 42),
+            child: FutureBuilder<Map<String, dynamic>?>(
+              future: User().getUserData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (snapshot.hasError) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(child: Text('Error: ${snapshot.error}')),
+                  );
+                } else if (!snapshot.hasData || snapshot.data == null) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(child: Text('No user data found')),
+                  );
+                } else {
+                  final userData = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        FutureBuilder<Image>(
+                          future: userData['image'] != null && userData['image'].isNotEmpty
+                              ? ImageService().fetchImage('user', userData['image'])
+                              : Future.error('No image available'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircleAvatar(radius: 40, child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return CircleAvatar(radius: 40, child: Icon(Icons.account_circle, size: 70));
+                            } else {
+                              return CircleAvatar(radius: 40, backgroundImage: snapshot.data?.image);
+                            }
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
+                        SizedBox(width: 15),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${userData['surname']} ${userData['name']} ${userData['patronymic']}',
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                'Role',
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(fontSize: 16, color: Colors.green),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
           Expanded(
             child: FutureBuilder<List<String>?>(
@@ -98,14 +105,13 @@ class AppDrawer extends StatelessWidget {
                           Navigator.pushNamed(context, '/profile');
                         },
                       ),
-                      //if (permissions.contains('events list'))
-                        CustomDrawerButton(
-                          icon: Icons.calendar_month,
-                          text: "Мероприятия",
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/events');
-                          },
-                        ),
+                      CustomDrawerButton(
+                        icon: Icons.calendar_month,
+                        text: "Мероприятия",
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/events');
+                        },
+                      ),
                       if (permissions.contains('crew list'))
                         CustomDrawerButton(
                           icon: Icons.flag_rounded,

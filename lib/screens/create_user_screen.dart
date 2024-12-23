@@ -103,7 +103,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
+    final cardColor = isDarkTheme ? Colors.white10 : Colors.grey[200];
 
     return Scaffold(
       appBar: AppBar(
@@ -124,6 +124,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: cardColor,
+                    //boxShadow: [BoxShadow(color: Colors.black87, spreadRadius: 1, blurRadius: 5)]
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(10),

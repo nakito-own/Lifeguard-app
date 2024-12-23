@@ -38,32 +38,36 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     final textColor = widget.isDarkTheme ? Colors.white : Colors.black;
-    final containerColor = widget.isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
+    final containerColor = widget.isDarkTheme ? Colors.white10 : Colors.grey[200];
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          width: constraints.maxWidth < 1400 ? constraints.maxWidth : 1400,
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 1400),
+        child: Container(
           padding: EdgeInsets.all(8),
-          margin: EdgeInsets.all(12),
+          margin: EdgeInsets.all(8),
           height: 45,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(30)),
             color: containerColor,
           ),
-          child: TextField(
-            onChanged: _onSearchChanged,
-            style: TextStyle(color: textColor),
-            decoration: InputDecoration(
-              hintText: 'Поиск',
-              hintStyle: TextStyle(color: Colors.grey[700]),
-              prefixIcon: Icon(Icons.search, color: Colors.grey[800]),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: 12),
+          child: Center(
+            child: TextField(
+              onChanged: _onSearchChanged,
+              style: TextStyle(color: textColor, height: 1.0),
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                hintText: 'Поиск',
+                hintStyle: TextStyle(color: Colors.grey[700]),
+                prefixIcon: Icon(Icons.search, color: Colors.grey[800]),
+                border: InputBorder.none,
+                //contentPadding: EdgeInsets.symmetric(vertical: 12),
+              ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
