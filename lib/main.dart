@@ -7,6 +7,7 @@ import 'package:lifeguard/screens/login_screen.dart';
 import 'package:lifeguard/screens/manuals_screen.dart';
 import 'package:lifeguard/screens/pofile_screen.dart';
 import 'package:lifeguard/screens/roles_screen.dart';
+import 'package:lifeguard/screens/settings_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:lifeguard/screens/staff_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,6 +87,7 @@ class _MyAppState extends State<MyApp> {
         '/calls': (context) => CallsScreen(toggleTheme: _toggleTheme),
         '/staff': (context) => StaffListScreen(toggleTheme: _toggleTheme),
         '/roles': (context) => RolesScreen(toggleTheme: _toggleTheme),
+        '/settings': (context) => SettingsScreen(toggleTheme: _toggleTheme, isDarkTheme: true,),
       },
     );
   }

@@ -10,7 +10,9 @@ class AppDarkTheme {
     primaryColorLight: Colors.grey[900],
     scaffoldBackgroundColor:  Colors.grey[950],
     appBarTheme: AppBarTheme(
-      color: Colors.black,
+      elevation: 6,
+      shadowColor: Colors.black,
+      color: Colors.grey[950],
       iconTheme: IconThemeData(color: Colors.white),
     ),
     textTheme: TextTheme(
