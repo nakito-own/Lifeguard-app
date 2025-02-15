@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppLightTheme {
   static final ThemeData lightTheme = ThemeData(
+    //colorScheme: ColorScheme.light(),
     brightness: Brightness.light,
     primaryColor: Colors.black,
     scaffoldBackgroundColor: Colors.white,
@@ -17,7 +18,7 @@ class AppLightTheme {
     ),
     iconTheme: IconThemeData(color: Colors.black),
     buttonTheme: ButtonThemeData(
-      buttonColor: Colors.grey,
+      buttonColor: Colors.blue,
       textTheme: ButtonTextTheme.primary,
     ),
   );

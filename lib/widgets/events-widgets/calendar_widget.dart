@@ -33,22 +33,24 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
-              blurRadius: 10.0,
+              blurRadius: 12.0,
               spreadRadius: 2.0,
               offset: Offset(2.0, 2.0),
             ),
           ],
         ),
         child: TableCalendar(
+          startingDayOfWeek: StartingDayOfWeek.monday,
           locale: 'ru_RU',
           firstDay: DateTime.utc(2020, 1, 1),
           lastDay: DateTime.utc(2030, 12, 31),
           focusedDay: _focusedDay,
-          calendarFormat: _calendarFormat,
+          calendarFormat: CalendarFormat.month,
+          availableCalendarFormats: {CalendarFormat.month: 'month'},
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
           },
@@ -74,8 +76,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 margin: const EdgeInsets.all(4.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
                   color: Colors.blue,
-                  shape: BoxShape.circle,
+                  shape: BoxShape.rectangle,
                 ),
                 child: Text(
                   '${date.day}',
@@ -85,11 +88,12 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             },
             selectedBuilder: (context, date, _) {
               return Container(
-                margin: const EdgeInsets.all(4.0),
+                margin: const EdgeInsets.all(6.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Colors.orange,
-                  shape: BoxShape.circle,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(12)
                 ),
                 child: Text(
                   '${date.day}',

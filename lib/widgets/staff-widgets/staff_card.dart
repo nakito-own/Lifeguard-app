@@ -14,7 +14,7 @@ class StaffCard extends StatelessWidget {
 
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 1400),
+        constraints: BoxConstraints(maxWidth: 1200),
         child: GestureDetector(
           onTap: () {
             Navigator.push(
@@ -30,7 +30,7 @@ class StaffCard extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.all(8),
             color: cardColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(4),
               child: ListTile(

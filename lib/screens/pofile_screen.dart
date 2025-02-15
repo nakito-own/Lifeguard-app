@@ -19,11 +19,8 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin  {
+class _ProfileScreenState extends State<ProfileScreen> {
   late Future<Map<String, dynamic>?> _userDataFuture;
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  bool _isEditingVisible = false;
   final TextEditingController phone = TextEditingController();
   final TextEditingController vk = TextEditingController();
   final TextEditingController tg = TextEditingController();
@@ -33,22 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void initState() {
     super.initState();
     _userDataFuture = User().getUserData();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-  }
-
-  void _toggleEditingWidget() {
-    setState(() {
-      _isEditingVisible = !_isEditingVisible;
-      if (_isEditingVisible) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
   }
 
   void _showErrorDialog(String errorMessage) {
@@ -62,52 +43,99 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       },
     );
   }
-  
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+
+  void _showEditBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextField('Телефон', phone, Icons.phone),
+                SizedBox(height: 15),
+                _buildTextField('VK', vk, Icons.link),
+                SizedBox(height: 15),
+                _buildTextField('TG', tg, Icons.telegram),
+                SizedBox(height: 15),
+                _buildTextField('Почта', mail, Icons.email),
+                SizedBox(height: 25),
+                CustomButton(
+                  buttonText: 'Сохранить',
+                  MiniButton: true,
+                  onPressed: () {
+                    print('${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
+                    _showErrorDialog('Данные отправлены');
+                    Navigator.pop(context);
+                    phone.clear();
+                    vk.clear();
+                    tg.clear();
+                    mail.clear();
+                  },
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  bool isObscured = true;
+  Widget _buildTextField(String label, TextEditingController controller, IconData icon) {
+    return CustomTextField(
+      text: '',
+      lines: 1,
+      labelText: label,
+      widthSize: double.infinity,
+      heightSize: 42,
+      icon: Icon(icon),
+      controller: controller,
+      isObscured: false,
+      togglePass: () {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Профиль'),
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
-      body: FutureBuilder<Map<String, dynamic>?>(
+      body: FutureBuilder<Map<String, dynamic>?> (
         future: _userDataFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Ошибка: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: Text('Информация о пользователе не найдена'));
-          } else {
-            final userData = snapshot.data!;
-            return SingleChildScrollView(
+          }
+          final userData = snapshot.data!;
+          String avatarUrl = userData['image'] ?? 'https://sun9-17.userapi.com/impg/vOCQnt-ATxgxefcbg13i_IJwJFHzRernvofugA/8WtmlhH7RTU.jpg?size=836x1080&quality=95&sign=ca5896951e568bcdb8c65730d03a5ee5&type=album';
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(12),
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 45),
                   CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage('https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200')
+                    radius: 60,
+                    backgroundImage: NetworkImage(avatarUrl),
                   ),
                   ProfileHeaderWidget(
                     FirstName: userData['name'],
                     SecondName: userData['surname'],
                     Patronymic: userData['patronymic'],
-                    //Post1: userData['rank'],
                   ),
                   SizedBox(height: 30),
-                  SizedBox(height: 10),
-                  SmallText(some_text: 'Личные данные', Width: MediaQuery.of(context).size.width * 0.9,),
                   MyInfo(
                     phone: userData['phone'],
                     VK_Link: userData['vk'],
@@ -115,109 +143,38 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     Mail_Link: userData['email'],
                   ),
                   SizedBox(height: 10),
-                  ResponsiveBuilder(
-                     builder: (context, sizingInformation) {
-                       double width;
-                       if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-                         width = MediaQuery.of(context).size.width * 0.85;
-                       } else if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-                         width = MediaQuery.of(context).size.width * 0.65;
-                       } else {
-                         width = MediaQuery.of(context).size.width * 0.5;
-                       }
-                       return SlideTransition(
-                           position: Tween<Offset>(
-                             begin: Offset(0, 1),
-                             end: Offset(0, 0),
-                           ).animate(_controller),
-                           child: _isEditingVisible ? Container(
-                            child: Column(
-                               mainAxisSize: MainAxisSize.min,
-                               children: [
-                                 SizedBox(height: 20,),
-                                 CustomTextField(
-                                     text: '+7 999 999 99 99',
-                                     lines: 1,
-                                     labelText: 'Телефон',
-                                     widthSize: width,
-                                     heightSize: 42,
-                                     icon: Icon(Icons.ac_unit),
-                                     controller: phone,
-                                     isObscured: isObscured,
-
-                                     togglePass: () {
-                                       setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
-                                 CustomTextField(
-                                     text: 'https://vk.com/',
-                                     lines: 1,
-                                     labelText: 'VK',
-                                     widthSize: width,
-                                     heightSize: 42,
-                                     icon: Icon(Icons.ac_unit),
-                                     controller: vk,
-                                     isObscured: isObscured,
-                                     togglePass: () {
-                                       setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
-                                 CustomTextField(
-                                     text: 'https://t.me/',
-                                     lines: 1,
-                                     labelText: 'TG',
-                                     widthSize: width,
-                                     heightSize: 42,
-                                     icon: Icon(Icons.ac_unit),
-                                     controller: tg,
-                                     isObscured: isObscured,
-                                     togglePass: () {
-                                       setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
-                                 CustomTextField(
-                                     text: 'https://mail.ru/',
-                                     lines: 1,
-                                     labelText: 'Почта',
-                                     widthSize: width,
-                                     heightSize: 42,
-                                     icon: Icon(Icons.ac_unit),
-                                     controller: mail,
-                                     isObscured: isObscured,
-                                     togglePass: () {
-                                       setState(() { isObscured = isObscured; });
-                                     }),
-                                 SizedBox(height: 25),
-                                 CustomButton(
-                                   buttonText: 'Сохранить',
-                                   MiniButton: true,
-                                   onPressed: () {
-                                     print('${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
-                                     _showErrorDialog('Данные отправлены');
-                                     _toggleEditingWidget();
-                                     phone.clear();
-                                     vk.clear();
-                                     tg.clear();
-                                     mail.clear();
-                                   },
-                                 ),
-                                 SizedBox(height: 10),
-                               ],
-                           ),
-                           ) : SizedBox.shrink()
-                       );
-                     }
-                     ),
-                  SizedBox(height: 10),
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 1190
+                    ),
+                    width: double.infinity,
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('Личное дело', style: TextStyle(fontSize: 18)),
+                        Spacer(),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.link))
+                      ],
+                    ),
+                  ),
                   TransparentButton(
                     text: 'Редактировать личные данные',
-                    onPressed: _toggleEditingWidget,
+                    onPressed: () => _showEditBottomSheet(context),
                   ),
                   SizedBox(height: 10),
                 ],
               ),
-            );
-          }
+            ),
+          );
         },
       ),
     );
   }
 }
-
