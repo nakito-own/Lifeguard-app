@@ -29,7 +29,7 @@ class CustomButton extends StatelessWidget {
           maximumSize: buttonSize,
           backgroundColor: buttonColor,
           shadowColor: shadowColor,
-          elevation: 2,
+          elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

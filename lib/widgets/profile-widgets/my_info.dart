@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lifeguard/widgets/app-widgets/small_text.dart';
 import "package:url_launcher/url_launcher.dart";
 
 class MyInfo extends StatelessWidget {
@@ -44,67 +45,77 @@ class MyInfo extends StatelessWidget {
     final text_Color = isDarkTheme ? Colors.white : Colors.black;
 
     return Container(
-      height: 175,
-      width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.fromLTRB(4,5,4,20),
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: buttonColor,
+      constraints: BoxConstraints(
+        maxWidth: 1200
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:  [
-          RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Телефон:  ',
-                style: GoogleFonts.nunito(fontSize: 19, height: 1.5, color: text_Color),
-              ),
-              TextSpan(
-                text:phone,
-                style: GoogleFonts.nunito(fontSize: 18, color: text_Color),
-              ),
-              TextSpan(
-                text: '\n VK:  ',
-                style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
-              ),
-              TextSpan(
-                text: VK_Link,
-                style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
-                  decoration: TextDecoration.underline,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap =LinkToVK,
-              ),
-              TextSpan(
-                text: '\n TG:  ',
-                style: GoogleFonts.nunito(fontSize: 19, height: 2,color: text_Color),
-              ),
-              TextSpan(
-                text: TG_Link,
-                style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
-                  decoration: TextDecoration.underline,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap =LinkToTG,
-              ),
-              TextSpan(
-                text: '\n Почта:  ',
-                style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
-              ),
-              TextSpan(
-                  text: Mail_Link,
-                  style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
-                    decoration: TextDecoration.underline,
-                  ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = LinkToMail,
-              ),
-            ]
-    ),
-      ),
+        children: [
+          SmallText(some_text: 'Личные данные', Width: double.infinity),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Theme.of(context).primaryColorLight,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:  [
+                RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Телефон:  ',
+                      style: GoogleFonts.nunito(fontSize: 19, height: 1.5, color: text_Color),
+                    ),
+                    TextSpan(
+                      text:phone,
+                      style: GoogleFonts.nunito(fontSize: 18, color: text_Color),
+                    ),
+                    TextSpan(
+                      text: '\nVK:  ',
+                      style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
+                    ),
+                    TextSpan(
+                      text: VK_Link,
+                      style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =LinkToVK,
+                    ),
+                    TextSpan(
+                      text: '\nTG:  ',
+                      style: GoogleFonts.nunito(fontSize: 19, height: 2,color: text_Color),
+                    ),
+                    TextSpan(
+                      text: TG_Link,
+                      style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =LinkToTG,
+                    ),
+                    TextSpan(
+                      text: '\nПочта:  ',
+                      style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
+                    ),
+                    TextSpan(
+                        text: Mail_Link,
+                        style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = LinkToMail,
+                    ),
+                  ]
+          ),
+            ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -167,6 +167,13 @@ class AppDrawer extends StatelessWidget {
                           toggleTheme();
                         },
                       ),
+                      CustomDrawerButton(
+                        text: "Настройки",
+                        icon: Icons.settings,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/settings');
+                        },
+                      ),
                     ],
                   );
                 }
