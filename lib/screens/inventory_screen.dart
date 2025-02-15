@@ -110,13 +110,11 @@ class _InventoryScreenState extends State<InventoryScreen>
                     ...groupedItems.entries.map<Widget>((entry) {
                       String inventoryType = entry.key;
                       List<Item> groupItems = entry.value;
+
                       return InventoryList(
                         isEditing: isEditing,
                         onDelete: deleteItem,
-                        onLookDescription: () {
-                          lookDescription(groupItems
-                              .first); // Передаем первый элемент группы
-                        },
+                        onLookDescription: lookDescription,
                         GroupName: inventoryType,
                         ItemName: groupItems.map((item) => item.Name).toList(),
                         MainWidth: MediaQuery.of(context).size.width * 0.9,
@@ -133,6 +131,7 @@ class _InventoryScreenState extends State<InventoryScreen>
                             groupItems.map((item) => item.Description).toList(),
                         ShortName:
                             groupItems.map((item) => item.ShortName).toList(),
+                        ItemList: groupItems,
                       );
                     }).toList(),
                     SizedBox(

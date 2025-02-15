@@ -16,6 +16,8 @@ dependencies:
   responsive_builder: ^0.7.1
   google_fonts: ^6.2.1
   table_calendar: ^3.1.2
+  image_picker: ^0.8.4+3
+  file_picker: ^5.2.7
   intl: ^0.19.0
   flutter_localizations:
     sdk: flutter

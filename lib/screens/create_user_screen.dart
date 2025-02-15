@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lifeguard/widgets/app-widgets/avatar_picker.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
+import '../widgets/staff-widgets/role_dropdown_widget.dart';
 
 class CreateUserScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -13,7 +16,9 @@ class CreateUserScreen extends StatefulWidget {
 
 class _CreateUserScreenState extends State<CreateUserScreen> {
   final TextEditingController _applyController = TextEditingController();
+  final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _nickController = TextEditingController();
   final TextEditingController _patronymicController = TextEditingController();
@@ -32,20 +37,37 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     );
     if (picked != null) {
       setState(() {
-        _applyController.text = "${picked.toLocal()}".split(' ')[0];
+        _applyController.text = _dateFormat.format(picked);
       });
     }
   }
 
   Widget _buildCustomTextField(String label, TextEditingController controller, {bool isDate = false}) {
-    return CustomTextField(
+    return isDate
+        ? GestureDetector(
+      onTap: () => _selectDate(context),
+      child: AbsorbPointer(
+        child: CustomTextField(
+          text: '',
+          controller: controller,
+          labelText: label,
+          widthSize: double.infinity,
+          heightSize: 70,
+          icon: Icons.calendar_today,
+          togglePass: () {},
+          isObscured: false,
+          lines: 1,
+        ),
+      ),
+    )
+        : CustomTextField(
       text: '',
       controller: controller,
       labelText: label,
       widthSize: double.infinity,
       heightSize: 70,
-      icon: isDate ? Icons.calendar_today : Icons.text_fields,
-      togglePass: isDate ? () => _selectDate(context) : () {},
+      icon: Icons.text_fields,
+      togglePass: () {},
       isObscured: false,
       lines: 1,
     );
@@ -80,29 +102,94 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDarkTheme ? Colors.white10 : Colors.grey[200];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Новый сотрудник'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: ListView(
-          children: [
-            _buildCustomTextField('Дата приема', _applyController, isDate: true),
-            _buildCustomTextField('Email', _emailController),
-            _buildCustomTextField('Имя', _nameController),
-            _buildCustomTextField('Позывной', _nickController),
-            _buildCustomTextField('Отчество (При наличии)', _patronymicController),
-            _buildCustomTextField('Телефон', _phoneController),
-            _buildCustomTextField('Фамилия', _surnameController),
-            _buildCustomTextField('Telegram (Опционально)', _tgController),
-            _buildCustomTextField('ВК (Опционально)', _vkController),
-            CustomButton(
-              buttonText: 'Создать',
-              onPressed: () => _showBottomSheet(context),
-              MiniButton: false,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
+        child: Align(
+          alignment: Alignment.center,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 1400),
+            child: Column(
+              children: [
+                AvatarPicker(),
+                SizedBox(height: 16),
+                Container(
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: cardColor,
+                    //boxShadow: [BoxShadow(color: Colors.black87, spreadRadius: 1, blurRadius: 5)]
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('ФИО', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10),
+                        _buildCustomTextField('Имя', _nameController),
+                        _buildCustomTextField('Фамилия', _surnameController),
+                        _buildCustomTextField('Отчество (При наличии)', _patronymicController),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: cardColor,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Основная информация', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10),
+                        _buildCustomTextField('Дата заступления на службу', _applyController, isDate: true),
+                        _buildCustomTextField('Email', _emailController),
+                        _buildCustomTextField('Позывной', _nickController),
+                        RoleDropdown(controller: _roleController),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: cardColor,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Контактная информация', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10),
+                        _buildCustomTextField('Телефон (обязательно)', _phoneController),
+                        _buildCustomTextField('Telegram (Опционально)', _tgController),
+                        _buildCustomTextField('ВК (Опционально)', _vkController),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                CustomButton(
+                  buttonText: 'Создать',
+                  onPressed: () => _showBottomSheet(context),
+                  MiniButton: false,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

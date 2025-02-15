@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/Item_model.dart';
-
 import '../../api-services/inventory_service.dart';
 
 class InventoryDescription extends StatefulWidget {
@@ -92,6 +91,8 @@ class _InventoryDescriptionState extends State<InventoryDescription> {
                 Text('Описание: ${widget.Description}', style: TextStyle(color: description_Color),),
                 SizedBox(height: 20,),
                 Text('Описание: ${widget.WareHouse}', style: TextStyle(color: description_Color),),
+                SizedBox(height: 70,),
+                BackButton(),
               ]
           ),
 

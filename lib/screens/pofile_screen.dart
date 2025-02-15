@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import '../api-services/image_service.dart';
 import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/app-widgets/custom_button.dart';
@@ -115,20 +116,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Ошибка: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('Информация о пользователе не найдена'));
-          }
-          final userData = snapshot.data!;
-          String avatarUrl = userData['image'] ?? 'https://sun9-17.userapi.com/impg/vOCQnt-ATxgxefcbg13i_IJwJFHzRernvofugA/8WtmlhH7RTU.jpg?size=836x1080&quality=95&sign=ca5896951e568bcdb8c65730d03a5ee5&type=album';
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(12),
-            child: Center(
+            return Center(child: Text('User info is not found'));
+          } else {
+            final userData = snapshot.data!;
+            return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 45),
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: NetworkImage(avatarUrl),
+                  FutureBuilder<Image>(
+                    future: userData['image'] != null && userData['image'].isNotEmpty
+                        ? ImageService().fetchImage('user', userData['image'])
+                        : Future.error('No image available'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircleAvatar(radius: 50, child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return CircleAvatar(radius: 50, child: Icon(Icons.account_circle, size: 70));
+                      } else {
+                        return CircleAvatar(radius: 50, backgroundImage: snapshot.data?.image);
+                      }
+                    },
                   ),
                   ProfileHeaderWidget(
                     FirstName: userData['name'],

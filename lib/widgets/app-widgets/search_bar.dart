@@ -46,8 +46,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     final textColor = widget.isDarkTheme ? Colors.white : Colors.black;
-    final containerColor = widget.isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
-
+    final containerColor = widget.isDarkTheme ? Colors.white10 : Colors.grey[200];
     return Container(
       margin: EdgeInsets.only(left: 12),
       constraints: BoxConstraints(

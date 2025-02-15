@@ -1,5 +1,3 @@
-//import 'dart:ffi';
-
 class Staff {
   final String apply;
   final String email;
@@ -11,6 +9,7 @@ class Staff {
   final String surname;
   final String tg;
   final String vk;
+  final String avatar;
 
   Staff({
     required this.apply,
@@ -23,10 +22,11 @@ class Staff {
     required this.surname,
     required this.tg,
     required this.vk,
+    required this.avatar
   });
 
   Staff copyWith({String? newName, String? newSurname, String? newPatronymic, String? newApply, String? newEmail,
-    newId,  String? newTg, String? newVk, String? newNick, String? newPhone}) {
+    newId,  String? newTg, String? newVk, String? newNick, String? newPhone, String? newAvatar}) {
     return Staff(
       name: newName ?? this.name,
       surname: newSurname ?? this.surname,
@@ -38,6 +38,7 @@ class Staff {
       vk: newVk ?? this.vk,
       nick: newNick ?? this.nick,
       phone: newPhone ?? this.phone,
+      avatar: newAvatar ?? this.avatar,
     );
   }
 
@@ -53,6 +54,7 @@ class Staff {
       surname: json['surname'] ?? '',
       tg: json['tg'] ?? '',
       vk: json['vk'] ?? '',
+      avatar: json['image'] ?? ''
     );
   }
   Map<String, dynamic> toJson() {
@@ -67,6 +69,7 @@ class Staff {
       'id': id,
       'nick': nick,
       'apply': apply,
+      'image': avatar
     };
   }
 }

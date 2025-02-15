@@ -12,6 +12,10 @@ class CallsScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Вызовы'),
+          actions: [
+            IconButton(onPressed: (){}, icon: Icon(Icons.calendar_month)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.notifications))
+          ],
         ),
         drawer: AppDrawer(toggleTheme: toggleTheme),
         body: Padding(
