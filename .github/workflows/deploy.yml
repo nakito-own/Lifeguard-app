@@ -26,6 +26,13 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web
 
+      - name: Check if build/web exists
+        run: |
+          if [ ! -d "build/web" ]; then
+            echo "Directory build/web does not exist!"
+            exit 1
+          fi
+
       - name: Deploy to Server via SCP
         uses: appleboy/scp-action@master
         with:
@@ -43,7 +50,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             sudo rm -rf /var/www/html/*
-            sudo mv ~/build/web/* /var/www/html/
+            sudo mv /var/www/html/build/web/* /var/www/html/
             sudo chown -R www-data:www-data /var/www/html
             sudo chmod -R 755 /var/www/html
             sudo systemctl restart nginx
