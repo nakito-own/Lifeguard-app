@@ -125,16 +125,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   SizedBox(height: 45),
                   FutureBuilder<Image>(
-                    future: userData['image'] != null && userData['image'].isNotEmpty
+                    future: userData['image'] != null &&
+                        userData['image'].isNotEmpty
                         ? ImageService().fetchImage('user', userData['image'])
                         : Future.error('No image available'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircleAvatar(radius: 50, child: CircularProgressIndicator());
+                        return CircleAvatar(radius: 50,
+                            child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return CircleAvatar(radius: 50, child: Icon(Icons.account_circle, size: 70));
+                        return CircleAvatar(radius: 50,
+                            child: Icon(Icons.account_circle, size: 70));
                       } else {
-                        return CircleAvatar(radius: 50, backgroundImage: snapshot.data?.image);
+                        return CircleAvatar(
+                            radius: 50, backgroundImage: snapshot.data?.image);
                       }
                     },
                   ),
@@ -153,14 +157,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 10),
                   Container(
                     constraints: BoxConstraints(
-                      maxWidth: 1190
+                        maxWidth: 1190
                     ),
                     width: double.infinity,
                     margin: EdgeInsets.all(8),
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context).primaryColorLight,
+                      color: Theme
+                          .of(context)
+                          .primaryColorLight,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Text('Личное дело', style: TextStyle(fontSize: 18)),
                         Spacer(),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.link))
+                        IconButton(onPressed: () {}, icon: Icon(Icons.link))
                       ],
                     ),
                   ),
@@ -179,10 +185,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 10),
                 ],
               ),
-            ),
-          );
-        },
-      ),
+            );
+          }
+        }
+      )
     );
   }
 }
