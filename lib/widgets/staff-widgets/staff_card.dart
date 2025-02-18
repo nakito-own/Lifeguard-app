@@ -17,7 +17,7 @@ class StaffCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 4),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 1400),
+          constraints: BoxConstraints(maxWidth: 1210),
           child: GestureDetector(
             onTap: () {
               Navigator.push(

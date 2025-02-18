@@ -54,7 +54,7 @@ class MyInfo extends StatelessWidget {
           SmallText(some_text: 'Личные данные', Width: double.infinity),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.all(8),
+            margin: EdgeInsets.all(16),
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
