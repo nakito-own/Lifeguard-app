@@ -105,9 +105,6 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                     Patronymic: staff.patronymic,
                   ),
                   SizedBox(height: 30),
-                  Row( children: [
-                    SmallText(some_text: 'Личные данные', Width: MediaQuery.of(context).size.width * 0.9,),
-                  ],),
                   MyInfo(
                     phone: staff.phone,
                     VK_Link: staff.vk,

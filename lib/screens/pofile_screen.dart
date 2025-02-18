@@ -157,10 +157,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 10),
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: 1190
+                        maxWidth: 1170
                     ),
                     width: double.infinity,
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.all(16),
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
