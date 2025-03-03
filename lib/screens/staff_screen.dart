@@ -10,8 +10,8 @@ import 'package:lifeguard/utils/permissions_manager.dart';
 import 'create_user_screen.dart';
 
 class StaffListScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
-  StaffListScreen({required this.toggleTheme});
+
+  StaffListScreen({super.key});
 
   @override
   _StaffListScreenState createState() => _StaffListScreenState();
@@ -43,7 +43,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Сотрудники')),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
+      drawer: AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Column(children: [

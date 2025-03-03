@@ -3,9 +3,7 @@ import '../widgets/app-widgets/app_drawer.dart';
 
 class ShiftScreen extends StatelessWidget {
 
-  final VoidCallback toggleTheme;
-
-  ShiftScreen({required this.toggleTheme});
+  ShiftScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +11,7 @@ class ShiftScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Смены'),
         ),
-        drawer: AppDrawer(toggleTheme: toggleTheme),
+        drawer: AppDrawer(),
         body: Padding(
             padding: EdgeInsets.only(top: 40, bottom:10, left:10, right:10),
             child: Align(

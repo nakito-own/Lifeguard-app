@@ -7,10 +7,9 @@ import 'package:lifeguard/models/user_model.dart';
 import '../../api-services/image_service.dart';
 
 class AppDrawer extends StatelessWidget {
-  final VoidCallback toggleTheme;
   final PermissionsManager permissionsManager = PermissionsManager();
 
-  AppDrawer({required this.toggleTheme});
+  AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +151,7 @@ class AppDrawer extends StatelessWidget {
                             Navigator.pushNamed(context, '/staff');
                           },
                         ),
-                      if (permissions.contains('permissions list'))
+                      if (permissions.contains('role list'))
                         CustomDrawerButton(
                           icon: Icons.manage_accounts,
                           text: 'Роли',
@@ -160,13 +159,6 @@ class AppDrawer extends StatelessWidget {
                             Navigator.pushNamed(context, '/roles');
                           },
                         ),
-                      CustomDrawerButton(
-                        text: "Сменить тему",
-                        icon: Icons.dark_mode,
-                        onPressed: () {
-                          toggleTheme();
-                        },
-                      ),
                       CustomDrawerButton(
                         text: "Настройки",
                         icon: Icons.settings,

@@ -4,9 +4,7 @@ import '../widgets/app-widgets/app_drawer.dart';
 
 class EventsScreen extends StatelessWidget {
 
-  final VoidCallback toggleTheme;
-
-  EventsScreen({required this.toggleTheme});
+  EventsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +12,7 @@ class EventsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Мероприятия'),
       ),
-      drawer: AppDrawer(toggleTheme: toggleTheme),
+      drawer: AppDrawer(),
       body: Padding(
           padding: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
           child: Column(
@@ -23,7 +21,7 @@ class EventsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              CalendarWidget(toggleTheme: toggleTheme)
+              CalendarWidget()
               ]
           )
       )

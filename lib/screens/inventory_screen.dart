@@ -9,9 +9,8 @@ import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/inventory-widgets/inventory_list.dart';
 
 class InventoryScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  InventoryScreen({required this.toggleTheme});
+  InventoryScreen({super.key});
 
   @override
   _InventoryScreenState createState() => _InventoryScreenState();
@@ -79,7 +78,7 @@ class _InventoryScreenState extends State<InventoryScreen>
       appBar: AppBar(
         title: Text('Оборудование'),
       ),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
+      drawer: AppDrawer(),
       body: FutureBuilder<List<Item>>(
           future: futureItem,
           builder: (context, snapshot) {

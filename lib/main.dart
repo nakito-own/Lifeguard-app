@@ -10,61 +10,37 @@ import 'package:lifeguard/screens/roles_screen.dart';
 import 'package:lifeguard/screens/settings_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:lifeguard/screens/staff_screen.dart';
+import 'package:lifeguard/styles/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'styles/themes/app_dark_theme.dart';
-import 'styles/themes/app_light_theme.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
+import 'package:lifeguard/styles/themes/app_dark_theme.dart';
+import 'package:lifeguard/styles/themes/app_light_theme.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await PermissionsManager().initialize();
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool _isDarkTheme = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTheme();
-  }
-
-  void _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
-    });
-  }
-
-  void _toggleTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isDarkTheme = !_isDarkTheme;
-      prefs.setBool('isDarkTheme', _isDarkTheme);
-    });
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       title: 'Lifeguard - МЧС',
-      theme: AppLightTheme.lightTheme.copyWith(
-        textTheme: GoogleFonts.nunitoTextTheme(),
-      ),
-      darkTheme: AppDarkTheme.darkTheme.copyWith(
-        textTheme: GoogleFonts.nunitoTextTheme().apply(
-          bodyColor: Colors.white,
-        ),
-      ),
-      themeMode: _isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+      theme: AppLightTheme.theme,
+      darkTheme: AppDarkTheme.theme,
+      themeMode: themeProvider.themeMode,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -76,18 +52,18 @@ class _MyAppState extends State<MyApp> {
         const Locale('ru', 'RU'),
       ],
       locale: const Locale('ru', 'RU'),
-      home: LoginScreen(toggleTheme: _toggleTheme),
+      home: LoginScreen(),
       routes: {
-        '/login': (context) => LoginScreen(toggleTheme: _toggleTheme),
-        '/profile': (context) => ProfileScreen(toggleTheme: _toggleTheme),
-        '/events': (context) => EventsScreen(toggleTheme: _toggleTheme),
-        '/shifts': (context) => ShiftScreen(toggleTheme: _toggleTheme),
-        '/manuals': (context) => ManualsScreen(toggleTheme: _toggleTheme),
-        '/inventory': (context) => InventoryScreen(toggleTheme: _toggleTheme),
-        '/calls': (context) => CallsScreen(toggleTheme: _toggleTheme),
-        '/staff': (context) => StaffListScreen(toggleTheme: _toggleTheme),
-        '/roles': (context) => RolesScreen(toggleTheme: _toggleTheme),
-        '/settings': (context) => SettingsScreen(toggleTheme: _toggleTheme, isDarkTheme: true,),
+        '/login': (context) => LoginScreen(),
+        '/profile': (context) => ProfileScreen(),
+        '/events': (context) => EventsScreen(),
+        '/shifts': (context) => ShiftScreen(),
+        '/manuals': (context) => ManualsScreen(),
+        '/inventory': (context) => InventoryScreen(),
+        '/calls': (context) => CallsScreen(),
+        '/staff': (context) => StaffListScreen(),
+        '/roles': (context) => RolesScreen(),
+        '/settings': (context) => SettingsScreen(),
       },
     );
   }

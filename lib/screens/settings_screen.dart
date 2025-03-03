@@ -1,48 +1,42 @@
 import 'package:flutter/material.dart';
-import '../widgets/app-widgets/app_drawer.dart';
+import 'package:lifeguard/widgets/app-widgets/app_drawer.dart';
+import 'package:provider/provider.dart';
+import '../styles/theme_provider.dart';
 
-class SettingsScreen extends StatefulWidget {
-  final bool isDarkTheme;
-  final VoidCallback toggleTheme;
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
-  SettingsScreen({required this.isDarkTheme, required this.toggleTheme});
-
-  @override
-  _ShiftScreenState createState() => _ShiftScreenState();
-}
-
-class _ShiftScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Настройки'),
-      ),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
-      body: SingleChildScrollView(
+      drawer: AppDrawer(),
+      appBar: AppBar(title: const Text('Настройки')),
+      body: SafeArea(
         child: Column(
           children: [
             Container(
               constraints: BoxConstraints(
-                  maxWidth: 1190
+                  maxWidth: 1170
               ),
               width: double.infinity,
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(16),
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Theme.of(context).primaryColorLight,
+                  borderRadius: BorderRadius.circular(16),
+                  color: ColorScheme.of(context).primary
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Светлая тема', style: TextStyle(fontSize: 18)),
+                  Text('Тёмная тема:', style: TextTheme.of(context).bodyLarge),
                   Spacer(),
                   Switch(
-                    value: widget.isDarkTheme,
+                    value: themeProvider.themeMode == ThemeMode.dark,
                     onChanged: (value) {
-                      widget.toggleTheme();
+                      themeProvider.toggleTheme(value);
                     },
                   ),
                 ],

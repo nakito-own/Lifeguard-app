@@ -6,9 +6,8 @@ import '../widgets/role-widgets/role_dropdown_widget.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 
 class RolesScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  RolesScreen({required this.toggleTheme});
+  RolesScreen({super.key});
 
   @override
   _RolesScreenState createState() => _RolesScreenState();
@@ -57,7 +56,7 @@ class _RolesScreenState extends State<RolesScreen> {
       appBar: AppBar(
         title: Text('Управление ролями'),
       ),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
+      drawer: AppDrawer(),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(

@@ -12,9 +12,8 @@ import '../widgets/app-widgets/small_text.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  ProfileScreen({required this.toggleTheme});
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -39,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (BuildContext context) {
         return ErrorAlertDialog(
           errorMessage: errorMessage,
-          toggleTheme: widget.toggleTheme,
         );
       },
     );
@@ -107,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Text('Профиль'),
       ),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
+      drawer: AppDrawer(),
       body: FutureBuilder<Map<String, dynamic>?> (
         future: _userDataFuture,
         builder: (context, snapshot) {
@@ -164,23 +162,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: Theme
-                          .of(context)
-                          .primaryColorLight,
+                      color: ColorScheme.of(context).primary
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('Личное дело', style: TextStyle(fontSize: 18)),
+                        Text('Личное дело', style: TextTheme.of(context).bodyLarge),
                         Spacer(),
                         IconButton(onPressed: () {}, icon: Icon(Icons.link))
                       ],
                     ),
                   ),
-                  TransparentButton(
-                    text: 'Редактировать личные данные',
-                    onPressed: () => _showEditBottomSheet(context),
+                  TextButton(
+                      onPressed: () => _showEditBottomSheet(context),
+                      child: Text('Редактировать личные данные')
                   ),
                   SizedBox(height: 10),
                 ],

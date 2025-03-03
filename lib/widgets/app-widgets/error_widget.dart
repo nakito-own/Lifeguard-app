@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 
 class ErrorAlertDialog extends StatelessWidget {
-  final VoidCallback toggleTheme;
   final String errorMessage;
 
   ErrorAlertDialog({
     required this.errorMessage,
-    required this.toggleTheme,
   });
 
   @override

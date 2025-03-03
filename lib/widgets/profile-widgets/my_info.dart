@@ -2,16 +2,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lifeguard/widgets/app-widgets/small_text.dart';
-import "package:url_launcher/url_launcher.dart";
+import 'package:url_launcher/url_launcher.dart';
 
 class MyInfo extends StatelessWidget {
-  const MyInfo({Key? key,
+  const MyInfo({
+    Key? key,
     required this.phone,
     required this.VK_Link,
     required this.TG_Link,
     required this.Mail_Link,
-    //required this.toggleTheme
-    }) : super(key: key);
+  }) : super(key: key);
 
   final String phone;
   final String VK_Link;
@@ -24,12 +24,14 @@ class MyInfo extends StatelessWidget {
       throw Exception('Could not launch');
     }
   }
+
   LinkToTG() async {
     final Uri url = Uri.parse(TG_Link);
     if (!await launchUrl(url)) {
       throw Exception('Could not launch');
     }
   }
+
   LinkToMail() async {
     final Uri url = Uri.parse(Mail_Link);
     if (!await launchUrl(url)) {
@@ -39,15 +41,12 @@ class MyInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
-    final text_Color = isDarkTheme ? Colors.white : Colors.black;
+    final textColor = isDarkTheme ? Colors.white : Colors.black;
+    final linkColor = Colors.blue;
 
     return Container(
-      constraints: BoxConstraints(
-        maxWidth: 1200
-      ),
+      constraints: BoxConstraints(maxWidth: 1200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -58,61 +57,83 @@ class MyInfo extends StatelessWidget {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: Theme.of(context).primaryColorLight,
+              color: ColorScheme.of(context).primary // Цвет контейнера из темы
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
+              children: [
                 RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Телефон:  ',
-                      style: GoogleFonts.nunito(fontSize: 19, height: 1.5, color: text_Color),
-                    ),
-                    TextSpan(
-                      text:phone,
-                      style: GoogleFonts.nunito(fontSize: 18, color: text_Color),
-                    ),
-                    TextSpan(
-                      text: '\nVK:  ',
-                      style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
-                    ),
-                    TextSpan(
-                      text: VK_Link,
-                      style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
-                        decoration: TextDecoration.underline,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Телефон:  ',
+                        style: GoogleFonts.nunito(
+                          fontSize: 19,
+                          height: 1.5,
+                          color: textColor, // Цвет текста зависит от темы
+                        ),
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap =LinkToVK,
-                    ),
-                    TextSpan(
-                      text: '\nTG:  ',
-                      style: GoogleFonts.nunito(fontSize: 19, height: 2,color: text_Color),
-                    ),
-                    TextSpan(
-                      text: TG_Link,
-                      style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
-                        decoration: TextDecoration.underline,
+                      TextSpan(
+                        text: phone,
+                        style: GoogleFonts.nunito(
+                          fontSize: 18,
+                          color: textColor, // Цвет текста зависит от темы
+                        ),
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap =LinkToTG,
-                    ),
-                    TextSpan(
-                      text: '\nПочта:  ',
-                      style: GoogleFonts.nunito(fontSize: 19, height: 2, color: text_Color),
-                    ),
-                    TextSpan(
-                        text: Mail_Link,
-                        style: GoogleFonts.nunito(color: Colors.blue, fontSize: 18,
+                      TextSpan(
+                        text: '\nVK:  ',
+                        style: GoogleFonts.nunito(
+                          fontSize: 19,
+                          height: 2,
+                          color: textColor, // Цвет текста зависит от темы
+                        ),
+                      ),
+                      TextSpan(
+                        text: VK_Link,
+                        style: GoogleFonts.nunito(
+                          color: linkColor, // Цвет ссылки
+                          fontSize: 18,
                           decoration: TextDecoration.underline,
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = LinkToMail,
-                    ),
-                  ]
-          ),
-            ),
+                        recognizer: TapGestureRecognizer()..onTap = LinkToVK,
+                      ),
+                      TextSpan(
+                        text: '\nTG:  ',
+                        style: GoogleFonts.nunito(
+                          fontSize: 19,
+                          height: 2,
+                          color: textColor, // Цвет текста зависит от темы
+                        ),
+                      ),
+                      TextSpan(
+                        text: TG_Link,
+                        style: GoogleFonts.nunito(
+                          color: linkColor, // Цвет ссылки
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = LinkToTG,
+                      ),
+                      TextSpan(
+                        text: '\nПочта:  ',
+                        style: GoogleFonts.nunito(
+                          fontSize: 19,
+                          height: 2,
+                          color: textColor, // Цвет текста зависит от темы
+                        ),
+                      ),
+                      TextSpan(
+                        text: Mail_Link,
+                        style: GoogleFonts.nunito(
+                          color: linkColor, // Цвет ссылки
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = LinkToMail,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -121,4 +142,3 @@ class MyInfo extends StatelessWidget {
     );
   }
 }
-

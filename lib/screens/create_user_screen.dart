@@ -6,9 +6,8 @@ import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/staff-widgets/role_dropdown_widget.dart';
 
 class CreateUserScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  CreateUserScreen({required this.toggleTheme});
+  CreateUserScreen({super.key});
 
   @override
   _CreateUserScreenState createState() => _CreateUserScreenState();

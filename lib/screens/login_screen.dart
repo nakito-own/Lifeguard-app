@@ -6,9 +6,8 @@ import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class LoginScreen extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  LoginScreen({required this.toggleTheme});
+  LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -32,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) => ErrorAlertDialog(
         errorMessage: errorMessage,
-        toggleTheme: widget.toggleTheme,
       ),
     );
   }

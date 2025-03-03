@@ -3,9 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
 
-  final VoidCallback toggleTheme;
-
-  CalendarWidget({required this.toggleTheme});
+  CalendarWidget({super.key});
 
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
