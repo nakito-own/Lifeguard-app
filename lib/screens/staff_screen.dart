@@ -1,5 +1,3 @@
-// staff_list_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/widgets/app-widgets/app_drawer.dart';
@@ -63,6 +61,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
                   return Column(
                     children: [
                       CustomSearchBar(
+                        onAddPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserScreen()));},
                         items: staff,
                         onSearch: (results) {
                           setState(() {

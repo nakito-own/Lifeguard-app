@@ -95,7 +95,7 @@ class AppDrawer extends StatelessWidget {
                 } else {
                   final permissions = snapshot.data!;
                   return ListView(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     children: <Widget>[
                       CustomDrawerButton(
                         text: "Профиль",

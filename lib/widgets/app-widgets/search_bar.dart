@@ -6,11 +6,13 @@ class CustomSearchBar extends StatefulWidget {
   final List<Staff> items;
   final Function(List<Staff>) onSearch;
   final bool isDarkTheme;
+  final VoidCallback onAddPressed;
 
   CustomSearchBar({
     required this.items,
     required this.onSearch,
     required this.isDarkTheme,
+    required this.onAddPressed
   });
 
   @override
@@ -45,10 +47,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = widget.isDarkTheme ? Colors.white : Colors.black;
-    final containerColor = widget.isDarkTheme ? Colors.white10 : Colors.grey[200];
     return Container(
-      margin: EdgeInsets.only(left: 12),
+      margin: EdgeInsets.all(8),
       constraints: BoxConstraints(
         maxWidth: 1200
       ),
@@ -67,17 +67,16 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                     return Container();
                   } else {
                     final permissions = snapshot.data!;
-                    if (permissions.contains('user new')) {
+                    if (permissions.contains('user new') & permissions.contains('role new')) {
                       return IconButton(
-                        onPressed: () {},
+                        onPressed: widget.onAddPressed,
                         icon: Icon(Icons.add),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.orange[800],
-                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                          backgroundColor: ColorScheme.of(context).secondary,
+                          foregroundColor: ColorScheme.of(context).onSecondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           ),
-                          padding: EdgeInsets.all(10),
                           splashFactory: InkRipple.splashFactory,
                         ),
                       );
@@ -90,20 +89,22 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               Expanded(
                 child: Container(
                   margin: EdgeInsets.all(8),
-                  height: 45,
+                  height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
-                    color: containerColor,
+                    color: ColorScheme.of(context).primary,
                   ),
                   child: TextField(
                     onChanged: _onSearchChanged,
-                    style: TextStyle(color: textColor),
+                    showCursor: true,
+                    cursorColor: ColorScheme.of(context).secondary,
+                    style: TextTheme.of(context).bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Поиск',
-                      hintStyle: TextStyle(color: Colors.grey[700]),
-                      prefixIcon: Icon(Icons.search, color: Colors.grey[800]),
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      prefixIcon: Icon(Icons.search, color: Colors.grey[400], size: 24),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 12),
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
                     ),
                   ),
                 ),

@@ -15,6 +15,7 @@ class AppDarkTheme {
     ),
     textTheme: _textTheme,
     elevatedButtonTheme: _elevatedButtonTheme,
+    textButtonTheme: _textButtonTheme
   );
 
   static ColorScheme _colorScheme = ColorScheme.dark(
@@ -29,8 +30,8 @@ class AppDarkTheme {
   );
 
   static TextTheme _textTheme = TextTheme(
-    bodyLarge: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
-    bodyMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[100]),
+    bodyLarge: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+    bodyMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[100]),
     displayMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
     bodySmall: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white60),
     titleLarge: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
@@ -42,5 +43,11 @@ class AppDarkTheme {
       foregroundColor: _colorScheme.onPrimary,
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
     ),
+  );
+
+  static final TextButtonThemeData _textButtonTheme = TextButtonThemeData(
+    style: TextButton.styleFrom(
+      textStyle: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white60),
+    )
   );
 }

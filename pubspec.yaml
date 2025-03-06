@@ -19,6 +19,7 @@ dependencies:
   image_picker: ^1.1.2
   file_picker: ^9.0.2
   intl: ^0.19.0
+  flutter_launcher_icons: ^0.14.3
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
@@ -35,3 +36,16 @@ fonts:
       - asset: build/flutter_assets/fonts/Nunito-Bold.ttf
         weight: 700
 
+flutter_launcher_icons:
+  android: "lifeguard_logo"
+  ios: true
+  image_path: "assets/lifeguard_logo.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/lifeguard_logo.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  macos:
+    generate: true
+    image_path: "assets/lifeguard_logo.png"

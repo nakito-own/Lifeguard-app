@@ -56,49 +56,50 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      padding: EdgeInsets.all(4),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 1400),
-        child: SizedBox(
-          width: widget.widthSize,
-          height: widget.heightSize,
-          child: TextField(
-            style: TextTheme.of(context).bodyMedium,
-            maxLines: widget.lines,
-            controller: widget.controller,
-            obscureText: widget.isPass ? widget.isObscured : false,
-            decoration: InputDecoration(
-              suffixIcon: widget.isPass
-                  ? IconButton(
-                icon: Icon(widget.isObscured ? Icons.visibility : Icons.visibility_off),
-                onPressed: widget.togglePass,
-              )
-                  : null,
-              labelText: widget.labelText,
-              labelStyle: TextTheme.of(context).bodyMedium,
-              hintText: widget.text,
-              hintStyle: TextTheme.of(context).bodySmall,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: Color(0xff7e7e7e),
-                  width: 2,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: Color(0xff7e7e7e),
-                  width: 2,
-                ),
+        constraints: BoxConstraints(
+          maxWidth: 1400,
+          maxHeight: 40,
+        ),
+        child: TextField(
+          style: TextTheme.of(context).bodyMedium,
+          maxLines: widget.lines,
+          controller: widget.controller,
+          obscureText: widget.isPass ? widget.isObscured : false,
+          decoration: InputDecoration(
+            suffixIcon: widget.isPass
+                ? IconButton(
+              icon: Icon(widget.isObscured ? Icons.visibility : Icons.visibility_off),
+              onPressed: widget.togglePass,
+            )
+                : null,
+            labelText: widget.labelText,
+            labelStyle: TextTheme.of(context).bodyMedium,
+            hintText: widget.text,
+            hintStyle: TextTheme.of(context).bodySmall,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Color(0xff7e7e7e),
+                width: 2,
               ),
             ),
-            onChanged: (text) {
-              _setText(text);
-            },
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Color(0xff7e7e7e),
+                width: 1,
+              ),
+            ),
           ),
+          onChanged: (text) {
+            _setText(text);
+          },
         ),
       ),
     );

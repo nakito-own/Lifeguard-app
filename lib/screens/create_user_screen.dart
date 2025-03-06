@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lifeguard/api-services/staff_service.dart';
 import 'package:lifeguard/widgets/app-widgets/avatar_picker.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/staff-widgets/role_dropdown_widget.dart';
 
 class CreateUserScreen extends StatefulWidget {
-
   CreateUserScreen({super.key});
 
   @override
@@ -14,8 +14,10 @@ class CreateUserScreen extends StatefulWidget {
 }
 
 class _CreateUserScreenState extends State<CreateUserScreen> {
+  final StaffService _staffService = StaffService();
+
   final TextEditingController _applyController = TextEditingController();
-  final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+  final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _roleController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -25,7 +27,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _tgController = TextEditingController();
   final TextEditingController _vkController = TextEditingController();
-  final TextEditingController _bottomSheetController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -64,7 +66,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
       controller: controller,
       labelText: label,
       widthSize: double.infinity,
-      heightSize: 70,
+      heightSize: 60,
       icon: Icons.text_fields,
       togglePass: () {},
       isObscured: false,
@@ -72,121 +74,107 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     );
   }
 
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 20),
-              _buildCustomTextField('Дополнительное поле', _bottomSheetController),
-              SizedBox(height: 20),
-              CustomButton(
-                buttonText: 'Сохранить',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                MiniButton: false,
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        );
-      },
-    );
+  Future<void> _createUser() async {
+    final Map<String, dynamic> userData = {
+      "name": _nameController.text.trim(),
+      "surname": _surnameController.text.trim(),
+      "patronymic": _patronymicController.text.trim(),
+      "nick": _nickController.text.trim(),
+      "phone": _phoneController.text.trim(),
+      "tg": _tgController.text.trim(),
+      "vk": _vkController.text.trim(),
+      "email": _emailController.text.trim(),
+      "role": int.tryParse(_roleController.text.trim()) ?? 1,
+      "apply": _applyController.text,
+      "password": _passwordController.text.trim()
+    };
+
+    bool success = await _staffService.createStaff(userData);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Сотрудник успешно создан')),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка при создании сотрудника')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDarkTheme ? Colors.white10 : Colors.grey[200];
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Новый сотрудник'),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(10),
-        child: Align(
-          alignment: Alignment.center,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1400),
-            child: Column(
-              children: [
-                AvatarPicker(),
-                SizedBox(height: 16),
-                Container(
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: cardColor,
-                    //boxShadow: [BoxShadow(color: Colors.black87, spreadRadius: 1, blurRadius: 5)]
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1200),
+              child: Column(
+                children: [
+                  AvatarPicker(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('  Имя Фамилия Отчество', style: TextTheme.of(context).bodySmall),
+                      SizedBox(height: 5),
+                      Column(
+                        children: [
+                          _buildCustomTextField('Имя', _nameController),
+                          _buildCustomTextField('Фамилия', _surnameController),
+                          _buildCustomTextField('Отчество (При наличии)', _patronymicController),
+                        ],
+                      ),
+                    ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('ФИО', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        _buildCustomTextField('Имя', _nameController),
-                        _buildCustomTextField('Фамилия', _surnameController),
-                        _buildCustomTextField('Отчество (При наличии)', _patronymicController),
-                      ],
-                    ),
+                  SizedBox(height: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('  Основная информация', style: TextTheme.of(context).bodySmall),
+                      SizedBox(height: 5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildCustomTextField('Дата заступления на службу', _applyController, isDate: true),
+                          _buildCustomTextField('Email', _emailController),
+                          _buildCustomTextField('Позывной', _nickController),
+                          RoleDropdown(controller: _roleController),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: cardColor,
+                  SizedBox(height: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('  Контактная информация', style: TextTheme.of(context).bodySmall),
+                      SizedBox(height: 5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildCustomTextField('Телефон (обязательно)', _phoneController),
+                          _buildCustomTextField('Telegram (Опционально)', _tgController),
+                          _buildCustomTextField('ВК (Опционально)', _vkController),
+                        ],
+                      ),
+                    ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Основная информация', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        _buildCustomTextField('Дата заступления на службу', _applyController, isDate: true),
-                        _buildCustomTextField('Email', _emailController),
-                        _buildCustomTextField('Позывной', _nickController),
-                        RoleDropdown(controller: _roleController),
-                      ],
-                    ),
+                  SizedBox(height: 15),
+                  _buildCustomTextField('Пароль', _passwordController),
+                  SizedBox(height: 15),
+                  CustomButton(
+                    buttonText: 'Создать',
+                    onPressed: _createUser,
+                    MiniButton: false,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: cardColor,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Контактная информация', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        _buildCustomTextField('Телефон (обязательно)', _phoneController),
-                        _buildCustomTextField('Telegram (Опционально)', _tgController),
-                        _buildCustomTextField('ВК (Опционально)', _vkController),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                CustomButton(
-                  buttonText: 'Создать',
-                  onPressed: () => _showBottomSheet(context),
-                  MiniButton: false,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

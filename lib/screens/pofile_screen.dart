@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import '../api-services/image_service.dart';
 import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
@@ -8,8 +7,6 @@ import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/app-widgets/error_widget.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/app-widgets/small_text.dart';
-import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class ProfileScreen extends StatefulWidget {
 

@@ -8,8 +8,8 @@ class RoleModel {
   factory RoleModel.fromJson(Map<String, dynamic> json) {
     return RoleModel(
       ownersCount: json['owners_count'],
-      rankId: json['rank_id'],
-      rankName: json['rank_name'],
+      rankId: json['role_id'],
+      rankName: json['role_name'],
     );
   }
 }

@@ -67,7 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   togglePass: () {},
                   lines: 1,
                 ),
-                SizedBox(height: 15),
                 CustomTextField(
                   text: '',
                   icon: Icon(Icons.lock),
