@@ -17,7 +17,6 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final buttonColor = isDarkTheme ? Colors.orange[700] : Colors.blue;
     final shadowColor = isDarkTheme ? Colors.black : Colors.black;
     final buttonSize = MiniButton ? Size(160, 40) : Size(1000, 40);
 
@@ -27,7 +26,7 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           maximumSize: buttonSize,
-          backgroundColor: buttonColor,
+          backgroundColor: ColorScheme.of(context).secondary,
           shadowColor: shadowColor,
           elevation: 8,
           shape: RoundedRectangleBorder(
@@ -37,7 +36,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             buttonText,
-            style: TextTheme.of(context).bodyLarge
+            style: TextTheme.of(context).displayMedium,
           ),
         ),
       ),

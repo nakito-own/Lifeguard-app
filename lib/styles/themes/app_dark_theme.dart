@@ -19,7 +19,7 @@ class AppDarkTheme {
 
   static ColorScheme _colorScheme = ColorScheme.dark(
     primary: Colors.grey[800]!,
-    secondary: const Color(373333),
+    secondary: Colors.orange[800]!,
     surface: const Color(0xFF2B2828),
     error: const Color(0xFFCF6679),
     onPrimary: Colors.white,
@@ -29,9 +29,10 @@ class AppDarkTheme {
   );
 
   static TextTheme _textTheme = TextTheme(
-    bodyLarge: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
-    bodyMedium: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white70),
-    bodySmall: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white60),
+    bodyLarge: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+    bodyMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[100]),
+    displayMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
+    bodySmall: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white60),
     titleLarge: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
   );
 

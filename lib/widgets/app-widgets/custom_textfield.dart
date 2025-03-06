@@ -64,6 +64,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: widget.widthSize,
           height: widget.heightSize,
           child: TextField(
+            style: TextTheme.of(context).bodyMedium,
             maxLines: widget.lines,
             controller: widget.controller,
             obscureText: widget.isPass ? widget.isObscured : false,
@@ -75,12 +76,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               )
                   : null,
               labelText: widget.labelText,
+              labelStyle: TextTheme.of(context).bodyMedium,
               hintText: widget.text,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff7e7e7e),
-              ),
+              hintStyle: TextTheme.of(context).bodySmall,
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),

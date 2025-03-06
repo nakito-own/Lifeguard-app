@@ -7,6 +7,7 @@ class AppLightTheme {
     brightness: Brightness.light,
     colorScheme: _colorScheme,
     scaffoldBackgroundColor: _colorScheme.surface,
+
     appBarTheme: AppBarTheme(
       backgroundColor: _colorScheme.surface,
       foregroundColor: _colorScheme.onPrimary,
@@ -17,21 +18,22 @@ class AppLightTheme {
     elevatedButtonTheme: _elevatedButtonTheme,
   );
 
-  static const ColorScheme _colorScheme = ColorScheme.light(
-    primary: Colors.black12,
-    secondary: Color(0xFFFFA000),
-    surface: Color(0xFFF5F5F5),
-    error: Color(0xFFD32F2F),
+  static ColorScheme _colorScheme = ColorScheme.light(
+    primary: Colors.grey[100]!,
+    secondary: Colors.blue[800]!,
+    surface: const Color(0xFFF5F5F5),
+    error: const Color(0xFFD32F2F),
     onPrimary: Colors.black,
-    onSecondary: Colors.black,
+    onSecondary: Colors.white,
     onSurface: Colors.black,
     onError: Colors.white,
   );
 
   static TextTheme _textTheme = TextTheme(
-    bodyLarge: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
-    bodyMedium: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black87),
-    bodySmall: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54),
+    bodyLarge: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+    bodyMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
+    displayMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+    bodySmall: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54),
     titleLarge: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
   );
 

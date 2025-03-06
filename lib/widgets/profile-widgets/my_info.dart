@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lifeguard/widgets/app-widgets/small_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyInfo extends StatelessWidget {
@@ -47,17 +46,18 @@ class MyInfo extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(maxWidth: 1200),
+      margin: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SmallText(some_text: 'Личные данные', Width: double.infinity),
+          Text('  Личные данные', style: TextTheme.of(context).bodySmall),
+          SizedBox(height: 5),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.all(16),
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: ColorScheme.of(context).primary // Цвет контейнера из темы
+              color: ColorScheme.of(context).primary
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,48 +67,36 @@ class MyInfo extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'Телефон:  ',
-                        style: GoogleFonts.nunito(
-                          fontSize: 19,
-                          height: 1.5,
-                          color: textColor, // Цвет текста зависит от темы
-                        ),
+                          style: TextTheme.of(context).bodyMedium
                       ),
                       TextSpan(
                         text: phone,
                         style: GoogleFonts.nunito(
                           fontSize: 18,
-                          color: textColor, // Цвет текста зависит от темы
+                          color: textColor,
                         ),
                       ),
                       TextSpan(
                         text: '\nVK:  ',
-                        style: GoogleFonts.nunito(
-                          fontSize: 19,
-                          height: 2,
-                          color: textColor, // Цвет текста зависит от темы
-                        ),
+                          style: TextTheme.of(context).bodyMedium
                       ),
                       TextSpan(
                         text: VK_Link,
                         style: GoogleFonts.nunito(
-                          color: linkColor, // Цвет ссылки
+                          color: linkColor,
                           fontSize: 18,
                           decoration: TextDecoration.underline,
                         ),
                         recognizer: TapGestureRecognizer()..onTap = LinkToVK,
                       ),
                       TextSpan(
-                        text: '\nTG:  ',
-                        style: GoogleFonts.nunito(
-                          fontSize: 19,
-                          height: 2,
-                          color: textColor, // Цвет текста зависит от темы
-                        ),
+                        text: '\nTelegram:  ',
+                          style: TextTheme.of(context).bodyMedium
                       ),
                       TextSpan(
                         text: TG_Link,
                         style: GoogleFonts.nunito(
-                          color: linkColor, // Цвет ссылки
+                          color: linkColor,
                           fontSize: 18,
                           decoration: TextDecoration.underline,
                         ),
@@ -116,16 +104,12 @@ class MyInfo extends StatelessWidget {
                       ),
                       TextSpan(
                         text: '\nПочта:  ',
-                        style: GoogleFonts.nunito(
-                          fontSize: 19,
-                          height: 2,
-                          color: textColor, // Цвет текста зависит от темы
-                        ),
+                          style: TextTheme.of(context).bodyMedium
                       ),
                       TextSpan(
                         text: Mail_Link,
                         style: GoogleFonts.nunito(
-                          color: linkColor, // Цвет ссылки
+                          color: linkColor,
                           fontSize: 18,
                           decoration: TextDecoration.underline,
                         ),

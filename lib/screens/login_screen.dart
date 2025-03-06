@@ -3,7 +3,6 @@ import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
 import 'package:lifeguard/api-services/login_service.dart';
 import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
-import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double fieldWidth = MediaQuery.of(context).size.width * 0.8;
-    double fieldHeight = 50;
+    double fieldHeight = 40;
 
     return Scaffold(
       body: Center(
@@ -46,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(20.0),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: 400
+              maxWidth: 270
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Spacer(),
                 Icon(Icons.account_circle, size: 100),
                 SizedBox(height: 30),
-                Text('Авторизация', style: TextStyle(fontSize: 18)),
+                Text('Авторизация', style: TextTheme.of(context).titleLarge),
                 SizedBox(height: 20),
                 CustomTextField(
                   text: '',
@@ -102,9 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Spacer(),
                 SizedBox(height: 10),
-                TransparentButton(
-                  text: 'Забыли пароль?',
-                  onPressed: () => _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra'),
+                TextButton(
+                    onPressed: () => _showErrorDialog('Функция недоступна \n oбращайтесь к @Gooseandra'),
+                    child: Text('Забыли пароль?')
                 ),
               ],
             ),

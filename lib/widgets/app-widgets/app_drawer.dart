@@ -3,7 +3,6 @@ import 'package:lifeguard/widgets/app-widgets/custom_drawer_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_exit_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/models/user_model.dart';
-
 import '../../api-services/image_service.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -16,6 +15,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
+          SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.only(top: 42),
             child: FutureBuilder<Map<String, dynamic>?>(

@@ -19,9 +19,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDarkTheme ? Colors.grey[900] : Colors.white;
-
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
@@ -30,7 +27,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           maxWidth: 800,
         ),
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
@@ -68,13 +65,25 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekdayStyle: TextStyle(fontSize: 20, height: -0.1, color: Colors.black),
+            weekendStyle: TextStyle(fontSize: 20, height: -0.1, color: Colors.red),
+          ),
+          headerStyle: HeaderStyle(
+            titleTextStyle: TextStyle(fontSize: 18, color: Colors.black)
+          ),
+          calendarStyle: CalendarStyle(
+            defaultTextStyle: TextStyle(color: Colors.black),
+            weekendTextStyle: TextStyle(color: Colors.red),
+            outsideTextStyle: TextStyle(color: Colors.grey[400]),
+          ),
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, date, _) {
               return Container(
                 margin: const EdgeInsets.all(4.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                   color: Colors.blue,
                   shape: BoxShape.rectangle,
                 ),
@@ -91,7 +100,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 decoration: BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(12)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 child: Text(
                   '${date.day}',

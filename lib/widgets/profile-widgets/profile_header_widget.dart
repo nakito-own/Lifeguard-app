@@ -23,9 +23,7 @@ class ProfileHeaderWidget extends StatelessWidget {
           ),
           Text (
             SecondName + EmptyText + FirstName + EmptyText + Patronymic,
-            style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold
-            ),
+            style: TextTheme.of(context).bodyLarge
           ),
           SizedBox(
             height: 2,

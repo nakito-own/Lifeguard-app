@@ -117,11 +117,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Center(child: Text('User info is not found'));
           } else {
             final userData = snapshot.data!;
-            return SingleChildScrollView(
+            return SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 45),
+                  SizedBox(height: 30),
                   FutureBuilder<Image>(
                     future: userData['image'] != null &&
                         userData['image'].isNotEmpty
@@ -129,14 +129,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         : Future.error('No image available'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircleAvatar(radius: 50,
+                        return CircleAvatar(radius: 55,
                             child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return CircleAvatar(radius: 50,
-                            child: Icon(Icons.account_circle, size: 70));
+                        return CircleAvatar(radius: 55,
+                            child: Icon(Icons.account_circle, size: 90));
                       } else {
                         return CircleAvatar(
-                            radius: 50, backgroundImage: snapshot.data?.image);
+                            radius: 55, backgroundImage: snapshot.data?.image);
                       }
                     },
                   ),
@@ -145,21 +145,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SecondName: userData['surname'],
                     Patronymic: userData['patronymic'],
                   ),
-                  SizedBox(height: 30),
                   MyInfo(
                     phone: userData['phone'],
                     VK_Link: userData['vk'],
                     TG_Link: userData['tg'],
                     Mail_Link: userData['email'],
                   ),
-                  SizedBox(height: 10),
                   Container(
                     constraints: BoxConstraints(
                         maxWidth: 1170
                     ),
                     width: double.infinity,
                     margin: EdgeInsets.all(16),
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: ColorScheme.of(context).primary
@@ -168,17 +166,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('Личное дело', style: TextTheme.of(context).bodyLarge),
+                        Text('  Личное дело', style: TextTheme.of(context).bodyMedium),
                         Spacer(),
                         IconButton(onPressed: () {}, icon: Icon(Icons.link))
                       ],
                     ),
                   ),
+                  Spacer(),
                   TextButton(
                       onPressed: () => _showEditBottomSheet(context),
                       child: Text('Редактировать личные данные')
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 30),
                 ],
               ),
             );
