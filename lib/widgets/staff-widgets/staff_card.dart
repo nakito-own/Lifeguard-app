@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/screens/staff_profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../api-services/image_service.dart';
+
+Future<int?> getUserId() async{
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getInt('userId');
+}
 
 class StaffCard extends StatelessWidget {
   final Staff staff;
 
+  final prefs = SharedPreferences.getInstance();
   StaffCard({required this.staff});
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDarkTheme ? Colors.white10 : Colors.grey[200];
+    final Color cardColor;
+    print('${staff.id} != ${getUserId()}');
+    if (staff.id == getUserId()) {
+      cardColor = ColorScheme.of(context).secondary;
+    } else {
+      cardColor = ColorScheme.of(context).primary;
+    }
 
     return Center(
       child: Padding(
@@ -33,15 +45,15 @@ class StaffCard extends StatelessWidget {
             child: Card(
               elevation: 0.1,
               margin: EdgeInsets.all(6),
-              color: ColorScheme.of(context).primary,
+              color: cardColor,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: 12),
                   leading: FutureBuilder<Image>(
-                    future: staff.avatar != null && staff.avatar.isNotEmpty
-                        ? ImageService().fetchImage('user', staff.avatar)
+                    future: staff.avatar.isNotEmpty
+                        ? ImageService().fetchImage('users', staff.avatar)
                         : Future.error('No image available'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -64,3 +76,4 @@ class StaffCard extends StatelessWidget {
     );
   }
 }
+

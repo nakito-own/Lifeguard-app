@@ -26,7 +26,7 @@ class StaffService {
       throw Exception('Failed to load user data');
     }
   }
-  Future<bool> createStaff(Map<String, dynamic> userData) async {
+  Future<Map<String, dynamic>> createStaff(Map<String, dynamic> userData) async {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
 
@@ -38,6 +38,10 @@ class StaffService {
       },
       body: jsonEncode(userData),
     );
-    return response.statusCode == 200;
+
+    return {
+      'success': response.statusCode == 200,
+      'message': jsonDecode(response.body)['message'] ?? response.body
+    };
   }
 }

@@ -50,7 +50,7 @@ class MyInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('  Личные данные', style: TextTheme.of(context).bodySmall),
+          Text('  Контактные данные', style: TextTheme.of(context).bodySmall),
           SizedBox(height: 5),
           Container(
             width: double.infinity,

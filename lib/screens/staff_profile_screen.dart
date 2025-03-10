@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/api-services/show_staff_service.dart';
-import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
 import 'package:lifeguard/widgets/profile-widgets/profile_redaction_widget.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import '../api-services/image_service.dart';
-import '../widgets/app-widgets/custom_button.dart';
-import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/app-widgets/small_text.dart';
-import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 
 class StaffProfileScreen extends StatefulWidget {
@@ -27,8 +21,6 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
     with SingleTickerProviderStateMixin {
   late Future<Staff> futureStaff;
   late AnimationController _controller;
-  late Animation<double> _animation;
-  bool _isEditingVisible = false;
   final TextEditingController phone = TextEditingController();
   final TextEditingController vk = TextEditingController();
   final TextEditingController tg = TextEditingController();
@@ -47,7 +39,6 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
   }
 
 
@@ -89,8 +80,8 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
                       children: [
                         SizedBox(height: 30),
                         FutureBuilder<Image>(
-                          future: staff.avatar != null && staff.avatar.isNotEmpty
-                              ? ImageService().fetchImage('user', staff.avatar)
+                          future: staff.avatar.isNotEmpty
+                              ? ImageService().fetchImage('users', staff.avatar)
                               : Future.error('No image available'),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {

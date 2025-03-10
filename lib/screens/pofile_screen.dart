@@ -120,20 +120,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   SizedBox(height: 30),
                   FutureBuilder<Image>(
-                    future: userData['image'] != null &&
-                        userData['image'].isNotEmpty
-                        ? ImageService().fetchImage('user', userData['image'])
+                    future: userData['image'] != null && userData['image'].isNotEmpty
+                        ? ImageService().fetchImage('users', userData['image'])
                         : Future.error('No image available'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircleAvatar(radius: 55,
-                            child: CircularProgressIndicator());
+                        return CircleAvatar(radius: 50, child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return CircleAvatar(radius: 55,
-                            child: Icon(Icons.account_circle, size: 90));
+                        return CircleAvatar(radius: 50, child: Icon(Icons.account_circle, size: 70));
                       } else {
-                        return CircleAvatar(
-                            radius: 55, backgroundImage: snapshot.data?.image);
+                        return CircleAvatar(radius: 50, backgroundImage: snapshot.data?.image);
                       }
                     },
                   ),
