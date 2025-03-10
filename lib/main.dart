@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lifeguard/screens/calls_screen.dart';
 import 'package:lifeguard/screens/events_screen.dart';
 import 'package:lifeguard/screens/inventory_screen.dart';
@@ -11,7 +10,6 @@ import 'package:lifeguard/screens/settings_screen.dart';
 import 'package:lifeguard/screens/shift_screen.dart';
 import 'package:lifeguard/screens/staff_screen.dart';
 import 'package:lifeguard/styles/theme_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/styles/themes/app_dark_theme.dart';

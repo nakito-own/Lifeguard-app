@@ -16,10 +16,11 @@ class AppLightTheme {
     ),
     textTheme: _textTheme,
     elevatedButtonTheme: _elevatedButtonTheme,
+    textButtonTheme: _textButtonTheme
   );
 
   static ColorScheme _colorScheme = ColorScheme.light(
-    primary: Colors.grey[100]!,
+    primary: Colors.grey[300]!,
     secondary: Colors.blue[800]!,
     surface: const Color(0xFFF5F5F5),
     error: const Color(0xFFD32F2F),
@@ -31,7 +32,7 @@ class AppLightTheme {
 
   static TextTheme _textTheme = TextTheme(
     bodyLarge: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
-    bodyMedium: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
+    bodyMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
     displayMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
     bodySmall: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54),
     titleLarge: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
@@ -43,5 +44,10 @@ class AppLightTheme {
       foregroundColor: _colorScheme.onPrimary,
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
     ),
+  );
+  static final TextButtonThemeData _textButtonTheme = TextButtonThemeData(
+      style: TextButton.styleFrom(
+        textStyle: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey[800]),
+      )
   );
 }

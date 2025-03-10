@@ -38,16 +38,12 @@ class _RoleDropdownState extends State<RoleDropdown> {
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1400),
-        child: SizedBox(
-          height: 60,
+        child: Container(
+          height: 50,
+          padding: EdgeInsets.all(4),
           child: InputDecorator(
             decoration: InputDecoration(
-              labelText: 'Выберите роль',
-              labelStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff7e7e7e),
-              ),
+              labelStyle: TextTheme.of(context).bodyMedium,
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -60,7 +56,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: Color(0xff7e7e7e),
-                  width: 2,
+                  width: 1,
                 ),
               ),
             ),
@@ -69,11 +65,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
                 value: _selectedRole,
                 hint: Text(
                   'Выберите роль',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xff7e7e7e),
-                  ),
+                  style: TextTheme.of(context).bodyMedium
                 ),
                 isExpanded: true,
                 icon: Icon(Icons.arrow_drop_down, color: Color(0xff7e7e7e)),

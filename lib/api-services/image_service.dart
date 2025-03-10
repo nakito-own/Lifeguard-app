@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,17 +15,29 @@ class ImageService {
     if (token == null) {
       throw Exception('Token is null');
     }
-    final url = Uri.parse('$apiUrl/image/$imageType/$name');
 
-    final response = await http.get(url, headers: {'JWT': '$token'});
+    final String cacheKey = '$imageType$name';
 
-    if (response.statusCode == 200) {
-      Uint8List imageData = response.bodyBytes;
+    String? cachedImage = prefs.getString(cacheKey);
+    if (cachedImage != null) {
+      Uint8List imageData = base64Decode(cachedImage);
       return Image.memory(imageData);
     } else {
-      throw Exception('Failed to load image: ${response.statusCode}');
+      final url = Uri.parse('$apiUrl/image/$imageType/$name');
+      final response = await http.get(url, headers: {'JWT': token});
+
+      if (response.statusCode == 200) {
+        Uint8List imageData = response.bodyBytes;
+        String base64Image = base64Encode(imageData);
+        await prefs.setString(cacheKey, base64Image);
+
+        return Image.memory(imageData);
+      } else {
+        throw Exception('Failed to load image: ${response.statusCode}');
+      }
     }
   }
+
   Future<void> uploadImage(File imageFile, String imageType, String id) async {
     final url = Uri.parse('$apiUrl/upload');
     var request = http.MultipartRequest('POST', url);

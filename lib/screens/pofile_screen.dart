@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import '../api-services/image_service.dart';
 import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
@@ -8,8 +7,6 @@ import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/app-widgets/error_widget.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
-import '../widgets/app-widgets/small_text.dart';
-import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 
 class ProfileScreen extends StatefulWidget {
 
@@ -123,20 +120,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   SizedBox(height: 30),
                   FutureBuilder<Image>(
-                    future: userData['image'] != null &&
-                        userData['image'].isNotEmpty
-                        ? ImageService().fetchImage('user', userData['image'])
+                    future: userData['image'] != null && userData['image'].isNotEmpty
+                        ? ImageService().fetchImage('users', userData['image'])
                         : Future.error('No image available'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircleAvatar(radius: 55,
-                            child: CircularProgressIndicator());
+                        return CircleAvatar(radius: 50, child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return CircleAvatar(radius: 55,
-                            child: Icon(Icons.account_circle, size: 90));
+                        return CircleAvatar(radius: 50, child: Icon(Icons.account_circle, size: 70));
                       } else {
-                        return CircleAvatar(
-                            radius: 55, backgroundImage: snapshot.data?.image);
+                        return CircleAvatar(radius: 50, backgroundImage: snapshot.data?.image);
                       }
                     },
                   ),

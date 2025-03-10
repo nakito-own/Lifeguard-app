@@ -18,17 +18,17 @@ class CustomButton extends StatelessWidget {
 
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
     final shadowColor = isDarkTheme ? Colors.black : Colors.black;
-    final buttonSize = MiniButton ? Size(160, 40) : Size(1000, 40);
+    final buttonSize = MiniButton ? Size(160, 40) : Size(2000, 40);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.08),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           maximumSize: buttonSize,
           backgroundColor: ColorScheme.of(context).secondary,
           shadowColor: shadowColor,
-          elevation: 8,
+          elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

@@ -3,6 +3,7 @@ import 'package:lifeguard/widgets/app-widgets/custom_drawer_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_exit_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../api-services/image_service.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -44,7 +45,7 @@ class AppDrawer extends StatelessWidget {
                       children: [
                         FutureBuilder<Image>(
                           future: userData['image'] != null && userData['image'].isNotEmpty
-                              ? ImageService().fetchImage('user', userData['image'])
+                              ? ImageService().fetchImage('users', userData['image'])
                               : Future.error('No image available'),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -95,7 +96,7 @@ class AppDrawer extends StatelessWidget {
                 } else {
                   final permissions = snapshot.data!;
                   return ListView(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     children: <Widget>[
                       CustomDrawerButton(
                         text: "Профиль",
@@ -176,8 +177,11 @@ class AppDrawer extends StatelessWidget {
             padding: EdgeInsets.all(20.0),
             child: ButtonExit(
               text: 'Выйти',
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pushNamed(context, '/login');
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+                print('This cache is cleared');
               },
             ),
           ),
