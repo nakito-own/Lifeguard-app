@@ -66,6 +66,27 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              Container(
+                constraints: BoxConstraints(
+                    maxWidth: 1170
+                ),
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: ColorScheme.of(context).primary
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('  Сообщить о проблеме', style: TextTheme.of(context).bodyMedium),
+                    Spacer(),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.bug_report))
+                  ],
+                ),
+              ),
               Spacer(),
               Text(
                 'Development from NES ltd. \nProvided by @Goosendra & @nakito-own',

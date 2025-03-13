@@ -18,7 +18,6 @@ class StaffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color cardColor;
-    print('${staff.id} != ${getUserId()}');
     if (staff.id == getUserId()) {
       cardColor = ColorScheme.of(context).secondary;
     } else {
