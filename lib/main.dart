@@ -14,6 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/styles/themes/app_dark_theme.dart';
 import 'package:lifeguard/styles/themes/app_light_theme.dart';
+import 'package:lifeguard/widgets/app-widgets/bug_report_button.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -35,6 +36,17 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
+      builder: (context, child){
+        return Stack(
+          children: [
+            if (child != null) child,
+            Positioned(
+              bottom: 32,
+                right: 16,
+                child: BugReportButton())
+          ],
+        );
+      },
       title: 'Lifeguard - МЧС',
       theme: AppLightTheme.theme,
       darkTheme: AppDarkTheme.theme,
