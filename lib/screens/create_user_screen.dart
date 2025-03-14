@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lifeguard/api-services/staff_service.dart';
 import 'package:lifeguard/widgets/app-widgets/avatar_picker.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
+import '../api-services/image_service.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/staff-widgets/role_dropdown_widget.dart';
 
@@ -15,6 +18,7 @@ class CreateUserScreen extends StatefulWidget {
 
 class _CreateUserScreenState extends State<CreateUserScreen> {
 
+  Uint8List? _avatarImageData;
   final StaffService _staffService = StaffService();
   final TextEditingController _applyController = TextEditingController();
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -28,6 +32,12 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   final TextEditingController _tgController = TextEditingController();
   final TextEditingController _vkController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void _setAvatarImageData(Uint8List imageData) {
+    setState(() {
+      _avatarImageData = imageData;
+    });
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -91,12 +101,26 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
 
     final response = await _staffService.createStaff(userData);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(response['message'] ?? 'Ошибка при создании сотрудника')),
-    );
-
     if (response['success']) {
+      final int userId = response['userId'];
+      if (_avatarImageData != null) {
+        try {
+          await ImageService().uploadImage(_avatarImageData!, 'users', userId.toString());
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Пользователь успешно создан')),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Ошибка при загрузке изображения: $e')),
+          );
+          print(e);
+        }
+      }
       Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response['message'] ?? 'Ошибка при создании пользователя')),
+      );
     }
   }
 
@@ -115,7 +139,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                 constraints: BoxConstraints(maxWidth: 1200),
                 child: Column(
                   children: [
-                    AvatarPicker(),
+                    AvatarPicker(onImagePicked: _setAvatarImageData),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

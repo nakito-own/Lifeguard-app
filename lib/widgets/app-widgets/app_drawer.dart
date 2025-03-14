@@ -17,70 +17,73 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(top: 42),
-            child: FutureBuilder<Map<String, dynamic>?>(
-              future: User().getUserData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (snapshot.hasError) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(child: Text('Error: ${snapshot.error}')),
-                  );
-                } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(child: Text('No user data found')),
-                  );
-                } else {
-                  final userData = snapshot.data!;
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        FutureBuilder<Image>(
-                          future: userData['image'] != null && userData['image'].isNotEmpty
-                              ? ImageService().fetchImage('users', userData['image'])
-                              : Future.error('No image available'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircleAvatar(radius: 40, child: CircularProgressIndicator());
-                            } else if (snapshot.hasError) {
-                              return CircleAvatar(radius: 40, child: Icon(Icons.account_circle, size: 70));
-                            } else {
-                              return CircleAvatar(radius: 40, backgroundImage: snapshot.data?.image);
-                            }
-                          },
-                        ),
-                        SizedBox(width: 15),
-                        Flexible(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${userData['surname']} ${userData['name']} ${userData['patronymic']}',
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                'Role',
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(fontSize: 16, color: Colors.green),
-                              ),
-                            ],
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, "/profile"),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 42),
+              child: FutureBuilder<Map<String, dynamic>?>(
+                future: User().getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(child: Text('Error: ${snapshot.error}')),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(child: Text('No user data found')),
+                    );
+                  } else {
+                    final userData = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          FutureBuilder<Image>(
+                            future: userData['image'] != null && userData['image'].isNotEmpty
+                                ? ImageService().fetchImage('users', userData['image'])
+                                : Future.error('No image available'),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return CircleAvatar(radius: 40, child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return CircleAvatar(radius: 40, child: Icon(Icons.account_circle, size: 70));
+                              } else {
+                                return CircleAvatar(radius: 40, backgroundImage: snapshot.data?.image);
+                              }
+                            },
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
+                          SizedBox(width: 15),
+                          Flexible(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${userData['surname']} ${userData['name']} ${userData['patronymic']}',
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  'Role',
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(fontSize: 16, color: Colors.green),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
           Expanded(

@@ -39,9 +39,18 @@ class StaffService {
       body: jsonEncode(userData),
     );
 
-    return {
-      'success': response.statusCode == 200,
-      'message': jsonDecode(response.body)['message'] ?? response.body
-    };
+    if (response.statusCode == 200) {
+      final int userId = int.parse(response.body);
+      return {
+        'success': true,
+        'userId': userId,
+        'message': 'Пользователь успешно создан'
+      };
+    } else {
+      return {
+        'success': false,
+        'message': response.body
+      };
+    }
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AvatarPicker extends StatefulWidget {
+  final Function(Uint8List) onImagePicked;
+
+  AvatarPicker({required this.onImagePicked});
+
   @override
   _AvatarPickerState createState() => _AvatarPickerState();
 }
@@ -13,11 +16,15 @@ class _AvatarPickerState extends State<AvatarPicker> {
 
   Future<void> _pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
-      if (result != null && result.files.first.bytes != null) {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        final Uint8List imageData = await image.readAsBytes();
         setState(() {
-          _avatarImageData = result.files.first.bytes;
+          _avatarImageData = imageData;
         });
+        widget.onImagePicked(imageData);
       }
     } catch (e) {
       print("Error picking image: $e");
@@ -26,20 +33,27 @@ class _AvatarPickerState extends State<AvatarPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 50,
-          backgroundImage: _avatarImageData != null ? MemoryImage(_avatarImageData!) : null,
-          child: _avatarImageData == null ? Icon(Icons.image_outlined, size: 50) : null,
-        ),
-        IconButton(
-          onPressed: _pickImage,
-          icon: Icon(Icons.camera_alt),
-          tooltip: 'Выбрать файл',
-          color: Colors.blue,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 50,
+            backgroundImage: _avatarImageData != null ? MemoryImage(_avatarImageData!) : null,
+            child: _avatarImageData == null ? Icon(Icons.add_a_photo_outlined, size: 50) : null,
+          ),
+          Positioned(
+            bottom: -10,
+            right: -10,
+            child: IconButton(
+              onPressed: _pickImage,
+              icon: Icon(Icons.add_box, size: 30),
+              tooltip: 'Выбрать файл',
+              color: ColorScheme.of(context).secondary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
