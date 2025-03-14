@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+//import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
@@ -38,12 +38,23 @@ class ImageService {
     }
   }
 
-  Future<void> uploadImage(File imageFile, String imageType, String id) async {
-    final url = Uri.parse('$apiUrl/upload');
+  Future<void> uploadImage(Uint8List imageData, String imageType, String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('jwt');
+    if (token == null) {
+      throw Exception('Token is null');
+    }
+
+    final url = Uri.parse('$apiUrl/image/$imageType/$id');
+
     var request = http.MultipartRequest('POST', url);
-    request.fields['imageType'] = imageType;
-    request.fields['id'] = id;
-    request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+    request.headers['JWT'] = token;
+
+    request.files.add(http.MultipartFile.fromBytes(
+      'file',
+      imageData,
+      filename: 'avatar.bin',
+    ));
 
     final response = await request.send();
 
