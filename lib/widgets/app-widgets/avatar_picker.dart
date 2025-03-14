@@ -47,7 +47,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
             right: -10,
             child: IconButton(
               onPressed: _pickImage,
-              icon: Icon(Icons.add_box, size: 30),
+              icon: Icon(Icons.add_box_rounded, size: 30),
               tooltip: 'Выбрать файл',
               color: ColorScheme.of(context).secondary,
             ),

@@ -112,7 +112,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
             ),
             Container(
               constraints: BoxConstraints(
-                  maxWidth: 1170
+                  maxWidth: 1200
               ),
               width: double.infinity,
               margin: EdgeInsets.all(16),

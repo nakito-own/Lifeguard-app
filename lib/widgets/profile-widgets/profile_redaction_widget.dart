@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lifeguard/api-services/show_staff_service.dart';
-import 'package:lifeguard/widgets/profile-widgets/profile_header_widget.dart';
-import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import '../../models/staff_model.dart';
-import '../app-widgets/custom_button.dart';
-import '../app-widgets/custom_textfield.dart';
-import '../app-widgets/custom_redaction_button.dart';
-import '../app-widgets/small_text.dart';
+import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
+import 'package:lifeguard/widgets/app-widgets/avatar_picker.dart';
+import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
+import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class ProfileRedactionWidget extends StatefulWidget {
   final int staffId;
@@ -24,73 +19,59 @@ class ProfileRedactionWidget extends StatefulWidget {
   _ProfileRedactionWidgetState createState() => _ProfileRedactionWidgetState();
 }
 
-class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget>
-    with SingleTickerProviderStateMixin {
-  late Future<Staff> futureStaff;
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController vk = TextEditingController();
-  final TextEditingController tg = TextEditingController();
-  final TextEditingController mail = TextEditingController();
+class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
+  late final TextEditingController _nameController;
+  late final TextEditingController _surnameController;
+  late final TextEditingController _patronymicController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _vkController;
+  late final TextEditingController _tgController;
+  late final TextEditingController _mailController;
+
   final ShowStaffService _service = ShowStaffService();
   final PermissionsManager permissionsManager = PermissionsManager();
-
-  bool _isEditingVisible = false;
-
-  late final TextEditingController _Namecontroller;
-  late final TextEditingController _Surnamecontroller;
-  late final TextEditingController _Patronymiccontroller;
-
-
-  List<Widget> allStaffWidgets = [];
-  List<Widget> filteredStaffWidgets = [];
 
   @override
   void initState() {
     super.initState();
-    _Namecontroller = TextEditingController(text: widget.staff.name);
-    _Surnamecontroller = TextEditingController(text: widget.staff.surname);
-    _Patronymiccontroller = TextEditingController(text: widget.staff.patronymic);
-    futureStaff = _service.fetchStaffById(widget.staffId);
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+    _nameController = TextEditingController(text: widget.staff.name);
+    _surnameController = TextEditingController(text: widget.staff.surname);
+    _patronymicController = TextEditingController(text: widget.staff.patronymic);
+    _phoneController = TextEditingController(text: widget.staff.phone);
+    _vkController = TextEditingController(text: widget.staff.vk);
+    _tgController = TextEditingController(text: widget.staff.tg);
+    _mailController = TextEditingController(text: widget.staff.email);
   }
 
-
-  void _EditingWidget() {
-   Navigator.pop(context);
-  }
-
-  void _EditPerson() {
+  void _saveChanges() {
     setState(() {
       widget.staff = widget.staff.copyWith(
-        newName: _Namecontroller.text,
-        newSurname: _Surnamecontroller.text,
-        newPatronymic: _Patronymiccontroller.text,
+        newName: _nameController.text,
+        newSurname: _surnameController.text,
+        newPatronymic: _patronymicController.text,
+        newPhone: _phoneController.text,
+        newVk: _vkController.text,
+        newTg: _tgController.text,
+        newEmail: _mailController.text,
       );
     });
 
-    print('Updated Staff: ${widget.staff.toJson()}');
-
-    sendDataToServer();
+    _sendDataToServer();
   }
 
-
-  Future<void> sendDataToServer() async {
+  Future<void> _sendDataToServer() async {
     final prefs = await SharedPreferences.getInstance();
     final String url = 'http://95.163.221.72:8000/users';
     final String? token = prefs.getString('jwt');
-
 
     final Map<String, dynamic> data = {
       'name': widget.staff.name,
       'surname': widget.staff.surname,
       'patronymic': widget.staff.patronymic,
-
+      'phone': widget.staff.phone,
+      'vk': widget.staff.vk,
+      'tg': widget.staff.tg,
+      'email': widget.staff.email,
     };
 
     try {
@@ -105,231 +86,162 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget>
 
       if (response.statusCode == 200) {
         print('Данные успешно отправлены: ${response.body}');
+        Navigator.pop(context);
       } else {
         print('Ошибка при отправке данных: ${response.statusCode}');
-        print('Новые данные: ${jsonEncode(data)}');
       }
     } catch (e) {
       print('Произошла ошибка: $e');
     }
   }
 
-
   @override
   void dispose() {
-    _Namecontroller.dispose();
-    _Surnamecontroller.dispose();
-    _Patronymiccontroller.dispose();
-    _controller.dispose();
+    _nameController.dispose();
+    _surnameController.dispose();
+    _patronymicController.dispose();
+    _phoneController.dispose();
+    _vkController.dispose();
+    _tgController.dispose();
+    _mailController.dispose();
     super.dispose();
   }
-
-  bool isObscured = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Сотрудник'),
+        title: Text('Редактирование'),
       ),
-      body: FutureBuilder<Staff>(
-        future: futureStaff,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('Информация о пользователе не найдена'));
-          } else {
-            final staff = snapshot.data!;
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 15),
-                  CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                          'https://sun1-17.userapi.com/s/v1/ig2/5oQd1HwXQjdP9Tmj1Apbc4g7MTfT6LmeMW99acU-htKmjxidJ9t0aldZ7hD-P_9L5ZlLwrzEIMwPre0w6-V1BMg1.jpg?quality=95&crop=1,0,834,834&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=aseTjjK2s91iQeI5LbaqLOf6Kcm40eYRe6SBVTsbT6k&cs=200x200')),
-                  SizedBox(height: 10),
-                  ProfileHeaderWidget(
-                    FirstName: staff.name,
-                    SecondName: staff.surname,
-                    Patronymic: staff.patronymic,
-                  ),
-                  CustomTextField(
-                      text: '',
-                      lines: 1,
-                      labelText: 'Имя',
-                      widthSize: 300,
-                      heightSize: 42,
-                      icon: Icon(Icons.ac_unit),
-                      controller: _Namecontroller,
-                      isObscured: isObscured,
-                      togglePass: () {
-                        setState(() {
-                          isObscured = isObscured;
-                        });
-                      }), SizedBox(height: 20),
-                  CustomTextField(
-                      text: '',
-                      lines: 1,
-                      labelText: 'Фамилия',
-                      widthSize: 300,
-                      heightSize: 42,
-                      icon: Icon(Icons.ac_unit),
-                      controller: _Surnamecontroller,
-                      isObscured: isObscured,
-                      togglePass: () {
-                        setState(() {
-                          isObscured = isObscured;
-                        });
-                      }), SizedBox(height: 20),
-                  CustomTextField(
-                      text: '',
-                      lines: 1,
-                      labelText: 'Отчество',
-                      widthSize: 300,
-                      heightSize: 42,
-                      icon: Icon(Icons.ac_unit),
-                      controller:_Patronymiccontroller,
-                      isObscured: isObscured,
-                      togglePass: () {
-                        setState(() {
-                          isObscured = isObscured;
-                        });
-                      }), SizedBox(height: 10),
-                  CustomRedactionButton(
-                    redactionText: 'Изменить ФИО',
-                    onPressed: _EditPerson,
-                  ),
-                  SizedBox(height: 30),
-                  Row( children: [
-                  SmallText(some_text: 'Основная информация', Width: 200,),
-                  ],),
-                  SizedBox(height: 10),
-                  ProfileInfoWidget(),
-                  Row( children: [
-                  SmallText(some_text: 'Личные данные', Width: 200,),
-                  ],),
-
-                  SizedBox(height: 10),
-                  ResponsiveBuilder(builder: (context, sizingInformation) {
-                    double width;
-                    if (sizingInformation.deviceScreenType ==
-                        DeviceScreenType.mobile) {
-                      width = MediaQuery.of(context).size.width * 0.85;
-                    } else if (sizingInformation.deviceScreenType ==
-                        DeviceScreenType.tablet) {
-                      width = MediaQuery.of(context).size.width * 0.65;
-                    } else {
-                      width = MediaQuery.of(context).size.width * 0.5;
-                    }
-                    return Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(height: 20),
-                              CustomTextField(
-                                  text: '+7 999 999 99 99',
-                                  lines: 1,
-                                  labelText: 'Телефон',
-                                  widthSize: width,
-                                  heightSize: 42,
-                                  icon: Icon(Icons.ac_unit),
-                                  controller: phone,
-                                  isObscured: isObscured,
-                                  togglePass: () {
-                                    setState(() {
-                                      isObscured = isObscured;
-                                    });
-                                  }),
-                              SizedBox(height: 20),
-                              CustomTextField(
-                                  text: 'https://vk.com/',
-                                  lines: 1,
-                                  labelText: 'VK',
-                                  widthSize: width,
-                                  heightSize: 42,
-                                  icon: Icon(Icons.ac_unit),
-                                  controller: vk,
-                                  isObscured: isObscured,
-                                  togglePass: () {
-                                    setState(() {
-                                      isObscured = isObscured;
-                                    });
-                                  }),
-                              SizedBox(height: 20),
-                              CustomTextField(
-                                  text: 'https://t.me/',
-                                  lines: 1,
-                                  labelText: 'TG',
-                                  widthSize: width,
-                                  heightSize: 42,
-                                  icon: Icon(Icons.ac_unit),
-                                  controller: tg,
-                                  isObscured: isObscured,
-                                  togglePass: () {
-                                    setState(() {
-                                      isObscured = isObscured;
-                                    });
-                                  }),
-                              SizedBox(height: 20),
-                              CustomTextField(
-                                  text: 'https://mail.ru/',
-                                  lines: 1,
-                                  labelText: 'Почта',
-                                  widthSize: width,
-                                  heightSize: 42,
-                                  icon: Icon(Icons.ac_unit),
-                                  controller: mail,
-                                  isObscured: isObscured,
-                                  togglePass: () {
-                                    setState(() {
-                                      isObscured = isObscured;
-                                    });
-                                  }),
-                              SizedBox(height: 25),
-                              CustomButton(
-                                buttonText: 'Сохранить',
-                                MiniButton: true,
-                                onPressed: () {
-                                  print(
-                                      '${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
-                                  _EditingWidget();
-                                  phone.clear();
-                                  vk.clear();
-                                  tg.clear();
-                                 mail.clear();
-                                },
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        );
-                  }),
-                  SizedBox(height: 10),
-                  FutureBuilder<bool>(
-                    future: permissionsManager.hasPermission('user update'),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error checking permissions');
-                      } else if (snapshot.hasData && snapshot.data!) {
-                        return Text('');
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    },
-                  ),
-                  SizedBox(height: 10),
-                ],
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 1200),
+                child: Column(
+                  children: [
+                    AvatarPicker(onImagePicked: (Uint8List ) {  },),
+                    SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('  Имя Фамилия Отчество', style: TextTheme.of(context).bodySmall),
+                        SizedBox(height: 5),
+                        Column(
+                          children: [
+                            CustomTextField(
+                              text: '',
+                              controller: _nameController,
+                              labelText: 'Имя',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.text_fields,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                            CustomTextField(
+                              text: '',
+                              controller: _surnameController,
+                              labelText: 'Фамилия',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.text_fields,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                            CustomTextField(
+                              text: '',
+                              controller: _patronymicController,
+                              labelText: 'Отчество (При наличии)',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.text_fields,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('  Контактная информация', style: TextTheme.of(context).bodySmall),
+                        SizedBox(height: 5),
+                        Column(
+                          children: [
+                            CustomTextField(
+                              text: '',
+                              controller: _phoneController,
+                              labelText: 'Телефон (обязательно)',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.phone,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                            CustomTextField(
+                              text: '',
+                              controller: _vkController,
+                              labelText: 'VK (Опционально)',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.link,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                            CustomTextField(
+                              text: '',
+                              controller: _tgController,
+                              labelText: 'Telegram (Опционально)',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.send,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                            CustomTextField(
+                              text: '',
+                              controller: _mailController,
+                              labelText: 'Email',
+                              widthSize: double.infinity,
+                              heightSize: 60,
+                              icon: Icons.email,
+                              togglePass: () {},
+                              isObscured: false,
+                              lines: 1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    TextButton(
+                        onPressed: (){},
+                        child: Text('Удалить профиль пользователя',
+                            style: TextStyle(color: Colors.red)
+                        )
+                    ),
+                    CustomButton(
+                      buttonText: 'Сохранить изменения',
+                      onPressed: _saveChanges,
+                      MiniButton: false,
+                    ),
+                  ],
+                ),
               ),
-            );
-          }
-        },
+            ),
+          ),
+        ),
       ),
     );
   }
