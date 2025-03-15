@@ -21,14 +21,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
     return Center(
       child: Container(
-        margin: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
-        padding: EdgeInsets.only(top: 10, bottom:10, left:10, right:10),
+        margin: EdgeInsets.all(6),
+        padding: EdgeInsets.all(8),
         constraints: BoxConstraints(
           maxWidth: 800,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
