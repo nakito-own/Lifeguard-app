@@ -145,23 +145,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Mail_Link: userData['email'],
                   ),
                   Container(
-                    constraints: BoxConstraints(
-                        maxWidth: 1170
-                    ),
-                    width: double.infinity,
-                    margin: EdgeInsets.all(16),
-                    padding: EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: ColorScheme.of(context).primary
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    constraints: BoxConstraints(maxWidth: 1200),
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('  Личное дело', style: TextTheme.of(context).bodyMedium),
-                        Spacer(),
-                        IconButton(onPressed: () {}, icon: Icon(Icons.link))
+                        Text('  Документы', style: TextTheme.of(context).bodySmall),
+                        SizedBox(height: 5),
+                        Container(
+                          constraints: BoxConstraints(
+                              maxWidth: 1200
+                          ),
+                          width: double.infinity,
+                          padding: EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: ColorScheme.of(context).primary
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('  Личное дело', style: TextTheme.of(context).bodyMedium),
+                              Spacer(),
+                              IconButton(onPressed: () {}, icon: Icon(Icons.link))
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

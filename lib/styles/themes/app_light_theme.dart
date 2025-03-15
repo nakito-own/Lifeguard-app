@@ -33,9 +33,10 @@ class AppLightTheme {
   static TextTheme _textTheme = TextTheme(
     bodyLarge: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
     bodyMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-    displayMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+    displayMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[600]),
     bodySmall: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54),
     titleLarge: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
+    titleMedium: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
   );
 
   static final ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(

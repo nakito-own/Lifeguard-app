@@ -59,7 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(4),
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 5.5),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: 1400,
@@ -78,7 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             )
                 : null,
             labelText: widget.labelText,
-            labelStyle: TextTheme.of(context).bodyMedium,
+            labelStyle: TextTheme.of(context).displayMedium,
             hintText: widget.text,
             hintStyle: TextTheme.of(context).bodySmall,
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),

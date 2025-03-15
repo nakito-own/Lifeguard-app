@@ -43,7 +43,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
           padding: EdgeInsets.all(4),
           child: InputDecorator(
             decoration: InputDecoration(
-              labelStyle: TextTheme.of(context).bodyMedium,
+              labelStyle: TextTheme.of(context).displayMedium,
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -65,10 +65,10 @@ class _RoleDropdownState extends State<RoleDropdown> {
                 value: _selectedRole,
                 hint: Text(
                   'Выберите роль',
-                  style: TextTheme.of(context).bodyMedium
+                  style: TextTheme.of(context).displayMedium
                 ),
                 isExpanded: true,
-                icon: Icon(Icons.arrow_drop_down, color: Color(0xff7e7e7e)),
+                icon: Icon(Icons.arrow_drop_down, color: Colors.black),
                 onChanged: (RoleModel? newValue) {
                   setState(() {
                     _selectedRole = newValue;
