@@ -38,7 +38,6 @@ class Item {
       'id': id,
     };
   }
-
   Item copyWith({
     String? name,
     String? description,

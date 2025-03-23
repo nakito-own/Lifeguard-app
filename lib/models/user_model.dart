@@ -32,7 +32,6 @@ class User {
       'role': role,
     };
   }
-
   User copyWith({
     String? name,
     String? surname,

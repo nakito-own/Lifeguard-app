@@ -19,7 +19,6 @@ class RoleModel {
       'rank_name': rankName,
     };
   }
-
   RoleModel copyWith({
     int? ownersCount,
     int? rankId,
