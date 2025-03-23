@@ -27,4 +27,36 @@ class Item {
       id: json['id'] ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': Name,
+      'description': Description,
+      'number': Number,
+      'inventoryType': InventoryType,
+      'warehouse': WareHouse,
+      'short_name': ShortName,
+      'id': id,
+    };
+  }
+
+  Item copyWith({
+    String? name,
+    String? description,
+    int? number,
+    String? inventoryType,
+    String? wareHouse,
+    String? shortName,
+    int? itemId,
+  }) {
+    return Item(
+      Name: name ?? this.Name,
+      Description: description ?? this.Description,
+      Number: number ?? this.Number,
+      InventoryType: inventoryType ?? this.InventoryType,
+      WareHouse: wareHouse ?? this.WareHouse,
+      ShortName: shortName ?? this.ShortName,
+      id: itemId ?? this.id,
+    );
+  }
 }

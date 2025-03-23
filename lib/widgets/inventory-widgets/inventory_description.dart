@@ -5,10 +5,12 @@ class InventoryDescription extends StatelessWidget {
   final String ItemName;
   final String Description;
   final String WareHouse;
+  final String Number;
   final Item item;
 
   InventoryDescription({
     Key? key,
+    required this.Number,
     required this.ItemName,
     required this.Description,
     required this.WareHouse,
@@ -89,7 +91,22 @@ class InventoryDescription extends StatelessWidget {
                 Text('${WareHouse}', style: TextStyle(color: description_Color),),
               ],
             ),
-            SizedBox(height: 20)
+            SizedBox(height: 15),
+                Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Text('Количество: ', style: TextStyle(color: descriptionWord_Color)),
+                    Text('${Number}', style: TextStyle(color: description_Color)),
+                  ]
+                ),
+                SizedBox(height: 15),
+                Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Text('Номера: ', style: TextStyle(color: descriptionWord_Color)),
+                      Text('№1 - №200', style: TextStyle(color: description_Color)),
+                    ]
+                )
               ]
             ),
           ],

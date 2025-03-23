@@ -12,4 +12,24 @@ class RoleModel {
       rankName: json['rank_name'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'owners_count': ownersCount,
+      'rank_id': rankId,
+      'rank_name': rankName,
+    };
+  }
+
+  RoleModel copyWith({
+    int? ownersCount,
+    int? rankId,
+    String? rankName,
+  }) {
+    return RoleModel(
+      ownersCount: ownersCount ?? this.ownersCount,
+      rankId: rankId ?? this.rankId,
+      rankName: rankName ?? this.rankName,
+    );
+  }
 }

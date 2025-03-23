@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'dart:async';
 import '../models/user_model.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/app-widgets/custom_button.dart';
@@ -9,6 +10,7 @@ import '../widgets/profile-widgets/profile_header_widget.dart';
 import '../widgets/profile-widgets/my_info.dart';
 import '../widgets/app-widgets/small_text.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
+import 'package:lifeguard/utils/keyboard_manager.dart';
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -28,6 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   final TextEditingController vk = TextEditingController();
   final TextEditingController tg = TextEditingController();
   final TextEditingController mail = TextEditingController();
+  late final StreamSubscription _enterSubscription;
+  late final StreamSubscription _escapeSubscription;
 
   @override
   void initState() {
@@ -38,6 +42,51 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       vsync: this,
     );
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+    _setupKeyboardListeners();
+  }
+
+  void _setupKeyboardListeners() {
+    _enterSubscription = KeyboardManager().onEnterPressed.listen((context) {
+      _handleEnterPressed();
+    });
+    
+    _escapeSubscription = KeyboardManager().onEscapePressed.listen((context) {
+      _handleEscapePressed();
+    });
+  }
+
+  void _handleEnterPressed() {
+    if (_isEditingVisible) {
+      _saveProfileData();
+    } else {
+      _toggleEditingWidget();
+    }
+  }
+
+  void _handleEscapePressed() {
+    if (_isEditingVisible) {
+      // Отмена редактирования без сохранения
+      _toggleEditingWidget();
+      _clearFields();
+    } else {
+      // В остальных случаях ничего не делаем, drawer будет открываться через KeyboardWrapper
+    }
+  }
+
+  void _saveProfileData() {
+    print('${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
+    _showErrorDialog('Данные отправлены');
+    _toggleEditingWidget();
+    _clearFields();
+  }
+
+  void _clearFields() {
+    setState(() {
+      phone.clear();
+      vk.clear();
+      tg.clear();
+      mail.clear();
+    });
   }
 
   void _toggleEditingWidget() {
@@ -65,6 +114,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   
   @override
   void dispose() {
+    _enterSubscription.cancel();
+    _escapeSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -73,10 +124,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Профиль'),
+        actions: [
+          Tooltip(
+            message: 'Управление с клавиатуры:\nEnter - редактировать/сохранить\nEsc - отмена/меню',
+            child: Icon(Icons.keyboard, size: 20),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
       body: FutureBuilder<Map<String, dynamic>?>(
@@ -144,10 +201,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      icon: Icon(Icons.ac_unit),
                                      controller: phone,
                                      isObscured: isObscured,
-
                                      togglePass: () {
                                        setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
+                                     }),
+                                 SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://vk.com/',
                                      lines: 1,
@@ -159,7 +216,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      isObscured: isObscured,
                                      togglePass: () {
                                        setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
+                                     }),
+                                 SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://t.me/',
                                      lines: 1,
@@ -171,7 +229,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                      isObscured: isObscured,
                                      togglePass: () {
                                        setState(() { isObscured = isObscured; });
-                                     }), SizedBox(height: 20,),
+                                     }),
+                                 SizedBox(height: 20,),
                                  CustomTextField(
                                      text: 'https://mail.ru/',
                                      lines: 1,
@@ -188,15 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                  CustomButton(
                                    buttonText: 'Сохранить',
                                    MiniButton: true,
-                                   onPressed: () {
-                                     print('${phone.text}, ${vk.text}, ${tg.text}, ${mail.text}');
-                                     _showErrorDialog('Данные отправлены');
-                                     _toggleEditingWidget();
-                                     phone.clear();
-                                     vk.clear();
-                                     tg.clear();
-                                     mail.clear();
-                                   },
+                                   onPressed: _saveProfileData,
                                  ),
                                  SizedBox(height: 10),
                                ],

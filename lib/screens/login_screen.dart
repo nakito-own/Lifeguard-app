@@ -5,6 +5,8 @@ import 'package:lifeguard/api-services/login_service.dart';
 import 'package:lifeguard/widgets/app-widgets/error_widget.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:lifeguard/utils/keyboard_manager.dart';
+import 'dart:async';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -19,9 +21,50 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final LoginService _loginProvider = LoginService();
+  late final StreamSubscription _enterSubscription;
+  late final StreamSubscription _escapeSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupKeyboardListeners();
+  }
+
+  void _setupKeyboardListeners() {
+    _enterSubscription = KeyboardManager().onEnterPressed.listen((context) {
+      _performLogin();
+    });
+    
+    _escapeSubscription = KeyboardManager().onEscapePressed.listen((context) {
+      _clearFields();
+    });
+  }
+
+  void _performLogin() async {
+    String email = _usernameController.text;
+    String password = _passwordController.text;
+    
+    if (email.isNotEmpty && password.isNotEmpty) {
+      bool success = await _loginProvider.login(email, password);
+      if ((success) ^ ((password == "admin") & (email == "root"))) {
+        Navigator.pushNamed(context, '/profile');
+      } else {
+        _showErrorDialog('Неверный логин или пароль');
+      }
+    }
+  }
+
+  void _clearFields() {
+    setState(() {
+      _usernameController.clear();
+      _passwordController.clear();
+    });
+  }
 
   @override
   void dispose() {
+    _enterSubscription.cancel();
+    _escapeSubscription.cancel();
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -127,16 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: CustomButton(
                       buttonText: 'Войти',
                       MiniButton: true,
-                      onPressed: () async {
-                        String email = _usernameController.text;
-                        String password = _passwordController.text;
-                        bool success = await _loginProvider.login(email, password);
-                        if ((success) ^ ((password == "admin") & (email == "root"))) {
-                          Navigator.pushNamed(context, '/profile');
-                        } else {
-                          _showErrorDialog('Неверный логин или пароль');
-                        }
-                      },
+                      onPressed: _performLogin,
                     ), ),
                   ],
                 ),
@@ -149,11 +183,24 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Забыли пароль?',
               onPressed: () {
                 _showErrorDialog('Функция недоступна, обращайтесь к @Gooseandra');
-                print('Реально забыал');
+                print('Реально забыл');
               },
             ),
           ),
-          SizedBox( height: 10)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 10),
+              Tooltip(
+                message: 'Управление с клавиатуры:\nEnter - вход\nEsc - очистить поля',
+                child: Icon(Icons.keyboard, size: 16, color: Colors.grey),
+              ),
+              SizedBox(width: 5),
+              Text('Доступно управление с клавиатуры', 
+                style: TextStyle(fontSize: 12, color: Colors.grey)),
+            ],
+          ),
+          SizedBox(height: 10)
         ],
       ),
     );

@@ -84,10 +84,10 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDarkTheme ? Color.fromRGBO(56, 52, 52, 1) : Color(0xffd3d6d6);
+    final cardColor = isDarkTheme ? Color(0xff2d2a2a) : Color(0xffd3d6d6);
     final textColor = isDarkTheme ? Colors.white : Colors.black;
     final backNumberColor = isDarkTheme ? Colors.white10 : Color.fromRGBO(176, 172, 172, 1);
-    final containerColor = isDarkTheme ? Color.fromRGBO(71, 67, 67, 1) : Color(0xffc6c7c7);
+    final tileColor = isDarkTheme ? Color.fromRGBO(83, 83, 83, 1) : Color(0xffc6c7c7);
 
     final groupedItems = _groupItems();
 
@@ -132,22 +132,28 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
                 itemBuilder: (context, index) {
                   final shortName = groupedItems.keys.elementAt(index);
                   final items = groupedItems[shortName]!;
-
                   return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                     shadowColor: Colors.transparent,
-                    color: containerColor,
+                    color: isDarkTheme ? Colors.grey[800] : Colors.grey[300],
                     child: ExpansionTile(
                       dense: true,
                       collapsedIconColor: Colors.transparent,
                       iconColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       title:
                       Text(
-                        shortName,
+                        '${shortName}',
                         style: TextStyle(color: textColor, fontSize: 16),
                       ),
                       children: items.map((item) {
                         return ListTile(
+                          tileColor: tileColor,
                           title: Text(
                             item['itemName']!,
                             style: TextStyle(color: textColor),
@@ -169,7 +175,6 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
                             ],
                           )
                               : IconButton(
-
                             icon: Icon(Icons.description_outlined),
                             color: textColor,
                             onPressed: () {
@@ -177,6 +182,7 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
                             },
                           ),
                         );
+
                       }).toList(),
 
                     ),
@@ -186,24 +192,15 @@ class _InventoryListState extends State<InventoryList> with SingleTickerProvider
             )
                 : SizedBox(),
           ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 250),
-            height: 45,
-            width: widget.MainWidth,
-            padding: EdgeInsets.zero,
-            decoration: BoxDecoration(
-              color: cardColor,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
-            ),
-            child: IconButton(
+         IconButton(
               icon: Icon(
                 _isExpanded ? Icons.keyboard_arrow_up: Icons.keyboard_arrow_down,
-                size: 30,
                 color: textColor,
               ),
+              iconSize: 30,
               onPressed: _toggleList,
             ),
-          ),
+
         ],
       ),
     );

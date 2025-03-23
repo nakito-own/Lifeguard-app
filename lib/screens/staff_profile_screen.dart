@@ -4,6 +4,7 @@ import 'package:lifeguard/api-services/show_staff_service.dart';
 import 'package:lifeguard/widgets/profile-widgets/profile_info_widget.dart';
 import 'package:lifeguard/widgets/profile-widgets/profile_redaction_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'dart:async';
 import '../widgets/app-widgets/custom_button.dart';
 import '../widgets/app-widgets/custom_textfield.dart';
 import '../widgets/profile-widgets/profile_header_widget.dart';
@@ -11,6 +12,7 @@ import '../widgets/profile-widgets/my_info.dart';
 import '../widgets/app-widgets/small_text.dart';
 import 'package:lifeguard/widgets/app-widgets/transparent_button.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
+import 'package:lifeguard/utils/keyboard_manager.dart';
 
 class StaffProfileScreen extends StatefulWidget {
   final int staffId;
@@ -34,6 +36,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
   final TextEditingController mail = TextEditingController();
   final ShowStaffService _service = ShowStaffService();
   final PermissionsManager permissionsManager = PermissionsManager();
+  late final StreamSubscription _enterSubscription;
 
   List<Widget> allStaffWidgets = [];
   List<Widget> filteredStaffWidgets = [];
@@ -47,8 +50,25 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
       vsync: this,
     );
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+    _setupKeyboardListeners();
   }
 
+  void _setupKeyboardListeners() {
+    _enterSubscription = KeyboardManager().onEnterPressed.listen((context) {
+      _handleEnterPressed();
+    });
+  }
+
+  void _handleEnterPressed() {
+    _navigateToRedaction();
+  }
+
+  void _navigateToRedaction() async {
+    final hasPermission = await permissionsManager.hasPermission('user update');
+    if (hasPermission) {
+      _toggleEditingWidget();
+    }
+  }
 
   void _toggleEditingWidget() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileRedactionWidget(staffId: widget.staffId, staff: widget.staff,)));
@@ -56,6 +76,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
 
   @override
   void dispose() {
+    _enterSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -67,6 +88,13 @@ class _StaffProfileScreenState extends State<StaffProfileScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text('Сотрудник'),
+        actions: [
+          Tooltip(
+            message: 'Управление с клавиатуры:\nEnter - редактировать',
+            child: Icon(Icons.keyboard, size: 20),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       body: FutureBuilder<Staff>(
         future: futureStaff,

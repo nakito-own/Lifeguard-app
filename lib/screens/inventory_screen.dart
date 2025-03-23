@@ -4,7 +4,9 @@ import 'package:lifeguard/models/Item_model.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_description.dart';
 import 'package:lifeguard/widgets/inventory-widgets/inventory_editing.dart';
+import 'dart:async';
 import '../utils/permissions_manager.dart';
+import '../utils/keyboard_manager.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/inventory-widgets/inventory_list.dart';
 
@@ -22,7 +24,9 @@ class InventoryScreen extends StatefulWidget {
 class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProviderStateMixin {
   bool isEditing = false;
   late Future<List<Item>> futureItem;
-  final InventoryService inventoryService = InventoryService() ;
+  final InventoryService inventoryService = InventoryService();
+  late final StreamSubscription _enterSubscription;
+  late final StreamSubscription _escapeSubscription;
 
   List<String> MainQuantity = ['122', '20', '30'];
   List<Item> items = [];
@@ -42,11 +46,25 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
       vsync: this,
     );
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+    _setupKeyboardListeners();
+  }
+
+  void _setupKeyboardListeners() {
+    _enterSubscription = KeyboardManager().onEnterPressed.listen((context) {
+      toggleEditing();
+    });
+    
+    _escapeSubscription = KeyboardManager().onEscapePressed.listen((context) {
+      if (isEditing) {
+        toggleEditing();
+      }
+    });
   }
 
   @override
   void dispose() {
-
+    _enterSubscription.cancel();
+    _escapeSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -69,6 +87,7 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
       enableDrag: true,
       builder: (context) {
         return InventoryDescription(
+          Number: item.Number.toString(),
           Description: item.Description,
           ItemName: item.Name,
           WareHouse: item.WareHouse,
@@ -86,6 +105,13 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     return Scaffold(
       appBar: AppBar(
         title: Text('Оборудование'),
+        actions: [
+          Tooltip(
+            message: 'Управление с клавиатуры:\nEnter - редактировать\nEsc - отмена редактирования/меню',
+            child: Icon(Icons.keyboard, size: 20),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       drawer: AppDrawer(toggleTheme: widget.toggleTheme),
       body: FutureBuilder<List<Item>>(
@@ -150,5 +176,5 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     ),
     );
   }
-  }
+}
 
