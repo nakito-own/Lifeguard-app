@@ -180,7 +180,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () => _showEditBottomSheet(context),
                       child: Text('Редактировать личные данные')
                   ),
-                  SizedBox(height: 30),
                 ],
               ),
             );
