@@ -31,7 +31,6 @@ class KeyboardAwareScaffold extends StatefulWidget {
   @override
   _KeyboardAwareScaffoldState createState() => _KeyboardAwareScaffoldState();
 }
-
 class _KeyboardAwareScaffoldState extends State<KeyboardAwareScaffold> {
   late final StreamSubscription _capsLockSubscription;
   late final StreamSubscription? _enterSubscription;
