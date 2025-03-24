@@ -1,13 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:lifeguard/api-services/show_staff_service.dart';
+import 'package:lifeguard/api-services/staff_service.dart';
 import 'package:lifeguard/models/staff_model.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/widgets/app-widgets/avatar_picker.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_button.dart';
 import 'package:lifeguard/widgets/app-widgets/custom_textfield.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../api-services/image_service.dart';
 
 class ProfileRedactionWidget extends StatefulWidget {
   final int staffId;
@@ -28,7 +29,7 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
   late final TextEditingController _tgController;
   late final TextEditingController _mailController;
 
-  final ShowStaffService _service = ShowStaffService();
+  final StaffService _service = StaffService(); // Используем StaffService вместо ShowStaffService
   final PermissionsManager permissionsManager = PermissionsManager();
 
   @override
@@ -56,14 +57,10 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
       );
     });
 
-    _sendDataToServer();
+    _updateStaffOnServer();
   }
 
-  Future<void> _sendDataToServer() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String url = 'http://95.163.221.72:8000/users';
-    final String? token = prefs.getString('jwt');
-
+  Future<void> _updateStaffOnServer() async {
     final Map<String, dynamic> data = {
       'name': widget.staff.name,
       'surname': widget.staff.surname,
@@ -74,24 +71,25 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
       'email': widget.staff.email,
     };
 
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'JWT': '$token',
-        },
-        body: jsonEncode(data),
-      );
+    final response = await _service.updateStaff(widget.staffId, data);
 
-      if (response.statusCode == 200) {
-        print('Данные успешно отправлены: ${response.body}');
-        Navigator.pop(context);
-      } else {
-        print('Ошибка при отправке данных: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Произошла ошибка: $e');
+    if (response['success']) {
+      print('Данные успешно обновлены');
+      Navigator.pop(context);
+    } else {
+      print('Ошибка при обновлении данных: ${response['message']}');
+    }
+  }
+
+  void _deleteUser() async {
+    final result = await _service.deleteStaff(widget.staffId);
+
+    if (result['success']) {
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка: ${result['message']}')),
+      );
     }
   }
 
@@ -122,7 +120,10 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
                 constraints: BoxConstraints(maxWidth: 1200),
                 child: Column(
                   children: [
-                    AvatarPicker(onImagePicked: (Uint8List ) {  },),
+                    AvatarPicker(
+                      onImagePicked: (Uint8List ) {  },
+                      //initialImageFuture: ImageService().fetchImage('users', widget.staff.avatar),
+                    ),
                     SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,8 +227,8 @@ class _ProfileRedactionWidgetState extends State<ProfileRedactionWidget> {
                     ),
                     SizedBox(height: 20),
                     TextButton(
-                        onPressed: (){},
-                        child: Text('Удалить профиль пользователя',
+                        onPressed: _deleteUser,
+                        child: Text('Уволить пользователя',
                             style: TextStyle(color: Colors.red)
                         )
                     ),

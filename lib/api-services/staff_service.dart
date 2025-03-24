@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'api_keys.dart';
 
 class StaffService {
-
   Future<List<Staff>> fetchStaff() async {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
@@ -26,6 +25,7 @@ class StaffService {
       throw Exception('Failed to load user data');
     }
   }
+
   Future<Map<String, dynamic>> createStaff(Map<String, dynamic> userData) async {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
@@ -51,6 +51,57 @@ class StaffService {
         'success': false,
         'message': response.body
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> updateStaff(int staffId, Map<String, dynamic> userData) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('jwt');
+
+    final response = await http.post(
+      Uri.parse('http://${API_URL}:${API_PORT}/users/$staffId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'JWT': '$token',
+      },
+      body: jsonEncode(userData),
+    );
+
+    if (response.statusCode == 200) {
+      return {
+        'success': true,
+        'message': 'Данные успешно обновлены',
+      };
+    } else {
+      return {
+        'success': false,
+        'message': response.body,
+      };
+    }
+  }
+  Future<Map<String, dynamic>> deleteStaff(int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('jwt');
+
+    final String url = 'http://$API_URL:$API_PORT/users/$userId';
+
+    final Map<String, dynamic> body = {
+      'fired': DateTime.now().toString(),
+    };
+
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'JWT': '$token',
+      },
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 200) {
+      return {'success': true, 'message': 'Пользователь удалён'};
+    } else {
+      return {'success': false, 'message': response.body};
     }
   }
 }
