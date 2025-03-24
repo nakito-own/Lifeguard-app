@@ -24,6 +24,8 @@ class KeyboardWrapper extends StatelessWidget {
             KeyboardManager().handleEnter(context);
           } else if (event.logicalKey == LogicalKeyboardKey.escape) {
             KeyboardManager().handleEscape(context);
+          } else if (event.logicalKey == LogicalKeyboardKey.capsLock) {
+            KeyboardManager().handleCapsLock(context);
           }
         }
       },

@@ -9,10 +9,9 @@ import '../utils/permissions_manager.dart';
 import '../utils/keyboard_manager.dart';
 import '../widgets/app-widgets/app_drawer.dart';
 import '../widgets/inventory-widgets/inventory_list.dart';
-
+import '../widgets/app-widgets/keyboard_aware_scaffold.dart';
 
 class InventoryScreen extends StatefulWidget {
-
   final VoidCallback toggleTheme;
 
   InventoryScreen({required this.toggleTheme});
@@ -25,8 +24,6 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
   bool isEditing = false;
   late Future<List<Item>> futureItem;
   final InventoryService inventoryService = InventoryService();
-  late final StreamSubscription _enterSubscription;
-  late final StreamSubscription _escapeSubscription;
 
   List<String> MainQuantity = ['122', '20', '30'];
   List<Item> items = [];
@@ -46,25 +43,10 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
       vsync: this,
     );
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-    _setupKeyboardListeners();
-  }
-
-  void _setupKeyboardListeners() {
-    _enterSubscription = KeyboardManager().onEnterPressed.listen((context) {
-      toggleEditing();
-    });
-    
-    _escapeSubscription = KeyboardManager().onEscapePressed.listen((context) {
-      if (isEditing) {
-        toggleEditing();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _enterSubscription.cancel();
-    _escapeSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -73,6 +55,12 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     setState(() {
       isEditing = !isEditing;
     });
+  }
+
+  void cancelEditing() {
+    if (isEditing) {
+      toggleEditing();
+    }
   }
 
   void deleteItem(int index) {
@@ -97,23 +85,14 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Оборудование'),
-        actions: [
-          Tooltip(
-            message: 'Управление с клавиатуры:\nEnter - редактировать\nEsc - отмена редактирования/меню',
-            child: Icon(Icons.keyboard, size: 20),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
-      drawer: AppDrawer(toggleTheme: widget.toggleTheme),
+    return KeyboardAwareScaffold(
+      title: 'Оборудование',
+      toggleTheme: widget.toggleTheme,
+      onEnterPressed: toggleEditing,
+      onEscapePressed: cancelEditing,
+      keyboardTooltip: 'Управление с клавиатуры:\nCapsLock - открыть меню\nEnter - редактировать\nEsc - отмена редактирования',
       body: FutureBuilder<List<Item>>(
         future: futureItem,
         builder: (context, snapshot) {
@@ -158,7 +137,6 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                 ShortName: groupItems.map((item) => item.ShortName).toList(),
                 ItemList: groupItems,
               );
-
             }).toList(),
               SizedBox(height: 20,),
               CustomButton(
@@ -167,13 +145,9 @@ class _InventoryScreenState extends State<InventoryScreen> with SingleTickerProv
                   onPressed: toggleEditing),
               ]
           )
-
-      );
-
-
-    }
-    }
-    ),
+        );
+        }
+      }),
     );
   }
 }

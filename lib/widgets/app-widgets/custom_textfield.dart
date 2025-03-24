@@ -1,5 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Если вводится не цифра, возвращаем старое значение
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+    final String formatted;
+
+    if (digitsOnly.length <= 1) {
+      formatted = '+7 (${digitsOnly}';
+    } else if (digitsOnly.length <= 4) {
+      formatted = '+7 (${digitsOnly.substring(0, digitsOnly.length)}';
+    } else if (digitsOnly.length <= 7) {
+      formatted = '+7 (${digitsOnly.substring(0, 3)}) ${digitsOnly.substring(3, digitsOnly.length)}';
+    } else if (digitsOnly.length <= 9) {
+      formatted = '+7 (${digitsOnly.substring(0, 3)}) ${digitsOnly.substring(3, 6)}-${digitsOnly.substring(6, digitsOnly.length)}';
+    } else {
+      formatted = '+7 (${digitsOnly.substring(0, 3)}) ${digitsOnly.substring(3, 6)}-${digitsOnly.substring(6, 8)}-${digitsOnly.substring(8, digitsOnly.length > 10 ? 10 : digitsOnly.length)}';
+    }
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
 
 class CustomTextField extends StatefulWidget {
    const CustomTextField({
@@ -14,6 +46,7 @@ class CustomTextField extends StatefulWidget {
     required this.togglePass,
     required this.isObscured,
     required this.lines,
+    this.isPhoneNumber = false,
   }) : super(key: key);
 
   final double widthSize;
@@ -22,10 +55,11 @@ class CustomTextField extends StatefulWidget {
   final String text;
   final bool isPass;
   final TextEditingController controller;
-  final icon ;
+  final icon;
   final VoidCallback togglePass;
   final bool isObscured;
   final int lines;
+  final bool isPhoneNumber;
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -41,6 +75,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
     controller = TextEditingController();
     controller.clear();
     _GetText();
+    if (widget.isPhoneNumber && widget.controller.text.isEmpty) {
+      widget.controller.text = '+7 ';
+    }
   }
 
   _GetText() async {
@@ -55,13 +92,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
     await prefs.setString('savedText', text);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return Center(
       child: SizedBox(
         width: widget.widthSize,
@@ -70,13 +102,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
           maxLines: widget.lines,
           controller: widget.controller,
           obscureText: widget.isPass ? widget.isObscured : false,
+          inputFormatters: widget.isPhoneNumber 
+            ? [PhoneNumberFormatter()]
+            : null,
+          keyboardType: widget.isPhoneNumber 
+            ? TextInputType.phone 
+            : TextInputType.text,
           decoration: InputDecoration(
-          suffixIcon: widget.isPass ?
-          IconButton (
-              icon: Icon(widget.isObscured ?Icons.visibility : Icons.visibility_off ),
-              onPressed: widget.togglePass,
-          ) : null,
-          labelText: widget.labelText,
+            suffixIcon: widget.isPass ?
+              IconButton(
+                icon: Icon(widget.isObscured ? Icons.visibility : Icons.visibility_off),
+                onPressed: widget.togglePass,
+              ) : null,
+            labelText: widget.labelText,
             hintText: widget.text,
             hintStyle: TextStyle(
               fontSize: 16,
@@ -99,9 +137,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
             ),
           ),
-              onChanged: (text) {
-             _setText(text);
-               }
+          onChanged: (text) {
+            _setText(text);
+          }
         ),
       ),
     );

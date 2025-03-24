@@ -32,6 +32,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   final TextEditingController mail = TextEditingController();
   late final StreamSubscription _enterSubscription;
   late final StreamSubscription _escapeSubscription;
+  late final StreamSubscription _capsLockSubscription;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -53,6 +55,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     _escapeSubscription = KeyboardManager().onEscapePressed.listen((context) {
       _handleEscapePressed();
     });
+    
+    _capsLockSubscription = KeyboardManager().onCapsLockPressed.listen((context) {
+      _handleCapsLockPressed();
+    });
+  }
+
+  void _handleCapsLockPressed() {
+    _scaffoldKey.currentState?.openDrawer();
   }
 
   void _handleEnterPressed() {
@@ -116,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void dispose() {
     _enterSubscription.cancel();
     _escapeSubscription.cancel();
+    _capsLockSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -125,11 +136,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Профиль'),
         actions: [
           Tooltip(
-            message: 'Управление с клавиатуры:\nEnter - редактировать/сохранить\nEsc - отмена/меню',
+            message: 'Управление с клавиатуры:\nCapsLock - открыть меню\nEnter - редактировать/сохранить\nEsc - отмена/меню',
             child: Icon(Icons.keyboard, size: 20),
           ),
           SizedBox(width: 10),

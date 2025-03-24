@@ -39,6 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
       _clearFields();
     });
   }
+  
+  void _toggleTheme() {
+    widget.toggleTheme();
+  }
 
   void _performLogin() async {
     String email = _usernameController.text;
@@ -94,6 +98,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.dark_mode),
+            onPressed: _toggleTheme,
+            tooltip: 'Сменить тему',
+          ),
+        ],
+      ),
       body: Column(
         children: [
         Expanded(

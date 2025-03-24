@@ -12,11 +12,14 @@ import 'package:lifeguard/screens/staff_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'styles/themes/app_dark_theme.dart';
 import 'styles/themes/app_light_theme.dart';
 import 'package:lifeguard/utils/permissions_manager.dart';
 import 'package:lifeguard/utils/keyboard_manager.dart';
 import 'package:lifeguard/widgets/app-widgets/keyboard_wrapper.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
