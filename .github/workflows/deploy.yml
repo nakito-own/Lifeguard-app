@@ -19,11 +19,14 @@ jobs:
           channel: stable
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd Lifeguard-app
+          flutter pub get
 
       - name: Build web
         run: |
           set -e
+          cd Lifeguard-app
           flutter build web --release
 
       - name: Deploy to server via SSH
@@ -33,5 +36,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: "build/web/*"
+          source: "Lifeguard-app/build/web/*"
           target: "/var/www/lifeguard-web"
