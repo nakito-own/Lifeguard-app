@@ -35,9 +35,6 @@ jobs:
           echo "Listing build/web:"
           ls -la build/web || echo "build/web not found"
 
-      - name: Change to project directory
-        run: cd $GITHUB_WORKSPACE/Lifeguard-app
-
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -45,5 +42,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: "build/web/."
+          source: "build/web"
           target: "/var/www/lifeguard-web"
