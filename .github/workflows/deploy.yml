@@ -22,7 +22,9 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web
+        run: |
+          set -e
+          flutter build web --release
 
       - name: Deploy to server via SSH
         uses: appleboy/scp-action@v0.1.4
@@ -31,5 +33,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: build/web/*
-          target: /var/www/lifeguard-web
+          source: "Lifeguard-app/build/web/*"
+          target: "/var/www/lifeguard-web"
