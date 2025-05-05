@@ -33,5 +33,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: "Lifeguard-app/build/web/*"
+          source: "build/web/*"
           target: "/var/www/lifeguard-web"
